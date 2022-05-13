@@ -1,0 +1,72 @@
+* {
+  background-color: #111111;
+  box-sizing: border-box;
+  font-family: Lato, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  min-height: 100vh;
+}
+
+.App {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 4rem 1fr 4rem; 
+  min-height: 100vh;  
+}
+
+/* Navbar Selectors */
+
+#navbar {
+  align-items: center;
+  background-color: #222222;
+  color: white;
+  display: flex;
+  grid-column: 1 / 4;
+  justify-content: space-between;
+}
+
+#links, 
+#links p,
+#links strong,
+#nav-button-row {
+  background-color: inherit;
+}
+
+#links {
+  display: flex;
+  gap: 2rem;
+}
+
+#nav-button-row {
+  display: flex;
+  gap: 1rem;
+}
+
+#nav-button-row button {
+  background-color: #67AC5B;
+  color: inherit;
+}
+
+/* Homepage Selectors */
+
+#homepage {
+  grid-column: 2 / 3;
+}
+
+/* Footer Selectors */
+
+#footer {
+  align-items: center;
+  background-color: #222222;
+  display: flex;
+  grid-column: 1 / 4;
+  grid-row: 3 / 4;
+  justify-content: center;
+}
+
+#footer p {
+  background-color: inherit;
+}
