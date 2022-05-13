@@ -26,18 +26,30 @@ html, body, #root {
   display: flex;
   grid-column: 1 / 4;
   justify-content: space-between;
+  padding: 0 2rem 0 2rem;
 }
 
 #links, 
-#links p,
-#links strong,
+#links>*,
 #nav-button-row {
   background-color: inherit;
 }
 
 #links {
+  align-items: center;
   display: flex;
   gap: 2rem;
+}
+
+#logo {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+#logo>*,
+#logo strong {
+  background-color: inherit;
 }
 
 #nav-button-row {
@@ -47,7 +59,11 @@ html, body, #root {
 
 #nav-button-row button {
   background-color: #67AC5B;
+  border: none;
+  border-radius: 0.5rem;
   color: inherit;
+  cursor: pointer;
+  padding: 0.8rem;
 }
 
 /* Homepage Selectors */
@@ -69,4 +85,5 @@ html, body, #root {
 
 #footer p {
   background-color: inherit;
+  color: white;
 }
