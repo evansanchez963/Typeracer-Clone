@@ -6,8 +6,22 @@
   padding: 0;
 }
 
-html, body, #root {
+html, 
+body, 
+#root {
   min-height: 100vh;
+}
+
+button {
+  border: none;
+  border-radius: 0.5rem;
+  color: inherit;
+  font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
 }
 
 .App {
@@ -59,10 +73,6 @@ html, body, #root {
 
 #nav-button-row button {
   background-color: #67AC5B;
-  border: none;
-  border-radius: 0.5rem;
-  color: inherit;
-  cursor: pointer;
   padding: 0.8rem;
 }
 
@@ -86,4 +96,85 @@ html, body, #root {
 #footer p {
   background-color: inherit;
   color: white;
+}
+
+/* Homepage Selectors */
+
+#homepage {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+#game-modes {
+  display: flex;
+  gap: 1rem;
+}
+
+
+#race-online,
+#race-alone {
+  align-items: center;
+  background-color: #333333;
+  border: 1px solid #3B3B3B;
+  border-radius: 0.5rem;
+  display: flex;
+  height: 12rem;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 100%;
+}
+
+#race-online>*,
+#race-alone>* {
+  background-color: transparent;
+}
+
+#online-text,
+#alone-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+#online-text p,
+#alone-text p {
+  background-color: transparent;
+}
+
+#online-text button {
+  background-color:#4caf50;
+}
+
+#alone-text button {
+  background-color: #005894;
+}
+
+#online-text button,
+#alone-text button {
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: bold;
+  padding: 0.4rem;
+  width: 60%;
+}
+
+.arrow-logo {
+  background-color: transparent;
+  height: 1rem;
+  width: auto;
+}
+
+#start-line {
+  height: 10rem;
+  width: auto;
+}
+
+#typing {
+  height: 8rem;
+  width: auto;
 }
