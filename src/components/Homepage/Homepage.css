@@ -42,7 +42,8 @@
 }
 
 #online-text p,
-#alone-text p {
+#alone-text p,
+#alone-text a {
   background-color: transparent;
 }
 

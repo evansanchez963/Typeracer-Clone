@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom" 
 import { startLine, typing } from "../../images/index" 
 import "./Homepage.css"
 
@@ -23,7 +24,9 @@ const Homepage = () => {
         <div id="race-alone">
           <div id="alone-text">
             <p>Improve your typing skills on your own</p>
-            <button>Practice Yourself</button>
+            <Link to="/practice-yourself">
+              <button>Practice Yourself</button>
+            </Link>
           </div>
 
           <img id="typing" src={typing} alt="typing"></img>
