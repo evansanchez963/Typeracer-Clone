@@ -1,0 +1,13 @@
+#footer {
+  align-items: center;
+  background-color: #222222;
+  display: flex;
+  grid-column: 1 / 4;
+  grid-row: 3 / 4;
+  justify-content: center;
+}
+
+#footer p {
+  background-color: inherit;
+  color: white;
+}

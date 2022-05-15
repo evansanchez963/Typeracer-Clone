@@ -1,0 +1,29 @@
+#about {
+  grid-column: 2 / 3;
+}
+
+#about {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+#about-text {
+  background-color: #333333;
+  border: 1px solid #3B3B3B;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: auto;
+  padding: 1rem;
+  width: 100%;
+}
+
+#about-text>*,
+#about-text a {
+  background-color: inherit;
+}

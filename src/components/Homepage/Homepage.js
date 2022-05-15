@@ -1,5 +1,5 @@
-import startLine from "../images/start-line.png"
-import typing from "../images/typing.png"
+import { startLine, typing } from "../../images/index" 
+import "./Homepage.css"
 
 const Homepage = () => {
   return (

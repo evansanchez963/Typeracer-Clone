@@ -1,9 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Navbar from "./components/Navbar"
-import Homepage from "./components/Homepage"
-import About from "./components/About"
-import Footer from "./components/Footer"
-import "./styles.css"
+import { About, Footer, Homepage, Navbar } from "./components/index"
+import "./App.css"
 
 const App = () => {
   return (
