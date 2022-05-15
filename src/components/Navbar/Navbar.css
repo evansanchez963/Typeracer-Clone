@@ -1,0 +1,42 @@
+#navbar {
+  align-items: center;
+  background-color: #222222;
+  color: white;
+  display: flex;
+  grid-column: 1 / 4;
+  justify-content: space-between;
+  padding: 0 2rem 0 2rem;
+}
+
+#links, 
+#links>*,
+#nav-button-row {
+  background-color: inherit;
+}
+
+#links {
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+}
+
+#logo {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+#logo>*,
+#logo strong {
+  background-color: inherit;
+}
+
+#nav-button-row {
+  display: flex;
+  gap: 1rem;
+}
+
+#nav-button-row button {
+  background-color: #67AC5B;
+  padding: 0.8rem;
+}
