@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect} from "react"
-import "./TypeAlone.css"
+import TypingBox from "../index"
+import "./PracticeYourself.css"
 
 const TypeAlone = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -18,7 +19,7 @@ const TypeAlone = () => {
           throw Error(response.statusText)
         }
       } catch(error) {
-        console.log(error)
+        setError(error)
         setIsLoading(false)
       }
     }
@@ -26,11 +27,17 @@ const TypeAlone = () => {
     getData()
   }, [])
 
-  return (
-    <div>
-      {paragraph}
-    </div>
-  )
+  if(error) {
+    return <div>Error: {error.message}</div>
+  } else if(isLoading) {
+    return <div>Loading...</div>
+  } else {
+    return (
+      <section id="practice-yourself">
+        <TypingBox></TypingBox>
+      </section>
+    )
+  }
 }
 
 export default TypeAlone

@@ -1,0 +1,12 @@
+#practice-yourself {
+  grid-column: 2 / 3;
+}
+
+#practice-yourself {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
