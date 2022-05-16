@@ -1,3 +1,3 @@
-import TypingBox from "./TypingBox/TypingBox"
+import TypingSection from "./TypingSection/TypingSection"
 
-export { TypingBox }
+export { TypingSection }

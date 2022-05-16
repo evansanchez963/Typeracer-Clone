@@ -1,0 +1,49 @@
+#typing-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#game-status-info,
+#game-progress {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+}
+
+#progress,
+progress::-webkit-progress-bar,
+progress::-webkit-progress-value,
+progress::-moz-progress-bar
+ {
+  border-radius: 0.5rem;
+  max-height: 1rem;
+  width: 90%;
+}
+
+#typing-box {
+  background-color: #333333;
+  border: 1px solid #3B3B3B;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 100%;
+}
+
+#typing-box p {
+  background-color: inherit;
+  font-size: large;
+}
+
+#typing-input {
+  background-color: #222222;
+  border: 1px solid #3B3B3B;
+  color: white;
+  font-size: large;
+  height: 2rem;
+  text-indent: 0.5rem;
+}

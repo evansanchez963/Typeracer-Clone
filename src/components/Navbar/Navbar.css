@@ -14,6 +14,11 @@
   background-color: inherit;
 }
 
+#nav-button-row button:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
+}
+
 #links {
   align-items: center;
   display: flex;

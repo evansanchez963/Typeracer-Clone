@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom"
 import { useState, useEffect} from "react"
-import { TypingBox } from "./index"
+import { TypingSection } from "./index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
@@ -33,7 +34,18 @@ const PracticeYourself = () => {
   } else {
     return (
       <section id="practice-yourself">
-        <TypingBox ></TypingBox>
+
+        <h1>Practice Racetrack</h1>
+
+        <TypingSection paragraph={paragraph}></TypingSection>
+
+        <div id="practice-yourself-button-row">
+          <Link to="/">
+            <button id="leave-practice">Main menu (leave practice)</button>
+          </Link>
+          <button id="new-race">New race</button>
+        </div>
+
       </section>
     )
   }
