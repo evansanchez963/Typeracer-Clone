@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom"
 import { useState, useEffect} from "react"
-import TypingBox from "../index"
+import { TypingBox } from "./index"
 import "./PracticeYourself.css"
 
-const TypeAlone = () => {
+const PracticeYourself = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [paragraph, setParagraph] = useState("")
@@ -34,10 +33,10 @@ const TypeAlone = () => {
   } else {
     return (
       <section id="practice-yourself">
-        <TypingBox></TypingBox>
+        <TypingBox ></TypingBox>
       </section>
     )
   }
 }
 
-export default TypeAlone
+export default PracticeYourself

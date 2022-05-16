@@ -1,15 +1,11 @@
-import About from "./About/About"
-import Footer from "./Footer/Footer"
-import Homepage from "./Homepage/Homepage"
 import Navbar from "./Navbar/Navbar"
-import PracticeYourself from "./PracticeYourself/PracticeYourself"
-import TypingBox from "./TypingBox/TypingBox"
+import { Homepage, About, PracticeYourself } from "./pages/index"
+import Footer from "./Footer/Footer"
 
 export { 
-  About, 
-  Footer, 
-  Homepage, 
-  Navbar, 
+  Navbar,
+  Homepage,
+  About,
   PracticeYourself,
-  TypingBox
+  Footer
 } 
