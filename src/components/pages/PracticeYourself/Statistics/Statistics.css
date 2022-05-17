@@ -1,0 +1,60 @@
+.stat {
+  background-color: inherit;
+  display: flex;
+  gap: 0.5rem;
+}
+
+#game-stats {
+  background-color: transparent;
+  display: grid;
+  font-weight: bold;
+  grid-template-rows: 2.5rem 5rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+}
+
+#stats-text {
+  align-items: center;
+  background-color: #333333;
+  border-bottom: 1px solid #3B3B3B;
+  border-radius: 0.5rem 0.5rem 0 0;
+  display: flex;
+  grid-column: 1 / 4;
+  padding: 0.5rem;
+}
+
+#stats-text p {
+  background-color: inherit;
+}
+
+#speed-stat,
+#time-stat,
+#accuracy-stat {
+  align-items: center;
+  background-color: #222222;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#speed-stat p,
+#time-stat p,
+#accuracy-stat p {
+  background-color: transparent;
+}
+
+#speed-stat {
+  border-bottom-left-radius: 0.5rem;
+  border-right: 1px solid #3B3B3B;
+}
+
+#accuracy-stat {
+  border-bottom-right-radius: 0.5rem;
+  border-left: 1px solid #3B3B3B;
+}
+
+#game-stats img {
+  background-color: transparent;
+  height: 2rem;
+  width: auto;
+}

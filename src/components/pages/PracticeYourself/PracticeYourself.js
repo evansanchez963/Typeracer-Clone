@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect} from "react"
-import { TypingSection } from "./index"
+import { TypingSection, Statistics } from "./index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
@@ -45,6 +45,8 @@ const PracticeYourself = () => {
           </Link>
           <button id="new-race">New race</button>
         </div>
+
+        <Statistics></Statistics>
 
       </section>
     )

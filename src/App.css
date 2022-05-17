@@ -28,11 +28,6 @@ button {
   font-weight: bold;
 }
 
-button:hover {
-  cursor: pointer;
-  filter: brightness(0.8);
-}
-
 .App {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
