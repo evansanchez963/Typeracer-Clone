@@ -7,6 +7,8 @@ const PracticeYourself = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [paragraph, setParagraph] = useState("")
+  const [chars, setChars] = useState([])
+  const [words, setWords] = useState([])
 
   useEffect(() => {
     const getData = async () => {
@@ -14,6 +16,8 @@ const PracticeYourself = () => {
         const response = await fetch("http://metaphorpsum.com/paragraphs/1/5")
         const text = await response.text()
         setParagraph(text)
+        setChars(text.split(""))
+        setWords(text.split(" "))
         setIsLoading(false)
         if(!response.ok) {
           throw Error(response.statusText)
@@ -27,6 +31,10 @@ const PracticeYourself = () => {
     getData()
   }, [])
 
+  const handleInput = (event) => {
+    console.log(event.key)
+  }
+
   if(error) {
     return <div>Error: {error.message}</div>
   } else if(isLoading) {
@@ -37,7 +45,7 @@ const PracticeYourself = () => {
 
         <h1>Practice Racetrack</h1>
 
-        <TypingSection paragraph={paragraph}></TypingSection>
+        <TypingSection words={words} handleInput={handleInput}></TypingSection>
 
         <div id="practice-yourself-button-row">
           <Link to="/">

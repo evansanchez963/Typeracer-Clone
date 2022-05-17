@@ -1,6 +1,6 @@
 import "./TypingSection.css"
 
-const TypingSection = ({ paragraph }) => {
+const TypingSection = ({ words, handleInput }) => {
   return (
     <div id="typing-section">
 
@@ -15,10 +15,25 @@ const TypingSection = ({ paragraph }) => {
       </div>
 
       <div id="typing-box">
-        <p>{paragraph}</p>
-        <input id="typing-input" type="text" placeholder="Type in here when the race starts..."></input>
+        <p>
+          {
+            words.map((word, index) => 
+              <span key={word + index}>
+                <span>
+                  {
+                    word.split("").map((char, index) => 
+                      <span key={char + index}>{char}</span>
+                    )
+                  }  
+                </span>  
+                <span> </span>
+              </span>
+            )
+          }
+        </p>
+        <input id="typing-input" type="text" onKeyDown={handleInput} placeholder="Type in here when the race starts..."></input>
       </div>
-
+   
     </div>
   )
 }

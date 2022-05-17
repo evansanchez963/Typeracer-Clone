@@ -27,7 +27,7 @@
   border: 1px solid #3B3B3B;
   border-radius: 0.5rem;
   display: flex;
-  height: 12rem;
+  height: auto;
   justify-content: space-between;
   padding: 1rem;
   width: 100%;
@@ -71,7 +71,7 @@
 }
 
 #start-line {
-  height: 10rem;
+  height: 8rem;
   width: auto;
 }
 

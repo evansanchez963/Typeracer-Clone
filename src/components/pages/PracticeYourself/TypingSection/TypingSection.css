@@ -39,6 +39,10 @@ progress::-moz-progress-bar
   font-size: large;
 }
 
+#typing-box span {
+  background-color: inherit;
+}
+
 #typing-input {
   background-color: #222222;
   border: 1px solid #3B3B3B;
