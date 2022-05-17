@@ -6,17 +6,16 @@ import "./PracticeYourself.css"
 const PracticeYourself = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [paragraph, setParagraph] = useState("")
-  const [chars, setChars] = useState([])
   const [words, setWords] = useState([])
+  const [currInput, setCurrInput] = useState("")
+  const [inputValid, setInputValid] = useState(true)
+  const [currWordIdx, setCurrWordIdx] = useState(0)
 
   useEffect(() => {
     const getData = async () => {
       try {
         const response = await fetch("http://metaphorpsum.com/paragraphs/1/5")
         const text = await response.text()
-        setParagraph(text)
-        setChars(text.split(""))
         setWords(text.split(" "))
         setIsLoading(false)
         if(!response.ok) {
@@ -31,8 +30,28 @@ const PracticeYourself = () => {
     getData()
   }, [])
 
-  const handleInput = (event) => {
-    console.log(event.key)
+  const getWordClass = (idx) => {
+    if(idx === currWordIdx) return "curr-word"
+    return ""
+  }
+
+  const handleKeyDown = ({ keyCode }) => {
+    // Space evaluates word
+    if(keyCode === 32) {
+      if(currInput === words[currWordIdx]) {
+        setCurrInput("")
+        setCurrWordIdx(prev => prev + 1)
+      } else {
+        // If input is invalid, do not let user type anymore
+        setInputValid(false)
+      }
+    } else if(keyCode === 8) {
+      setInputValid(true)
+    }
+  }
+
+  const handleChange = (event) => {
+    setCurrInput(event.target.value.trim())
   }
 
   if(error) {
@@ -45,7 +64,15 @@ const PracticeYourself = () => {
 
         <h1>Practice Racetrack</h1>
 
-        <TypingSection words={words} handleInput={handleInput}></TypingSection>
+        <TypingSection 
+          words={words} 
+          currInput={currInput} 
+          inputValid={inputValid}
+          getWordClass={getWordClass}
+          handleKeyDown={handleKeyDown} 
+          handleChange={handleChange}
+        >
+        </TypingSection>
 
         <div id="practice-yourself-button-row">
           <Link to="/">

@@ -1,6 +1,13 @@
 import "./TypingSection.css"
 
-const TypingSection = ({ words, handleInput }) => {
+const TypingSection = ({ 
+  words, 
+  currInput, 
+  inputValid,
+  getWordClass,
+  handleKeyDown, 
+  handleChange 
+}) => {
   return (
     <div id="typing-section">
 
@@ -17,12 +24,12 @@ const TypingSection = ({ words, handleInput }) => {
       <div id="typing-box">
         <p>
           {
-            words.map((word, index) => 
-              <span key={word + index}>
-                <span>
+            words.map((word, wordIdx) => 
+              <span key={word + wordIdx}>
+                <span className={getWordClass(wordIdx)}>
                   {
-                    word.split("").map((char, index) => 
-                      <span key={char + index}>{char}</span>
+                    word.split("").map((char, charIdx) => 
+                      <span key={char + charIdx}>{char}</span>
                     )
                   }  
                 </span>  
@@ -31,7 +38,16 @@ const TypingSection = ({ words, handleInput }) => {
             )
           }
         </p>
-        <input id="typing-input" type="text" onKeyDown={handleInput} placeholder="Type in here when the race starts..."></input>
+        <input 
+          id="typing-input" 
+          type="text" 
+          style={{backgroundColor: inputValid ? "#222222":"#d08383"}}
+          maxLength={inputValid ? "default":`${currInput.length}`}
+          onKeyDown={handleKeyDown} 
+          onChange={handleChange} 
+          value={currInput} 
+          placeholder="Type in here when the race starts..."
+        ></input>
       </div>
    
     </div>

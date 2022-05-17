@@ -1,3 +1,7 @@
+.curr-word {
+  text-decoration: underline;
+}
+
 #typing-section {
   display: flex;
   flex-direction: column;
@@ -44,10 +48,9 @@ progress::-moz-progress-bar
 }
 
 #typing-input {
-  background-color: #222222;
   border: 1px solid #3B3B3B;
   color: white;
   font-size: large;
   height: 2rem;
-  text-indent: 0.5rem;
+  
 }
