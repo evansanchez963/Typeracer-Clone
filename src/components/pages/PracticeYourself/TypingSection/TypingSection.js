@@ -5,6 +5,7 @@ const TypingSection = ({
   currInput, 
   inputValid,
   getWordClass,
+  getCharClass,
   handleKeyDown, 
   handleChange 
 }) => {
@@ -29,7 +30,7 @@ const TypingSection = ({
                 <span className={getWordClass(wordIdx)}>
                   {
                     word.split("").map((char, charIdx) => 
-                      <span key={char + charIdx}>{char}</span>
+                      <span key={char + charIdx} className={getCharClass(char, charIdx, wordIdx)}>{char}</span>
                     )
                   }  
                 </span>  

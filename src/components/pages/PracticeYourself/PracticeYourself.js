@@ -9,6 +9,7 @@ const PracticeYourself = () => {
   const [words, setWords] = useState([])
   const [currInput, setCurrInput] = useState("")
   const [inputValid, setInputValid] = useState(true)
+  const [currCharIdx, setCurrCharIdx] = useState(-1)
   const [currWordIdx, setCurrWordIdx] = useState(0)
 
   useEffect(() => {
@@ -30,24 +31,56 @@ const PracticeYourself = () => {
     getData()
   }, [])
 
-  const getWordClass = (idx) => {
-    if(idx === currWordIdx) return "curr-word"
+  const getWordClass = (wordIdx) => {
+    if(wordIdx === currWordIdx) return "active-word"
     return ""
   }
 
+  const getCharClass = (char, charIdx, wordIdx) => {
+    if(charIdx === currCharIdx && wordIdx === currWordIdx) {
+      if(char === currInput.split("")[charIdx]) return "correct"
+      else {
+        return "incorrect"
+      }
+    }
+  }
+
   const handleKeyDown = (event) => {
-    // Space evaluates word
+    // Space evaluates word at current word index
     if(event.key === " ") {
+
       if(currInput === words[currWordIdx]) {
         setCurrInput("")
+        setCurrCharIdx(-1)
         setCurrWordIdx(prev => prev + 1)
       } else {
         // If input is invalid, do not let user type anymore
-        if(inputValid) setCurrInput(prev => prev + " ")
+        if(inputValid) {
+          setCurrInput(prev => prev + " ")
+          setCurrCharIdx(prev => prev + 1)
+        }
         setInputValid(false)
       }
+
     } else if(event.key === "Backspace") {
-      setInputValid(true)
+
+      if(!inputValid) setInputValid(true)
+      if(currInput !== "") setCurrCharIdx(prev => prev - 1)
+
+    } else { // Evaluate whether current typed character is correct 
+      
+      if(event.key !== "Shift" && inputValid) {
+        const charToCheck = words[currWordIdx].split("")[currCharIdx+1]
+
+        if(event.key !== charToCheck) {
+          if(inputValid) {
+            setCurrInput(prev => prev + event.key)
+            setCurrCharIdx(prev => prev + 1)
+          }
+          setInputValid(false)
+        } else setCurrCharIdx(prev => prev + 1)
+      }
+
     }
   }
 
@@ -70,6 +103,7 @@ const PracticeYourself = () => {
           currInput={currInput} 
           inputValid={inputValid}
           getWordClass={getWordClass}
+          getCharClass={getCharClass}
           handleKeyDown={handleKeyDown} 
           handleChange={handleChange}
         ></TypingSection>
