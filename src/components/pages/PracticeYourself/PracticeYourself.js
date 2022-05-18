@@ -35,17 +35,18 @@ const PracticeYourself = () => {
     return ""
   }
 
-  const handleKeyDown = ({ keyCode }) => {
+  const handleKeyDown = (event) => {
     // Space evaluates word
-    if(keyCode === 32) {
+    if(event.key === " ") {
       if(currInput === words[currWordIdx]) {
         setCurrInput("")
         setCurrWordIdx(prev => prev + 1)
       } else {
         // If input is invalid, do not let user type anymore
+        if(inputValid) setCurrInput(prev => prev + " ")
         setInputValid(false)
       }
-    } else if(keyCode === 8) {
+    } else if(event.key === "Backspace") {
       setInputValid(true)
     }
   }
@@ -71,8 +72,7 @@ const PracticeYourself = () => {
           getWordClass={getWordClass}
           handleKeyDown={handleKeyDown} 
           handleChange={handleChange}
-        >
-        </TypingSection>
+        ></TypingSection>
 
         <div id="practice-yourself-button-row">
           <Link to="/">
