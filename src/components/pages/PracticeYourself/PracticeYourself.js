@@ -6,12 +6,25 @@ import "./PracticeYourself.css"
 const PracticeYourself = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [chars, setChars] = useState(0)
   const [words, setWords] = useState([])
   const [currInput, setCurrInput] = useState("")
   const [inputValid, setInputValid] = useState(true)
   const [currCharIdx, setCurrCharIdx] = useState(-1)
   const [currWordIdx, setCurrWordIdx] = useState(0)
+  const [isStarted, setIsStarted] = useState(false)
   const [isEnded, setIsEnded] = useState(false)
+  const [countdown, setCountdown] = useState(3000)
+  const [countdownOn, setCountdownOn] = useState(false)
+  const [gameTimer, setGameTimer] = useState(60000)
+  const [gameTimerOn, setGameTimerOn] = useState(false)
+  const [charsTyped, setCharsTyped] = useState(0)
+  const [wordsTyped, setWordsTyped] = useState(0)
+  const [errors, setErrors] = useState(0)
+  const [WPM, setWPM] = useState(0)
+  const [finalWPM, setFinalWPM] = useState(0)
+  const [time, setTime] = useState(0)
+  const [accuracy, setAccuracy] = useState(0.0)
 
   useEffect(() => {
     const getData = async () => {
@@ -19,8 +32,10 @@ const PracticeYourself = () => {
         const url = "http://metaphorpsum.com/paragraphs/1/1"
         const response = await fetch(url)
         const text = await response.text()
+        setChars(text.split(""))
         setWords(text.split(" "))
         setIsLoading(false)
+        setCountdownOn(true)
         if(!response.ok) {
           throw Error(response.statusText)
         }
@@ -34,10 +49,54 @@ const PracticeYourself = () => {
   }, [])
 
   useEffect(() => {
+    let interval = null
+
+    if(countdown < 0) {
+      setCountdownOn(false)
+      setIsStarted(true)
+      setGameTimerOn(true)
+    } else if(countdownOn) {
+      interval = setInterval(() => {
+        setCountdown(prev => prev - 1000)
+      }, 1000)
+    } else if (!countdownOn) {
+      clearInterval(interval)
+    }
+
+    return () => clearInterval(interval)
+  }, [countdown, countdownOn]) 
+
+  useEffect(() => {
+    let interval = null
+
+    if(isEnded) {
+      setGameTimerOn(false)
+    } else if(gameTimer < 0) {
+      setGameTimerOn(false)
+      setIsEnded(true)
+    } else if(gameTimerOn) {
+      interval = setInterval(() => {
+        setGameTimer(prev => prev - 1000)
+      }, 1000)
+    } else if(!gameTimerOn) {
+      clearInterval(interval)
+    }
+
+    return () => clearInterval(interval)
+  }, [gameTimer, gameTimerOn, isEnded])
+
+  useEffect(() => {
+    setWPM(Math.floor(wordsTyped / ((time / 1000) / 60)))
+  }, [wordsTyped, time])
+
+  useEffect(() => {
     if(isEnded) {
       setCurrInput("")
+      setFinalWPM(WPM)
+      setTime(60000 - gameTimer)
+      setAccuracy((((charsTyped - errors) / charsTyped) * 100).toFixed(1))
     }
-  }, [isEnded])
+  }, [isEnded, WPM, gameTimer, charsTyped, errors])
 
   const getWordClass = (wordIdx) => {
     if(wordIdx === currWordIdx) return "active-word"
@@ -77,12 +136,15 @@ const PracticeYourself = () => {
         setCurrInput("")
         setCurrCharIdx(-1)
         setCurrWordIdx(prev => prev + 1)
+        setCharsTyped(prev => prev + 1)
+        setWordsTyped(prev => prev + 1)
       } else {
         if(inputValid) {
           setCurrInput(prev => prev + " ")
           setCurrCharIdx(prev => prev + 1)
         }
         setInputValid(false)
+        setErrors(prev => prev + 1)
       }
 
     } else if(event.key === "Backspace") {
@@ -115,8 +177,10 @@ const PracticeYourself = () => {
               setCurrCharIdx(prev => prev + 1)
             }
             setInputValid(false)
+            setErrors(prev => prev + 1)
           } else {
             setCurrCharIdx(prev => prev + 1)
+            setCharsTyped(prev => prev + 1)
           }
 
         }
@@ -140,6 +204,7 @@ const PracticeYourself = () => {
         <h1>Practice Racetrack</h1>
 
         <TypingSection 
+          chars={chars}
           words={words} 
           currInput={currInput} 
           inputValid={inputValid}
@@ -147,7 +212,14 @@ const PracticeYourself = () => {
           getCharClass={getCharClass}
           handleKeyDown={handleKeyDown} 
           handleChange={handleChange}
+          isStarted={isStarted}
           isEnded={isEnded}
+          countdown={countdown}
+          countdownOn={countdownOn}
+          gameTimer={gameTimer}
+          gameTimerOn={gameTimerOn}
+          charsTyped={charsTyped}
+          WPM={WPM}
         ></TypingSection>
 
         <div id="practice-yourself-button-row">
@@ -157,7 +229,7 @@ const PracticeYourself = () => {
           <button id="new-race" style={{display: isEnded ? "block":"none"}} onClick={() => window.location.reload()}>New race</button>
         </div>
 
-        <Statistics isEnded={isEnded}></Statistics>
+        <Statistics isEnded={isEnded} finalWPM={finalWPM} time={time} accuracy={accuracy}></Statistics>
 
       </section>
     )

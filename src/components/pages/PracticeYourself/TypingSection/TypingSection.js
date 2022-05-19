@@ -1,6 +1,7 @@
 import "./TypingSection.css"
 
 const TypingSection = ({ 
+  chars,
   words, 
   currInput, 
   inputValid,
@@ -8,19 +9,45 @@ const TypingSection = ({
   getCharClass,
   handleKeyDown, 
   handleChange, 
-  isEnded 
+  isStarted,
+  isEnded,
+  countdown,
+  countdownOn,
+  gameTimer,
+  gameTimerOn,
+  charsTyped,
+  WPM
 }) => {
+  const getStatusMsg = () => {
+    if(isEnded) return <p>The race has ended!</p>
+    else if(!isStarted) return <p>The race is about to start...</p>
+    else if(isStarted) return <p>The race has started!</p>
+  }
+
+  const getTimer = () => {
+    if(countdownOn) {
+      const seconds = ("0" + (Math.floor(countdown / 1000) % 60)).slice(-2)
+      return <p>00:{seconds}</p>
+    } else if(gameTimerOn) {
+      const minutes = ("0" + (Math.floor(gameTimer / 60000) % 60)).slice(-2)
+      const seconds = ("0" + (Math.floor(gameTimer / 1000) % 60)).slice(-2)
+      return <p>{minutes}:{seconds}</p>
+    } else {
+      return <p>00:00</p>
+    }
+  }
+
   return (
     <div id="typing-section">
 
       <div id="game-status-info">
-        <p>The race is about to start...</p>
-        <p>00:00</p>
+        {getStatusMsg()}
+        {getTimer()}
       </div>
 
       <div id="game-progress">
-        <progress id="progress" max="100" value="0"></progress>
-        <p>0 WPM</p>
+        <progress id="progress" max={chars.length - 1} value={charsTyped}></progress>
+        <p>{WPM} WPM</p>
       </div>
 
       <div id="typing-box">
@@ -49,7 +76,8 @@ const TypingSection = ({
           onChange={handleChange} 
           value={currInput} 
           placeholder="Type in here when the race starts..."
-          disabled={isEnded}
+          disabled={!isStarted || isEnded}
+          autoFocus="true"
         ></input>
       </div>
    

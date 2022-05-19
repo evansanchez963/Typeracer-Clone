@@ -1,7 +1,12 @@
 import { speedStat, timeStat, accuracyStat } from "../../../../images/index"
 import "./Statistics.css"
 
-const Statistics = ({ isEnded }) => {
+const Statistics = ({ 
+  isEnded,
+  finalWPM,
+  time,
+  accuracy
+}) => {
   return (
     <div id="game-stats" style={{display: isEnded ? "grid":"none"}}>
 
@@ -13,7 +18,7 @@ const Statistics = ({ isEnded }) => {
         <img src={speedStat} alt="speed stat"></img>
         <div className="stat">
           <p>Your speed:</p>
-          <p>0wpm</p>
+          <p>{finalWPM} WPM</p>
         </div>
       </div>
 
@@ -21,7 +26,7 @@ const Statistics = ({ isEnded }) => {
         <img src={timeStat} alt="time stat"></img>
         <div className="stat">
           <p>Time:</p>
-          <p>0:00</p>
+          <p>0:{("0" + (Math.floor(time / 1000) % 60)).slice(-2)}</p>
         </div>
       </div>
 
@@ -29,7 +34,7 @@ const Statistics = ({ isEnded }) => {
         <img src={accuracyStat} alt="accuracy stat"></img>
         <div className="stat">
           <p>Accuracy:</p>
-          <p>0%</p>
+          <p>{accuracy}%</p>
         </div>
       </div>
 
