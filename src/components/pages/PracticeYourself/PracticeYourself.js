@@ -154,7 +154,7 @@ const PracticeYourself = () => {
           <Link to="/">
             <button id="leave-practice">Main menu (leave practice)</button>
           </Link>
-          <button id="new-race" style={{display: isEnded ? "block":"none"}}>New race</button>
+          <button id="new-race" style={{display: isEnded ? "block":"none"}} onClick={() => window.location.reload()}>New race</button>
         </div>
 
         <Statistics isEnded={isEnded}></Statistics>

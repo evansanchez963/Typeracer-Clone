@@ -60,6 +60,7 @@ progress::-moz-progress-bar
 #typing-box p {
   background-color: inherit;
   font-size: large;
+  margin-left: 0.5rem;
 }
 
 #typing-box span {
@@ -71,5 +72,5 @@ progress::-moz-progress-bar
   color: white;
   font-size: large;
   height: 2rem;
-  
+  text-indent: 0.5rem;
 }
