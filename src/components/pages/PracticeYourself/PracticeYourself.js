@@ -86,8 +86,9 @@ const PracticeYourself = () => {
   }, [gameTimer, gameTimerOn, isEnded])
 
   useEffect(() => {
-    setWPM(Math.floor(wordsTyped / ((time / 1000) / 60)))
-  }, [wordsTyped, time])
+    if(wordsTyped === 0 || gameTimer === 60000) setWPM(0)
+    else setWPM(Math.floor(wordsTyped / (((60000 - gameTimer) / 1000) / 60)))
+  }, [isStarted, gameTimer, wordsTyped])
 
   useEffect(() => {
     if(isEnded) {
