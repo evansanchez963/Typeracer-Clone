@@ -7,7 +7,8 @@ const TypingSection = ({
   getWordClass,
   getCharClass,
   handleKeyDown, 
-  handleChange 
+  handleChange, 
+  isEnded 
 }) => {
   return (
     <div id="typing-section">
@@ -48,6 +49,7 @@ const TypingSection = ({
           onChange={handleChange} 
           value={currInput} 
           placeholder="Type in here when the race starts..."
+          disabled={isEnded}
         ></input>
       </div>
    

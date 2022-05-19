@@ -1,5 +1,16 @@
+@keyframes cursorBlink {
+  50% {
+    border-left: 1px solid rgba(255, 255, 255, 0);
+  }
+}
+
 .active-word {
   text-decoration: underline;
+}
+
+.active-char {
+  animation: cursorBlink 1s infinite;
+  border-left: 1px solid white;
 }
 
 .correct {
@@ -52,7 +63,7 @@ progress::-moz-progress-bar
 }
 
 #typing-box span {
-  background-color: inherit;
+  background-color: transparent;
 }
 
 #typing-input {

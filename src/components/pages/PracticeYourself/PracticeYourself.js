@@ -11,11 +11,13 @@ const PracticeYourself = () => {
   const [inputValid, setInputValid] = useState(true)
   const [currCharIdx, setCurrCharIdx] = useState(-1)
   const [currWordIdx, setCurrWordIdx] = useState(0)
+  const [isEnded, setIsEnded] = useState(false)
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch("http://metaphorpsum.com/paragraphs/1/5")
+        const url = "http://metaphorpsum.com/paragraphs/1/1"
+        const response = await fetch(url)
         const text = await response.text()
         setWords(text.split(" "))
         setIsLoading(false)
@@ -31,6 +33,12 @@ const PracticeYourself = () => {
     getData()
   }, [])
 
+  useEffect(() => {
+    if(isEnded) {
+      setCurrInput("")
+    }
+  }, [isEnded])
+
   const getWordClass = (wordIdx) => {
     if(wordIdx === currWordIdx) return "active-word"
     return ""
@@ -42,19 +50,34 @@ const PracticeYourself = () => {
       else {
         return "incorrect"
       }
+    } 
+    // Put blinking cursor on active character.
+    else if(charIdx === currCharIdx + 1 && wordIdx === currWordIdx) {
+      return "active-char"
     }
+    // Set past characters on current word as correct.
+    else if(wordIdx === currWordIdx && charIdx < currCharIdx) {
+      return "correct"
+    } 
+    // Set all past words as correct.
+    else if(wordIdx < currWordIdx) {
+      return "correct"
+    }
+
+    return ""
   }
 
+  // Evaluate input when user types.
+  // If input is wrong, user can only backspace.
   const handleKeyDown = (event) => {
-    // Space evaluates word at current word index
-    if(event.key === " ") {
+    
+    if(event.key === " ") { // Space evaluates word at current word index.
 
       if(currInput === words[currWordIdx]) {
         setCurrInput("")
         setCurrCharIdx(-1)
         setCurrWordIdx(prev => prev + 1)
       } else {
-        // If input is invalid, do not let user type anymore
         if(inputValid) {
           setCurrInput(prev => prev + " ")
           setCurrCharIdx(prev => prev + 1)
@@ -67,18 +90,36 @@ const PracticeYourself = () => {
       if(!inputValid) setInputValid(true)
       if(currInput !== "") setCurrCharIdx(prev => prev - 1)
 
-    } else { // Evaluate whether current typed character is correct 
-      
-      if(event.key !== "Shift" && inputValid) {
-        const charToCheck = words[currWordIdx].split("")[currCharIdx+1]
+    } else { // Evaluate whether current typed character is correct.
 
-        if(event.key !== charToCheck) {
-          if(inputValid) {
-            setCurrInput(prev => prev + event.key)
+      if(event.key !== "Shift" && inputValid) {
+        const lastWord = words[words.length - 1]
+        const lastWordChars = lastWord.split("")
+        const lastChar = lastWordChars[lastWordChars.length - 1]
+
+        // If user is on the very last character and it's correct,
+        // clear input and end game. Else evaluate.
+        if((words.length - 1 === currWordIdx) && (lastWordChars.length - 1 === currCharIdx + 1) && (lastChar === event.key)) {
+
+          setCurrCharIdx(-1)
+          setCurrWordIdx(prev => prev + 1)
+          setIsEnded(true)
+
+        } else {
+
+          const charToCheck = words[currWordIdx].split("")[currCharIdx + 1]
+
+          if(event.key !== charToCheck) {
+            if(inputValid) {
+              setCurrInput(prev => prev + event.key)
+              setCurrCharIdx(prev => prev + 1)
+            }
+            setInputValid(false)
+          } else {
             setCurrCharIdx(prev => prev + 1)
           }
-          setInputValid(false)
-        } else setCurrCharIdx(prev => prev + 1)
+
+        }
       }
 
     }
@@ -106,16 +147,17 @@ const PracticeYourself = () => {
           getCharClass={getCharClass}
           handleKeyDown={handleKeyDown} 
           handleChange={handleChange}
+          isEnded={isEnded}
         ></TypingSection>
 
         <div id="practice-yourself-button-row">
           <Link to="/">
             <button id="leave-practice">Main menu (leave practice)</button>
           </Link>
-          <button id="new-race">New race</button>
+          <button id="new-race" style={{display: isEnded ? "block":"none"}}>New race</button>
         </div>
 
-        <Statistics></Statistics>
+        <Statistics isEnded={isEnded}></Statistics>
 
       </section>
     )

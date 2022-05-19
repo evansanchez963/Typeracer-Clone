@@ -1,9 +1,9 @@
 import { speedStat, timeStat, accuracyStat } from "../../../../images/index"
 import "./Statistics.css"
 
-const Statistics = () => {
+const Statistics = ({ isEnded }) => {
   return (
-    <div id="game-stats">
+    <div id="game-stats" style={{display: isEnded ? "grid":"none"}}>
 
       <div id="stats-text">
         <p>Statistics:</p>
