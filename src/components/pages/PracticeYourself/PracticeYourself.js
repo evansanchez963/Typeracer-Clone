@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect} from "react"
 import { TypingSection, Statistics } from "./index"
+import { useCalcWPM } from "./hooks/index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
@@ -19,9 +20,8 @@ const PracticeYourself = () => {
   const [gameTimer, setGameTimer] = useState(60000)
   const [gameTimerOn, setGameTimerOn] = useState(false)
   const [charsTyped, setCharsTyped] = useState(0)
-  const [wordsTyped, setWordsTyped] = useState(0)
   const [errors, setErrors] = useState(0)
-  const [WPM, setWPM] = useState(0)
+  const WPM = useCalcWPM(gameTimer, charsTyped, errors)
   const [finalWPM, setFinalWPM] = useState(0)
   const [time, setTime] = useState(0)
   const [accuracy, setAccuracy] = useState(0.0)
@@ -85,10 +85,12 @@ const PracticeYourself = () => {
     return () => clearInterval(interval)
   }, [gameTimer, gameTimerOn, isEnded])
 
+  /*
   useEffect(() => {
     if(wordsTyped === 0 || gameTimer === 60000) setWPM(0)
     else setWPM(Math.floor(wordsTyped / (((60000 - gameTimer) / 1000) / 60)))
-  }, [isStarted, gameTimer, wordsTyped])
+  }, [gameTimer, wordsTyped])
+  */
 
   useEffect(() => {
     if(isEnded) {
@@ -138,7 +140,6 @@ const PracticeYourself = () => {
         setCurrCharIdx(-1)
         setCurrWordIdx(prev => prev + 1)
         setCharsTyped(prev => prev + 1)
-        setWordsTyped(prev => prev + 1)
       } else {
         if(inputValid) {
           setCurrInput(prev => prev + " ")
