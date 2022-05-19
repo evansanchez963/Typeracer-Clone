@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import "./TypingSection.css"
 
 const TypingSection = ({ 
@@ -18,6 +19,14 @@ const TypingSection = ({
   charsTyped,
   WPM
 }) => {
+  const typeInputRef = useRef(null)
+
+  useEffect(() => {
+    if(isStarted || !isEnded) {
+      typeInputRef.current.focus()
+    }
+  }, [isStarted, isEnded])
+
   const getStatusMsg = () => {
     if(isEnded) return <p>The race has ended!</p>
     else if(!isStarted) return <p>The race is about to start...</p>
@@ -77,7 +86,7 @@ const TypingSection = ({
           value={currInput} 
           placeholder="Type in here when the race starts..."
           disabled={!isStarted || isEnded}
-          autoFocus="true"
+          ref={typeInputRef}
         ></input>
       </div>
    
