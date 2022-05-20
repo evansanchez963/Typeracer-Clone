@@ -16,6 +16,7 @@ const PracticeYourself = () => {
   const [userStats, setUserStats] = useState({finalWPM: 0, time: 0, accuracy: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
 
+  // Get data from metaphorsum API and turn on countdown timer.
   useEffect(() => {
     const getData = async () => {
       try {
@@ -37,6 +38,7 @@ const PracticeYourself = () => {
     getData()
   }, [])
 
+  // Countdown from 3 when first loaded into page.
   useEffect(() => {
     let interval = null
 
@@ -55,6 +57,8 @@ const PracticeYourself = () => {
     return () => clearInterval(interval)
   }, [countdown.time, countdown.on]) 
 
+  // Start game timer when countdown is over and stop
+  // when it has reached 0.
   useEffect(() => {
     let interval = null
 
@@ -74,6 +78,7 @@ const PracticeYourself = () => {
     return () => clearInterval(interval)
   }, [gameTimer.time, gameTimer.on, gameStatus.isEnded])
 
+  // Get user's stats when game has ended.
   useEffect(() => {
     if(gameStatus.isEnded) {
       setInputInfo(prev => ({...prev, currInput: ""}))
