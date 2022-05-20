@@ -2,7 +2,7 @@ import "./Paragraph.css"
 
 const Paragraph = ({ words, getCharClass, getWordClass }) => {
   return (
-    <p>
+    <p id="paragraph">
       {
         words.map((word, wordIdx) => 
           <span key={word + wordIdx}>

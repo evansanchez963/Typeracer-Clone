@@ -4,13 +4,13 @@
   }
 }
 
-p {
-  background-color: inherit;
+#paragraph p {
+  background-color: transparent;
   font-size: large;
   margin-left: 0.5rem;
 }
 
-span {
+#paragraph span {
   background-color: transparent;
 }
 
@@ -21,6 +21,7 @@ span {
 .active-char {
   animation: cursorBlink 1s infinite;
   border-left: 1px solid white;
+  margin-left: -1px;
 }
 
 .correct {
