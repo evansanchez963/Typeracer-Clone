@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
 import { useState, useEffect} from "react"
-import { TypingSection, Statistics } from "./index"
+import { GameStatusInfo, ProgressBar, Paragraph, Input, ButtonRow, Statistics } from "./index"
 import { useCalcWPM } from "./hooks/index"
+import { getTime } from "./helpers/index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
@@ -88,11 +88,6 @@ const PracticeYourself = () => {
     }
   }, [gameStatus.isEnded, WPM, gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors])
 
-  const getWordClass = (wordIdx) => {
-    if(wordIdx === idxInfo.currWordIdx) return "active-word"
-    return ""
-  }
-
   const getCharClass = (char, charIdx, wordIdx) => {
     if(charIdx === idxInfo.currCharIdx && wordIdx === idxInfo.currWordIdx) {
       if(char === inputInfo.currInput.split("")[charIdx]) return "correct"
@@ -113,6 +108,11 @@ const PracticeYourself = () => {
       return "correct"
     }
 
+    return ""
+  }
+
+  const getWordClass = (wordIdx) => {
+    if(wordIdx === idxInfo.currWordIdx) return "active-word"
     return ""
   }
 
@@ -188,32 +188,17 @@ const PracticeYourself = () => {
 
         <h1>Practice Racetrack</h1>
 
-        <TypingSection 
-          chars={textInfo.chars}
-          words={textInfo.words} 
-          currInput={inputInfo.currInput} 
-          inputValid={inputInfo.inputValid}
-          getWordClass={getWordClass}
-          getCharClass={getCharClass}
-          handleKeyDown={handleKeyDown} 
-          handleChange={handleChange}
-          isStarted={gameStatus.isStarted}
-          isEnded={gameStatus.isEnded}
-          countdown={countdown.time}
-          countdownOn={countdown.on}
-          gameTimer={gameTimer.time}
-          gameTimerOn={gameTimer.on}
-          charsTyped={userTypeInfo.charsTyped}
-          WPM={WPM}
-        ></TypingSection>
-
-        <div id="practice-yourself-button-row">
-          <Link to="/">
-            <button id="leave-practice">Main menu (leave practice)</button>
-          </Link>
-          <button id="new-race" style={{display: gameStatus.isEnded ? "block":"none"}} onClick={() => window.location.reload()}>New race</button>
+        <div id="typing-section">
+          <GameStatusInfo gameStatus={gameStatus} countdown={countdown} gameTimer={gameTimer} getTime={getTime}></GameStatusInfo>
+          <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}></ProgressBar>
         </div>
 
+        <div id="typing-box">
+          <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass}></Paragraph>
+          <Input inputInfo={inputInfo} gameStatus={gameStatus} handleKeyDown={handleKeyDown} handleChange={handleChange}></Input>
+        </div>
+
+        <ButtonRow isEnded={gameStatus.isEnded}></ButtonRow>
         <Statistics isEnded={gameStatus.isEnded} finalWPM={userStats.finalWPM} time={userStats.time} accuracy={userStats.accuracy}></Statistics>
 
       </section>

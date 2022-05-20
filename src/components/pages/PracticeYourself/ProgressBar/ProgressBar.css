@@ -1,0 +1,15 @@
+#game-progress {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+}
+
+#progress,
+#progress::-webkit-progress-bar,
+#progress::-webkit-progress-value,
+#progress::-moz-progress-bar
+ {
+  border-radius: 0.5rem;
+  max-height: 1rem;
+  width: 90%;
+}

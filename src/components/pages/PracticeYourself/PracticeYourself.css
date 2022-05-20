@@ -10,28 +10,27 @@
   padding: 1rem;
 }
 
-#practice-yourself-button-row {
+#typing-section {
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#typing-box {
+  background-color: #333333;
+  border: 1px solid #3B3B3B;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  gap: 1rem;
   justify-content: space-between;
-  
+  padding: 1rem;
+  width: 100%;
 }
 
-#leave-practice {
-  background-color: #ffb21c;
-  padding: 0.8rem;
-}
-
-#leave-practice:hover {
-  cursor: pointer;
-  filter: brightness(0.8);
-}
-
-#new-race {
-  background-color: #3cc1a3;
-  padding: 0.8rem;
-}
-
-#new-race:hover {
-  background-color: #40a82b;
-  cursor: pointer;
+#typing-box p {
+  background-color: inherit;
+  font-size: large;
+  margin-left: 0.5rem;
 }

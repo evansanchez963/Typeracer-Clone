@@ -6,7 +6,6 @@ const calcWPM = (gameTimer, charsTyped, errors) => {
   const netWPM = Math.floor(grossWPM - (errors / time))
 
   if(charsTyped === 0 || gameTimer === 60000 || netWPM < 0) return 0
-
   return netWPM
 }
 

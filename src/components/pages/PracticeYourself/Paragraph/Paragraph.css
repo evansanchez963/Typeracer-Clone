@@ -1,0 +1,32 @@
+@keyframes cursorBlink {
+  50% {
+    border-left: 1px solid rgba(255, 255, 255, 0);
+  }
+}
+
+p {
+  background-color: inherit;
+  font-size: large;
+  margin-left: 0.5rem;
+}
+
+span {
+  background-color: transparent;
+}
+
+.active-word {
+  text-decoration: underline;
+}
+
+.active-char {
+  animation: cursorBlink 1s infinite;
+  border-left: 1px solid white;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}
