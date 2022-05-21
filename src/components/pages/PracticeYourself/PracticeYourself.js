@@ -178,6 +178,11 @@ const PracticeYourself = () => {
     setInputInfo(prev => ({...prev, currInput: event.target.value.trim()}))
   }
 
+  const getStats = () => {
+    if(gameStatus.isEnded) return <Statistics userStats={userStats} getTime={getTime}/> 
+    else return <></>
+  }
+
   if(loadInfo.loadError) {
     return <div>Error: {loadInfo.loadError.message}</div>
   } else if(loadInfo.isLoading) {
@@ -189,17 +194,17 @@ const PracticeYourself = () => {
         <h1>Practice Racetrack</h1>
 
         <div id="typing-section">
-          <GameStatusInfo gameStatus={gameStatus} countdown={countdown} gameTimer={gameTimer} getTime={getTime}></GameStatusInfo>
-          <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}></ProgressBar>
+          <GameStatusInfo gameStatus={gameStatus} countdown={countdown} gameTimer={gameTimer} getTime={getTime}/>
+          <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}/>
         </div>
 
         <div id="typing-box">
-          <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass}></Paragraph>
-          <Input inputInfo={inputInfo} gameStatus={gameStatus} handleKeyDown={handleKeyDown} handleChange={handleChange}></Input>
+          <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass}/>
+          <Input inputInfo={inputInfo} gameStatus={gameStatus} handleKeyDown={handleKeyDown} handleChange={handleChange}/>
         </div>
 
-        <ButtonRow isEnded={gameStatus.isEnded}></ButtonRow>
-        <Statistics isEnded={gameStatus.isEnded} finalWPM={userStats.finalWPM} time={userStats.time} accuracy={userStats.accuracy}></Statistics>
+        <ButtonRow isEnded={gameStatus.isEnded}/>
+        {getStats()}
 
       </section>
     )
