@@ -1,5 +1,5 @@
 #homepage button:hover {
-  cursor: pointer;
+  /* cursor: pointer; */
   filter: brightness(0.8);
 }
 
@@ -53,11 +53,14 @@
 }
 
 #online-text button {
-  background-color:#4caf50;
+  /* background-color:#4caf50; */
+  background-color: #ffb21c;
+  cursor: not-allowed;
 }
 
 #alone-text button {
   background-color: #005894;
+  cursor: pointer;
 }
 
 #online-text button,

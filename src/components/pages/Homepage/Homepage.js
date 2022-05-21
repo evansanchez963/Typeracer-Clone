@@ -15,7 +15,7 @@ const Homepage = () => {
         <div id="race-online">
           <div id="online-text">
             <p>Get matched up with online opponents</p>
-            <button>Enter a typing race</button>
+            <button>Under construction</button>
           </div>
 
           <img id="start-line" src={startLine} alt="start line"></img>
