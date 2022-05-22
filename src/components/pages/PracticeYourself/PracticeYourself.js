@@ -11,7 +11,7 @@ const PracticeYourself = () => {
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
   const [countdown, setCountdown] = useState({time: 3000, on: false})
-  const [gameTimer, setGameTimer] = useState({time: 10000, on: false})
+  const [gameTimer, setGameTimer] = useState({time: 60000, on: false})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})
   const [userStats, setUserStats] = useState({finalWPM: 0, time: 0, accuracy: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
