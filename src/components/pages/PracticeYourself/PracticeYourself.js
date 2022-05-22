@@ -11,7 +11,7 @@ const PracticeYourself = () => {
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
   const [countdown, setCountdown] = useState({time: 3000, on: false})
-  const [gameTimer, setGameTimer] = useState({time: 60000, on: false})
+  const [gameTimer, setGameTimer] = useState({time: 10000, on: false})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})
   const [userStats, setUserStats] = useState({finalWPM: 0, time: 0, accuracy: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
@@ -90,14 +90,16 @@ const PracticeYourself = () => {
 
   const getCharClass = (char, charIdx, wordIdx) => {
     if(charIdx === idxInfo.currCharIdx && wordIdx === idxInfo.currWordIdx) {
-      if(char === inputInfo.currInput.split("")[charIdx]) return "correct"
-      else {
-        return "incorrect"
+      if(gameStatus.isStarted && !gameStatus.isEnded) {
+        if(char === inputInfo.currInput.split("")[charIdx]) return "correct"
+        else {
+          return "incorrect"
+        }
       }
     } 
     // Put blinking cursor on active character.
     else if(charIdx === idxInfo.currCharIdx + 1 && wordIdx === idxInfo.currWordIdx) {
-      return "active-char"
+      if(gameStatus.isStarted && !gameStatus.isEnded) return "active-char"
     }
     // Set past characters on current word as correct.
     else if(wordIdx === idxInfo.currWordIdx && charIdx < idxInfo.currCharIdx) {
@@ -112,7 +114,9 @@ const PracticeYourself = () => {
   }
 
   const getWordClass = (wordIdx) => {
-    if(wordIdx === idxInfo.currWordIdx) return "active-word"
+    if(gameStatus.isStarted && !gameStatus.isEnded) {
+      if(wordIdx === idxInfo.currWordIdx) return "active-word"
+    }
     return ""
   }
 
@@ -196,11 +200,11 @@ const PracticeYourself = () => {
         <div id="typing-section">
           <GameStatusInfo gameStatus={gameStatus} countdown={countdown} gameTimer={gameTimer} getTime={getTime}/>
           <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}/>
-        </div>
 
-        <div id="typing-box">
-          <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass}/>
-          <Input inputInfo={inputInfo} gameStatus={gameStatus} handleKeyDown={handleKeyDown} handleChange={handleChange}/>
+          <div id="typing-box">
+            <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass}/>
+            <Input inputInfo={inputInfo} gameStatus={gameStatus} handleKeyDown={handleKeyDown} handleChange={handleChange}/>
+          </div>
         </div>
 
         <ButtonRow isEnded={gameStatus.isEnded}/>
