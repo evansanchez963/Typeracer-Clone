@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react"
 import { GameStatusInfo, ProgressBar, Paragraph, Input, ButtonRow, Statistics } from "./index"
 import { useCalcWPM } from "./hooks/index"
-import { getTime } from "./helpers/index"
+import { getTime, getAccuracy } from "./helpers/index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
@@ -84,9 +84,9 @@ const PracticeYourself = () => {
       setInputInfo(prev => ({...prev, currInput: ""}))
       setUserStats(prev => ({...prev, finalWPM: WPM}))
       setUserStats(prev => ({...prev, time: 60000 - gameTimer.time}))
-      setUserStats(prev => ({...prev, accuracy: (((userTypeInfo.charsTyped - userTypeInfo.errors) / userTypeInfo.charsTyped) * 100).toFixed(1)}))
+      setUserStats(prev => ({...prev, accuracy: getAccuracy(userTypeInfo)}))
     }
-  }, [gameStatus.isEnded, WPM, gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors])
+  }, [gameStatus.isEnded, WPM, gameTimer.time, userTypeInfo])
 
   const getCharClass = (char, charIdx, wordIdx) => {
     if(charIdx === idxInfo.currCharIdx && wordIdx === idxInfo.currWordIdx) {
