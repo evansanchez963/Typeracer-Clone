@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react"
 
-const useFetch = (url) => {
+const useFetch = (url, setCountdown) => {
   const [loadInfo, setLoadInfo] = useState({isLoading: true, loadError: null})
   const [textInfo, setTextInfo] = useState({chars: [], words: []})
-  const [countdown, setCountdown] = useState({time: 3000, on: false})
 
   // Get data from metaphorsum API and turn on countdown timer.
   useEffect(() => {
@@ -25,9 +24,9 @@ const useFetch = (url) => {
     }
 
     getData()
-  }, [url])
+  }, [url, setCountdown])
 
-  return { loadInfo, textInfo, countdown, setCountdown }
+  return { loadInfo, textInfo, setCountdown }
 }
 
 export default useFetch

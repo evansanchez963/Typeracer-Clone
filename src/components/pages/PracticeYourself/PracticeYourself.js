@@ -6,7 +6,8 @@ import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
 
-  const { loadInfo, textInfo, countdown, setCountdown } = useFetch("http://metaphorpsum.com/paragraphs/1/4")
+  const [countdown, setCountdown] = useState({time: 3000, on: false})
+  const { loadInfo, textInfo } = useFetch("http://metaphorpsum.com/paragraphs/1/1", setCountdown)
   const [inputInfo, setInputInfo] = useState({currInput: "", inputValid: true})
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
