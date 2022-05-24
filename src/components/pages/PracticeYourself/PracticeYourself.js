@@ -1,42 +1,19 @@
-import { useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import { GameStatusInfo, ProgressBar, Paragraph, Input, ButtonRow, Statistics } from "./index"
-import { useCalcWPM } from "./hooks/index"
+import { useFetch, useCalcWPM } from "./hooks/index"
 import { getTime, getAccuracy } from "./helpers/index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
-  const [loadInfo, setLoadInfo] = useState({isLoading: true, loadError: null})
-  const [textInfo, setTextInfo] = useState({chars: [], words: []})
+
+  const { loadInfo, textInfo, countdown, setCountdown } = useFetch("http://metaphorpsum.com/paragraphs/1/4")
   const [inputInfo, setInputInfo] = useState({currInput: "", inputValid: true})
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
-  const [countdown, setCountdown] = useState({time: 3000, on: false})
   const [gameTimer, setGameTimer] = useState({time: 60000, on: false})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})
   const [userStats, setUserStats] = useState({finalWPM: 0, time: 0, accuracy: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
-
-  // Get data from metaphorsum API and turn on countdown timer.
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await fetch("http://metaphorpsum.com/paragraphs/1/1")
-        const text = await response.text()
-        setTextInfo(prev => ({...prev, chars: text.split("")}))
-        setTextInfo(prev => ({...prev, words: text.split(" ")}))
-        setLoadInfo(prev => ({...prev, isLoading: false}))
-        setCountdown(prev => ({...prev, on: true}))
-        if(!response.ok) {
-          throw Error(response.statusText)
-        }
-      } catch(loadError) {
-        setLoadInfo(prev => ({...prev, loadError: loadError}))
-        setLoadInfo(prev => ({...prev, isLoading: false}))
-      }
-    }
-
-    getData()
-  }, [])
 
   // Countdown from 3 when first loaded into page.
   useEffect(() => {
@@ -55,7 +32,7 @@ const PracticeYourself = () => {
     }
 
     return () => clearInterval(interval)
-  }, [countdown.time, countdown.on]) 
+  }, [countdown.time, countdown.on, setCountdown]) 
 
   // Start game timer when countdown is over and stop
   // when it has reached 0.
