@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import "./ButtonRow.css"
 
-const ButtonRow = ({ isEnded }) => {
+const ButtonRow = ({isEnded}) => {
   return (
     <div id="practice-yourself-button-row">
       <Link to="/">

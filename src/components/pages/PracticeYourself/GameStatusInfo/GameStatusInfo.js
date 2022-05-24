@@ -1,6 +1,6 @@
 import "./GameStatusInfo.css"
 
-const GameStatusInfo = ({ gameStatus, countdown, gameTimer, getTime }) => {
+const GameStatusInfo = ({gameStatus, countdown, gameTimer, getTime}) => {
   const getStatusMsg = () => {
     if(!gameStatus.isStarted) return <p>The race is about to start...</p>
     else if(gameStatus.isEnded) return <p>The race has ended!</p>

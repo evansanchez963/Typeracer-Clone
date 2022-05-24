@@ -1,51 +1,19 @@
 import { useState } from "react"
 import { GameStatusInfo, ProgressBar, Paragraph, Input, ButtonRow, Statistics } from "./index"
 import { useFetch, useTimers, useCalcWPM, useStats } from "./hooks/index"
-import { getTime, getAccuracy } from "./helpers/index"
+import { getCharClass, getWordClass, getTime, getAccuracy } from "./helpers/index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
 
   const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
-  const { countdown, setCountdown, gameTimer } = useTimers(gameStatus, setGameStatus)
-  const { loadInfo, textInfo } = useFetch("http://metaphorpsum.com/paragraphs/1/1", setCountdown)
+  const {countdown, setCountdown, gameTimer} = useTimers(gameStatus, setGameStatus)
+  const {loadInfo, textInfo} = useFetch("http://metaphorpsum.com/paragraphs/1/1", setCountdown)
   const [inputInfo, setInputInfo] = useState({currInput: "", inputValid: true})
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
   const userStats = useStats(getAccuracy, gameStatus, gameTimer, setInputInfo, userTypeInfo, WPM) 
-
-  const getCharClass = (char, charIdx, wordIdx) => {
-    if(charIdx === idxInfo.currCharIdx && wordIdx === idxInfo.currWordIdx) {
-      if(gameStatus.isStarted && !gameStatus.isEnded) {
-        if(char === inputInfo.currInput.split("")[charIdx]) return "correct"
-        else {
-          return "incorrect"
-        }
-      }
-    } 
-    // Put blinking cursor on active character.
-    else if(charIdx === idxInfo.currCharIdx + 1 && wordIdx === idxInfo.currWordIdx) {
-      if(gameStatus.isStarted && !gameStatus.isEnded) return "active-char"
-    }
-    // Set past characters on current word as correct.
-    else if(wordIdx === idxInfo.currWordIdx && charIdx < idxInfo.currCharIdx) {
-      return "correct"
-    } 
-    // Set all past words as correct.
-    else if(wordIdx < idxInfo.currWordIdx) {
-      return "correct"
-    }
-
-    return ""
-  }
-
-  const getWordClass = (wordIdx) => {
-    if(gameStatus.isStarted && !gameStatus.isEnded) {
-      if(wordIdx === idxInfo.currWordIdx) return "active-word"
-    }
-    return ""
-  }
 
   // Evaluate input when user types.
   // If input is wrong, user can only backspace.
@@ -99,6 +67,7 @@ const PracticeYourself = () => {
             setIdxInfo(prev => ({...prev, currCharIdx: prev.currCharIdx + 1}))
             setUserTypeInfo(prev => ({...prev, charsTyped: prev.charsTyped + 1}))
           }
+
         }
       }
 
@@ -129,7 +98,7 @@ const PracticeYourself = () => {
           <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}/>
 
           <div id="typing-box">
-            <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass}/>
+            <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass} gameStatus={gameStatus} inputInfo={inputInfo} idxInfo={idxInfo}/>
             <Input inputInfo={inputInfo} gameStatus={gameStatus} handleKeyDown={handleKeyDown} handleChange={handleChange}/>
           </div>
         </div>
