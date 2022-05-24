@@ -1,60 +1,19 @@
 import { useState, useEffect } from "react"
 import { GameStatusInfo, ProgressBar, Paragraph, Input, ButtonRow, Statistics } from "./index"
-import { useFetch, useCalcWPM } from "./hooks/index"
+import { useFetch, useTimers, useCalcWPM } from "./hooks/index"
 import { getTime, getAccuracy } from "./helpers/index"
 import "./PracticeYourself.css"
 
 const PracticeYourself = () => {
 
-  const [countdown, setCountdown] = useState({time: 3000, on: false})
+  const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
+  const { countdown, setCountdown, gameTimer } = useTimers(gameStatus, setGameStatus)
   const { loadInfo, textInfo } = useFetch("http://metaphorpsum.com/paragraphs/1/1", setCountdown)
   const [inputInfo, setInputInfo] = useState({currInput: "", inputValid: true})
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
-  const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
-  const [gameTimer, setGameTimer] = useState({time: 60000, on: false})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})
   const [userStats, setUserStats] = useState({finalWPM: 0, time: 0, accuracy: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
-
-  // Countdown from 3 when first loaded into page.
-  useEffect(() => {
-    let interval = null
-
-    if(countdown.time < 0) {
-      setCountdown(prev => ({...prev, on: false}))
-      setGameStatus(prev => ({...prev, isStarted: true}))
-      setGameTimer(prev => ({...prev, on: true}))
-    } else if(countdown.on) {
-      interval = setInterval(() => {
-        setCountdown(prev => ({...prev, time: prev.time - 1000}))
-      }, 1000)
-    } else if (!countdown.on) {
-      clearInterval(interval)
-    }
-
-    return () => clearInterval(interval)
-  }, [countdown.time, countdown.on, setCountdown]) 
-
-  // Start game timer when countdown is over and stop
-  // when it has reached 0.
-  useEffect(() => {
-    let interval = null
-
-    if(gameStatus.isEnded) {
-      setGameTimer(prev => ({...prev, on: false}))
-    } else if(gameTimer.time < 0) {
-      setGameTimer(prev => ({...prev, on: false}))
-      setGameStatus(prev => ({...prev, isEnded: true}))
-    } else if(gameTimer.on) {
-      interval = setInterval(() => {
-        setGameTimer(prev => ({...prev, time: prev.time - 1000}))
-      }, 1000)
-    } else if(!gameTimer.on) {
-      clearInterval(interval)
-    }
-
-    return () => clearInterval(interval)
-  }, [gameTimer.time, gameTimer.on, gameStatus.isEnded])
 
   // Get user's stats when game has ended.
   useEffect(() => {
