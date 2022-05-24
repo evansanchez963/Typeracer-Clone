@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { GameStatusInfo, ProgressBar, Paragraph, Input, ButtonRow, Statistics } from "./index"
-import { useFetch, useTimers, useCalcWPM } from "./hooks/index"
+import { useFetch, useTimers, useCalcWPM, useStats } from "./hooks/index"
 import { getTime, getAccuracy } from "./helpers/index"
 import "./PracticeYourself.css"
 
@@ -12,18 +12,8 @@ const PracticeYourself = () => {
   const [inputInfo, setInputInfo] = useState({currInput: "", inputValid: true})
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})
-  const [userStats, setUserStats] = useState({finalWPM: 0, time: 0, accuracy: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
-
-  // Get user's stats when game has ended.
-  useEffect(() => {
-    if(gameStatus.isEnded) {
-      setInputInfo(prev => ({...prev, currInput: ""}))
-      setUserStats(prev => ({...prev, finalWPM: WPM}))
-      setUserStats(prev => ({...prev, time: 60000 - gameTimer.time}))
-      setUserStats(prev => ({...prev, accuracy: getAccuracy(userTypeInfo)}))
-    }
-  }, [gameStatus.isEnded, WPM, gameTimer.time, userTypeInfo])
+  const userStats = useStats(getAccuracy, gameStatus, gameTimer, setInputInfo, userTypeInfo, WPM) 
 
   const getCharClass = (char, charIdx, wordIdx) => {
     if(charIdx === idxInfo.currCharIdx && wordIdx === idxInfo.currWordIdx) {
