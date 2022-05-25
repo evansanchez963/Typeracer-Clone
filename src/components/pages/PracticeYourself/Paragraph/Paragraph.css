@@ -1,4 +1,4 @@
-@keyframes cursorBlink {
+@keyframes cursor-blink {
   50% {
     box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0);
   }
@@ -9,7 +9,7 @@
 }
 
 .active-char {
-  animation: cursorBlink 1s infinite;
+  animation: cursor-blink 1s infinite;
   box-shadow: -1px 0 0 0 white;
 }
 
