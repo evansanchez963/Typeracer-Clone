@@ -7,8 +7,8 @@ import "./PracticeYourself.css"
 const PracticeYourself = () => {
 
   const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
-  const {countdown, setCountdown, gameTimer} = useTimers(gameStatus, setGameStatus)
-  const {loadInfo, textInfo} = useFetch("http://metaphorpsum.com/paragraphs/1/1", setCountdown)
+  const { countdown, setCountdown, gameTimer } = useTimers(gameStatus, setGameStatus)
+  const { loadInfo, textInfo } = useFetch("http://metaphorpsum.com/paragraphs/1/1", setCountdown)
   const [inputInfo, setInputInfo] = useState({currInput: "", inputValid: true})
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})

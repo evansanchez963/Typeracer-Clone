@@ -30,7 +30,17 @@ button {
 
 .App {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 18.75rem 1fr 18.75rem;
   grid-template-rows: 4rem 1fr 4rem; 
   min-height: 100vh;  
+}
+
+
+@media (max-width: 1000px) {
+  .App {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4rem 1fr 4rem; 
+    min-height: 100vh; 
+  }
 }
