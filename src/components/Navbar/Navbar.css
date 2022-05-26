@@ -4,6 +4,7 @@
   color: white;
   display: flex;
   grid-column: 1 / 4;
+  grid-row: 1 / 2;
   justify-content: space-between;
   padding: 0 2rem 0 2rem;
 }
