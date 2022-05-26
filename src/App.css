@@ -35,12 +35,8 @@ button {
   min-height: 100vh;  
 }
 
-
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .App {
-    display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 4rem 1fr 4rem; 
-    min-height: 100vh; 
   }
 }
