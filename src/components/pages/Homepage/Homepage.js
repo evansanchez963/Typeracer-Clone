@@ -15,7 +15,9 @@ const Homepage = () => {
         <div id="race-online">
           <div id="online-text">
             <p>Get matched up with online opponents</p>
-            <button>Under construction</button>
+            <Link to="/">
+              <button id="play-online" disabled>Under construction</button>
+            </Link>
           </div>
 
           <img id="start-line" src={startLine} alt="start line"></img>
@@ -25,7 +27,7 @@ const Homepage = () => {
           <div id="alone-text">
             <p>Improve your typing skills on your own</p>
             <Link to="/practice-yourself">
-              <button>Practice Yourself</button>
+              <button id="play-yourself">Practice Yourself</button>
             </Link>
           </div>
 
