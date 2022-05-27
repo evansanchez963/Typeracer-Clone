@@ -46,3 +46,21 @@
   background-color: #67AC5B;
   padding: 0.8rem;
 }
+
+#hamburger-menu {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  #discord-link,
+  #about-link,
+  #nav-button-row {
+    display: none;
+  }
+
+  #hamburger-menu {
+    background-color: transparent;
+    cursor: pointer;
+    display: block;
+  }
+}

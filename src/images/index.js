@@ -4,5 +4,6 @@ import typing from "./typing.png"
 import speedStat from "./speed-stat.png"
 import timeStat from "./time-stat.png"
 import accuracyStat from "./accuracy-stat.png"
+import menu from "./menu.png"
 
-export { logo, startLine, typing, speedStat, timeStat, accuracyStat }
+export { logo, startLine, typing, speedStat, timeStat, accuracyStat, menu }
