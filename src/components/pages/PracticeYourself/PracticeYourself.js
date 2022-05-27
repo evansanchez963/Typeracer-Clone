@@ -28,23 +28,25 @@ const PracticeYourself = () => {
     return (
       <section id="practice-yourself">
 
-        <h1>Practice Racetrack</h1>
+        <div id="py-wrapper">
+          <h1>Practice Racetrack</h1>
 
-        <div id="typing-section">
-          <GameStatusInfo gameStatus={gameStatus} countdown={countdown} gameTimer={gameTimer} getTime={getTime}/>
-          <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}/>
+          <div id="typing-section">
+            <GameStatusInfo gameStatus={gameStatus} countdown={countdown} gameTimer={gameTimer} getTime={getTime}/>
+            <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}/>
 
-          <div id="typing-box">
-            <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass} gameStatus={gameStatus} inputInfo={inputInfo} idxInfo={idxInfo}/>
-            <Input inputInfo={inputInfo} 
-            gameStatus={gameStatus} 
-            handleKeyDown={(event) => {handleKeyDown(event, setGameStatus, textInfo, inputInfo, setInputInfo, idxInfo, setIdxInfo, setUserTypeInfo)}} 
-            handleChange={(event) => {handleChange(event, setInputInfo)}}/>
+            <div id="typing-box">
+              <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass} gameStatus={gameStatus} inputInfo={inputInfo} idxInfo={idxInfo}/>
+              <Input inputInfo={inputInfo} 
+              gameStatus={gameStatus} 
+              handleKeyDown={(event) => {handleKeyDown(event, setGameStatus, textInfo, inputInfo, setInputInfo, idxInfo, setIdxInfo, setUserTypeInfo)}} 
+              handleChange={(event) => {handleChange(event, setInputInfo)}}/>
+            </div>
           </div>
-        </div>
 
-        <ButtonRow isEnded={gameStatus.isEnded}/>
-        {getStats()}
+          <ButtonRow isEnded={gameStatus.isEnded}/>
+          {getStats()}
+        </div>
 
       </section>
     )

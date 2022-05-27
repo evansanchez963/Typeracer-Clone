@@ -1,7 +1,8 @@
 .stat {
   background-color: inherit;
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 #game-stats {
@@ -35,6 +36,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0.5rem;
 }
 
 #speed-stat p,

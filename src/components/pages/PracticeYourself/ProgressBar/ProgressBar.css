@@ -4,12 +4,16 @@
   justify-content: space-between;
 }
 
+#game-progress p {
+  margin-left: 1rem;
+}
+
 #progress,
 #progress::-webkit-progress-bar,
 #progress::-webkit-progress-value,
 #progress::-moz-progress-bar
  {
   border-radius: 0.5rem;
+  flex: 1;
   max-height: 1rem;
-  width: 90%;
 }

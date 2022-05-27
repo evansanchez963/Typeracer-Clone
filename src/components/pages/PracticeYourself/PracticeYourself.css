@@ -3,11 +3,17 @@
 }
 
 #practice-yourself {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+#py-wrapper {
   color: white;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem;
+  min-width: 41rem;
 }
 
 #typing-section {
@@ -22,11 +28,9 @@
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
-  height: auto;
   gap: 1rem;
   justify-content: space-between;
   padding: 1rem;
-  width: 100%;
 }
 
 #typing-box p {

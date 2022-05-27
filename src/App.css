@@ -47,4 +47,8 @@ button {
   #footer {
     grid-column: 1 / 2;
   }
+
+  #py-wrapper {
+    min-width: 20rem;
+  }
 }

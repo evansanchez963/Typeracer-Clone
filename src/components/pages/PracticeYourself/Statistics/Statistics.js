@@ -12,7 +12,7 @@ const Statistics = ({ userStats, getTime }) => {
       <div id="speed-stat">
         <img src={speedStat} alt="speed stat"></img>
         <div className="stat">
-          <p>Your speed:</p>
+          <p>Speed:&nbsp;</p>
           <p>{userStats.finalWPM} WPM</p>
         </div>
       </div>
@@ -20,7 +20,7 @@ const Statistics = ({ userStats, getTime }) => {
       <div id="time-stat">
         <img src={timeStat} alt="time stat"></img>
         <div className="stat">
-          <p>Time:</p>
+          <p>Time:&nbsp;</p>
           <p>{getTime(userStats.time)}</p>
         </div>
       </div>
@@ -28,7 +28,7 @@ const Statistics = ({ userStats, getTime }) => {
       <div id="accuracy-stat">
         <img src={accuracyStat} alt="accuracy stat"></img>
         <div className="stat">
-          <p>Accuracy:</p>
+          <p>Accuracy:&nbsp;</p>
           <p>{userStats.accuracy}%</p>
         </div>
       </div>
