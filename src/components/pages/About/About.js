@@ -16,8 +16,10 @@ const About = () => {
         </p>
       </div>
 
-      <div id="iframe-container">
-        <iframe id="responsive-iframe" title="TypeRacer Video Walkthrough" src="https://www.youtube.com/embed/9znLhbkV1Gs"></iframe>
+      <div id="iframe-wrapper1">
+        <div id="iframe-wrapper2">
+          <iframe id="responsive-iframe" title="TypeRacer Video Walkthrough" src="https://www.youtube.com/embed/9znLhbkV1Gs"></iframe>
+        </div>
       </div>
 
     </section>
