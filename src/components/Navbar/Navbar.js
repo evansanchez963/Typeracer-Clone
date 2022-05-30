@@ -1,8 +1,14 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import { logo, menu } from "../../images/index"
+import Sidebar from "./Sidebar/Sidebar"
 import "./Navbar.css"
 
 const Navbar = () => {
+  const [sidebarActive, setSidebarActive] = useState(false)
+
+  const toggleSidebar = () => setSidebarActive(prev => !prev)
+
   return (
     <nav id="navbar">
 
@@ -20,7 +26,8 @@ const Navbar = () => {
         <button>Sign In</button>
       </div>
 
-      <img id="hamburger-menu" src={menu} alt="hamburger menu"></img>
+      <img id="hamburger-menu" src={menu} alt="hamburger menu" onClick={toggleSidebar}></img>
+      <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar}/>
 
     </nav>
   )
