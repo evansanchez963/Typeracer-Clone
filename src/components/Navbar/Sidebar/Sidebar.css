@@ -19,3 +19,13 @@
 #sidebar.is-active {
   transform: translateX(0);
 }
+
+#sidebar-close {
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}

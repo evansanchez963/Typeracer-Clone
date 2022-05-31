@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { logo, menu } from "../../images/index"
+import { BsFillKeyboardFill } from "react-icons/bs"
+import { GoThreeBars } from "react-icons/go"
 import Sidebar from "./Sidebar/Sidebar"
 import "./Navbar.css"
 
@@ -14,7 +15,7 @@ const Navbar = () => {
 
       <div id="links">
         <div id="logo">
-          <img src={logo} alt="logo"></img>
+          <BsFillKeyboardFill size={40}/>
           <Link to="/"><strong>typeracer</strong></Link>
         </div>
         <a id="discord-link" href="https://discord.com/invite/typeracer" target="_blank" rel="noreferrer noopener">Discord</a>
@@ -26,7 +27,7 @@ const Navbar = () => {
         <button>Sign In</button>
       </div>
 
-      <img id="hamburger-menu" src={menu} alt="hamburger menu" onClick={toggleSidebar}></img>
+      <GoThreeBars id="hamburger-menu" size={30} onClick={toggleSidebar}/>
       <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar}/>
 
     </nav>
