@@ -25,6 +25,7 @@
 #about-text>*,
 #about-text a {
   background-color: inherit;
+  color: white;
 }
 
 #iframe-wrapper1 {

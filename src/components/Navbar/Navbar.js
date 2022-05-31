@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { BsFillKeyboardFill } from "react-icons/bs"
+import { logo } from "../../images/index"
 import { GoThreeBars } from "react-icons/go"
 import Sidebar from "./Sidebar/Sidebar"
 import "./Navbar.css"
@@ -25,7 +25,7 @@ const Navbar = () => {
 
       <div id="links">
         <div id="logo">
-          <BsFillKeyboardFill size={40}/>
+          <img src={logo} alt="typeracer logo"></img>
           <Link id="logo-link" to="/"><strong>typeracer</strong></Link>
         </div>
         <a className="nav-link" href="https://discord.com/invite/typeracer" target="_blank" rel="noreferrer noopener">Discord</a>

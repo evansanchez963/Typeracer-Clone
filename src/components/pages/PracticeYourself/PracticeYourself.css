@@ -11,6 +11,7 @@
 #py-wrapper {
   color: white;
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 1rem;
   max-width: 50rem;
