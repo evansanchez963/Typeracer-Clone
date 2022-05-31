@@ -39,9 +39,10 @@
   padding: 0.5rem;
 }
 
-#speed-stat p,
-#time-stat p,
-#accuracy-stat p {
+.stat p,
+#speed-stat>*,
+#time-stat>*,
+#accuracy-stat>* {
   background-color: transparent;
 }
 
@@ -53,10 +54,4 @@
 #accuracy-stat {
   border-bottom-right-radius: 0.5rem;
   border-left: 1px solid #3B3B3B;
-}
-
-#game-stats img {
-  background-color: transparent;
-  height: 2rem;
-  width: auto;
 }

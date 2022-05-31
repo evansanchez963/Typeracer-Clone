@@ -1,4 +1,5 @@
-import { speedStat, timeStat, accuracyStat } from "../../../../images/index"
+import { SiSpeedtest } from "react-icons/si"
+import { BiTimeFive, BiCheckCircle } from "react-icons/bi" 
 import "./Statistics.css"
 
 const Statistics = ({ userStats, getTime }) => {
@@ -10,7 +11,7 @@ const Statistics = ({ userStats, getTime }) => {
       </div>
 
       <div id="speed-stat">
-        <img src={speedStat} alt="speed stat"></img>
+        <SiSpeedtest size={30}/>
         <div className="stat">
           <p>Speed:&nbsp;</p>
           <p>{userStats.finalWPM} WPM</p>
@@ -18,7 +19,7 @@ const Statistics = ({ userStats, getTime }) => {
       </div>
 
       <div id="time-stat">
-        <img src={timeStat} alt="time stat"></img>
+        <BiTimeFive size={30}/>
         <div className="stat">
           <p>Time:&nbsp;</p>
           <p>{getTime(userStats.time)}</p>
@@ -26,7 +27,7 @@ const Statistics = ({ userStats, getTime }) => {
       </div>
 
       <div id="accuracy-stat">
-        <img src={accuracyStat} alt="accuracy stat"></img>
+        <BiCheckCircle size={30}/>
         <div className="stat">
           <p>Accuracy:&nbsp;</p>
           <p>{userStats.accuracy}%</p>
