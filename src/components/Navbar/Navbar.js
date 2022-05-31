@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { BsFillKeyboardFill } from "react-icons/bs"
 import { GoThreeBars } from "react-icons/go"
@@ -10,16 +10,26 @@ const Navbar = () => {
 
   const toggleSidebar = () => setSidebarActive(prev => !prev)
 
+  useEffect(() => {
+    const handleResize = () => {
+      if(window.innerWidth > 1000) setSidebarActive(false)
+    }
+
+    window.addEventListener("resize", handleResize)
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   return (
     <nav id="navbar">
 
       <div id="links">
         <div id="logo">
           <BsFillKeyboardFill size={40}/>
-          <Link to="/"><strong>typeracer</strong></Link>
+          <Link id="logo-link" to="/"><strong>typeracer</strong></Link>
         </div>
-        <a id="discord-link" href="https://discord.com/invite/typeracer" target="_blank" rel="noreferrer noopener">Discord</a>
-        <Link id="about-link" to="/about">About</Link>
+        <a className="nav-link" href="https://discord.com/invite/typeracer" target="_blank" rel="noreferrer noopener">Discord</a>
+        <Link className="nav-link" to="/about">About</Link>
       </div>
 
       <div id="nav-button-row">

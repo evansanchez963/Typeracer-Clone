@@ -1,3 +1,30 @@
+.sidebar-link {
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.sidebar-link:hover {
+  background-color: #005894;
+}
+
+.sidebar-link,
+.sidebar-link>*,
+#sidebar a {
+  background-color: inherit;
+}
+
+.sidebar-link p,
+.sidebar-link a {
+  padding: 0.3rem 0 0.3rem;
+}
+
+.sidebar-link a,
+#sidebar a {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}
+
 #sidebar {
   position: fixed;
   top: 0;
@@ -8,10 +35,10 @@
   color: #986acb;
   height: 100vh;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 3rem 2rem 2rem;
   position: fixed;
   transform: translateX(110%);
-  transition: transform 0.1s ease 0s;
+  transition: transform 0.1s;
   width: 18.75rem;
   z-index: 1;
 }
@@ -28,4 +55,14 @@
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+}
+
+#sidebar-links {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+#sidebar-links hr {
+  color: #595959;
 }
