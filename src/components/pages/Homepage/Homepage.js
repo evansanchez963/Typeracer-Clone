@@ -6,33 +6,35 @@ const Homepage = () => {
   return (
     <section id="homepage">
 
-      <div id="text">
+      <div>
         <h1>typeracer - the Global Typing Competition</h1>
         <p>Increase your typing speed while racing against others.</p>
       </div>
 
-      <div id="game-modes">
-        <div id="race-online">
-          <div id="online-text">
+      <div className="game-mode-container">
+
+        <div className="gamemode">
+          <div className="gamemode-info">
             <p>Get matched up with online opponents</p>
             <Link to="/">
-              <button id="play-online" disabled>Under construction</button>
+              <button id="play-online-btn" className="gamemode-btn" disabled>Under construction</button>
             </Link>
           </div>
 
-          <img id="start-line" src={startLine} alt="start line"></img>
+          <img className="gamemode-img" src={startLine} alt="start line"></img>
         </div>
 
-        <div id="race-alone">
-          <div id="alone-text">
+        <div className="gamemode">
+          <div className="gamemode-info">
             <p>Improve your typing skills on your own</p>
             <Link to="/practice-yourself">
-              <button id="play-yourself">Practice Yourself</button>
+              <button id="play-yourself-btn" className="gamemode-btn">Practice Yourself</button>
             </Link>
           </div>
 
-          <img id="typing" src={typing} alt="typing"></img>
+          <img className="gamemode-img" src={typing} alt="typing"></img>
         </div>
+
       </div>
 
     </section>
