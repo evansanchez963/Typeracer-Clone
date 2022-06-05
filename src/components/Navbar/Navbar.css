@@ -1,12 +1,39 @@
+.nav-links-container {
+  align-items: center;
+  background-color: inherit;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links-container a {
+  background-color: inherit;
+}
+
 .nav-link,
-#logo-link {
+.logo-link {
   color: inherit;
   text-decoration: none;
 }
 
 .nav-link:hover,
-#logo-link:hover {
+.logo-link:hover {
   text-decoration: underline;
+}
+
+.nav-btn-row {
+  background-color: inherit;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn-row button {
+  background-color: #67AC5B;
+  padding: 0.8rem;
+}
+
+.nav-btn-row button:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
 }
 
 #navbar {
@@ -20,25 +47,9 @@
   padding: 0 2rem 0 2rem;
 }
 
-#links, 
-#links>*,
-#nav-button-row {
-  background-color: inherit;
-}
-
-#nav-button-row button:hover {
-  cursor: pointer;
-  filter: brightness(0.8);
-}
-
-#links {
-  align-items: center;
-  display: flex;
-  gap: 2rem;
-}
-
 #logo {
   align-items: center;
+  background-color: inherit;
   display: flex;
   gap: 0.5rem;
 }
@@ -48,23 +59,13 @@
   background-color: inherit;
 }
 
-#nav-button-row {
-  display: flex;
-  gap: 1rem;
-}
-
-#nav-button-row button {
-  background-color: #67AC5B;
-  padding: 0.8rem;
-}
-
 #hamburger-menu {
   display: none;
 }
 
 @media (max-width: 1000px) {
   .nav-link,
-  #nav-button-row {
+  .nav-btn-row {
     display: none;
   }
 

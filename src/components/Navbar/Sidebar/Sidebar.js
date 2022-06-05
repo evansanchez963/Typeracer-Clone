@@ -5,9 +5,10 @@ import "./Sidebar.css"
 const Sidebar = ({ sidebarActive, toggleSidebar }) => {
   return (
     <div id="sidebar" className={sidebarActive ? "is-active":""}>
-      <IoClose id="sidebar-close" onClick={toggleSidebar} size={30}/>
+      <IoClose id="sidebar-close-btn" onClick={toggleSidebar} size={30}/>
 
-      <div id="sidebar-links">
+      <div className="sidebar-link-container">
+
         <Link to="/">
           <div className="sidebar-link" onClick={toggleSidebar}>
             <p>Home</p>

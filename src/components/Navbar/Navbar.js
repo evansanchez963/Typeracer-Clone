@@ -10,6 +10,7 @@ const Navbar = () => {
 
   const toggleSidebar = () => setSidebarActive(prev => !prev)
 
+  // Close sidebar when not needed anymore.
   useEffect(() => {
     const handleResize = () => {
       if(window.innerWidth > 1000) setSidebarActive(false)
@@ -23,16 +24,16 @@ const Navbar = () => {
   return (
     <nav id="navbar">
 
-      <div id="links">
+      <div className="nav-links-container">
         <div id="logo">
           <img src={logo} alt="typeracer logo"></img>
-          <Link id="logo-link" to="/"><strong>typeracer</strong></Link>
+          <Link className="logo-link" to="/"><strong>typeracer</strong></Link>
         </div>
         <a className="nav-link" href="https://discord.com/invite/typeracer" target="_blank" rel="noreferrer noopener">Discord</a>
         <Link className="nav-link" to="/about">About</Link>
       </div>
 
-      <div id="nav-button-row">
+      <div className="nav-btn-row">
         <button>Create Account</button>
         <button>Sign In</button>
       </div>
