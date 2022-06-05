@@ -1,11 +1,4 @@
-.stat {
-  background-color: inherit;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-#game-stats {
+.game-stats-container {
   background-color: transparent;
   display: grid;
   font-weight: bold;
@@ -14,7 +7,7 @@
   width: 100%;
 }
 
-#stats-text {
+.stats-info {
   align-items: center;
   background-color: #333333;
   border-bottom: 1px solid #3B3B3B;
@@ -24,13 +17,18 @@
   padding: 0.5rem;
 }
 
-#stats-text p {
+.stats-info p {
   background-color: inherit;
 }
 
-#speed-stat,
-#time-stat,
-#accuracy-stat {
+.stat {
+  background-color: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-container {
   align-items: center;
   background-color: #222222;
   display: flex;
@@ -39,19 +37,17 @@
   padding: 0.5rem;
 }
 
-.stat p,
-#speed-stat>*,
-#time-stat>*,
-#accuracy-stat>* {
+.stat-container>*,
+.stat p {
   background-color: transparent;
 }
 
-#speed-stat {
+.stat-container:nth-child(2) {
   border-bottom-left-radius: 0.5rem;
   border-right: 1px solid #3B3B3B;
 }
 
-#accuracy-stat {
+.stat-container:nth-child(4) {
   border-bottom-right-radius: 0.5rem;
   border-left: 1px solid #3B3B3B;
 }

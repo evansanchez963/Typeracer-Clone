@@ -4,13 +4,13 @@ import "./Statistics.css"
 
 const Statistics = ({ userStats, getTime }) => {
   return (
-    <div id="game-stats">
+    <div className="game-stats-container">
 
-      <div id="stats-text">
+      <div className="stats-info">
         <p>Statistics:</p>
       </div>
 
-      <div id="speed-stat">
+      <div className="stat-container">
         <SiSpeedtest size={30}/>
         <div className="stat">
           <p>Speed:&nbsp;</p>
@@ -18,7 +18,7 @@ const Statistics = ({ userStats, getTime }) => {
         </div>
       </div>
 
-      <div id="time-stat">
+      <div className="stat-container">
         <BiTimeFive size={30}/>
         <div className="stat">
           <p>Time:&nbsp;</p>
@@ -26,7 +26,7 @@ const Statistics = ({ userStats, getTime }) => {
         </div>
       </div>
 
-      <div id="accuracy-stat">
+      <div className="stat-container">
         <BiCheckCircle size={30}/>
         <div className="stat">
           <p>Accuracy:&nbsp;</p>

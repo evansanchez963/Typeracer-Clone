@@ -1,4 +1,4 @@
-#practice-yourself-button-row {
+.practice-yourself-btn-row {
   display: flex;
   justify-content: space-between;
 }

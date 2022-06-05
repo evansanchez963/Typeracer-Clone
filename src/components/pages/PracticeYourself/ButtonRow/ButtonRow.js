@@ -3,7 +3,7 @@ import "./ButtonRow.css"
 
 const ButtonRow = ({isEnded}) => {
   return (
-    <div id="practice-yourself-button-row">
+    <div className="practice-yourself-btn-row">
       <Link to="/">
         <button id="leave-practice">Main menu (leave practice)</button>
       </Link>

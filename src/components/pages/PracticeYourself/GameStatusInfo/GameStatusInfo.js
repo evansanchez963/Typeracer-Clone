@@ -14,7 +14,7 @@ const GameStatusInfo = ({gameStatus, countdown, gameTimer, getTime}) => {
   }
 
   return (
-    <div id="game-status-info">
+    <div className="game-status-info">
       {getStatusMsg()}
       {getTimer()}
     </div>

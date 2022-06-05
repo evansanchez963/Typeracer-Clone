@@ -28,14 +28,14 @@ const PracticeYourself = () => {
     return (
       <section id="practice-yourself">
 
-        <div id="py-wrapper">
+        <div className="py-wrapper">
           <h1>Practice Racetrack</h1>
 
-          <div id="typing-section">
+          <div className="typing-section">
             <GameStatusInfo gameStatus={gameStatus} countdown={countdown} gameTimer={gameTimer} getTime={getTime}/>
             <ProgressBar chars={textInfo.chars} charsTyped={userTypeInfo.charsTyped} WPM={WPM}/>
 
-            <div id="typing-box">
+            <div className="typing-box">
               <Paragraph words={textInfo.words} getCharClass={getCharClass} getWordClass={getWordClass} gameStatus={gameStatus} inputInfo={inputInfo} idxInfo={idxInfo}/>
               <Input inputInfo={inputInfo} 
               gameStatus={gameStatus} 

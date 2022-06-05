@@ -1,4 +1,4 @@
-#game-status-info {
+.game-status-info {
   display: flex;
   font-weight: bold;
   justify-content: space-between;
