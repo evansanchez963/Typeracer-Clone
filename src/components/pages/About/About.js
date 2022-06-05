@@ -5,7 +5,7 @@ const About = () => {
   return (
     <section id="about">
 
-      <div id="about-text">
+      <div className="about-text">
         <h1>About TypeRacer</h1>
         <p>
           The award-winning online typing competition, TypeRacer, allows people to race each-other by typing quotes from books, movies, and songs. 
@@ -16,8 +16,8 @@ const About = () => {
         </p>
       </div>
 
-      <div id="iframe-wrapper1">
-        <div id="iframe-wrapper2">
+      <div className="iframe-wrapper1">
+        <div className="iframe-wrapper2">
           <iframe id="responsive-iframe" title="TypeRacer Video Walkthrough" src="https://www.youtube.com/embed/9znLhbkV1Gs"></iframe>
         </div>
       </div>

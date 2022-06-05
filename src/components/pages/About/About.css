@@ -1,17 +1,4 @@
-#about {
-  grid-column: 2 / 3;
-}
-
-#about {
-  align-items: center;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-#about-text {
+.about-text {
   background-color: #333333;
   border: 1px solid #3B3B3B;
   border-radius: 0.5rem;
@@ -22,24 +9,34 @@
   padding: 1rem;
 }
 
-#about-text>*,
-#about-text a {
+.about-text>*,
+.about-text a {
   background-color: inherit;
   color: white;
 }
 
-#iframe-wrapper1 {
+.iframe-wrapper1 {
   margin: 0;
   max-height: auto;
   max-width: 50rem;
   width: 100%;
 }
 
-#iframe-wrapper2 {
+.iframe-wrapper2 {
   padding-top: 56.25%;
   position: relative;
   overflow: hidden;
   width: 100%;
+}
+
+#about {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  grid-column: 2 / 3;
+  padding: 1rem;
 }
 
 #responsive-iframe {
