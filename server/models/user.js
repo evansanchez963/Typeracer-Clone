@@ -5,7 +5,6 @@ const UserSchema = new Schema({
   email: {type: String, required: true, maxlength: 50, unique: true},
   user_name: {type: String, required: true, maxlength: 50, unique: true},
   password: {type: String, required: true, maxlength: 50},
-  highest_WPM: {type: Number},
   typing_sessions: [{type: Schema.Types.ObjectId, ref: 'Typing Session'}]
 })
 
