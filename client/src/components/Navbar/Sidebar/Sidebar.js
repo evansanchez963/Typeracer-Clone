@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom"
 import { IoClose } from "react-icons/io5" 
+import { FaUserCircle } from "react-icons/fa"
 import "./Sidebar.css"
 
 const Sidebar = ({ sidebarActive, toggleSidebar }) => {
   return (
     <div id="sidebar" className={sidebarActive ? "is-active":""}>
       <IoClose id="sidebar-close-btn" onClick={toggleSidebar} size={30}/>
+
+      <div className="sidebar-icon-container">
+        <FaUserCircle id="sidebar-user-icon" size={40}></FaUserCircle>
+        <div className="sidebar-icon-links">
+          <Link to="/create-account" className="sidebar-icon-link" onClick={toggleSidebar}>Create Account</Link> 
+          <br></br>
+          <Link to="/login" className="sidebar-icon-link" onClick={toggleSidebar}>Sign In</Link>
+        </div>
+      </div>
 
       <div className="sidebar-link-container">
 
