@@ -2,10 +2,11 @@ const { DateTime } = require("luxon")
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const SingleplayerSessionSchema = new Schema(
+const TypingSessionSchema = new Schema(
   {
-    user: {type: Schema.Types.ObjectId, ref: 'User', required: true}, // Reference to associated user
     WPM: {type: Number, required: true},
+    time: {type: String, required: true},
+    accuracy: {type, Number, required: true},
     date_completed: {type: Date, default: Date.now}
   }
 )
@@ -17,4 +18,4 @@ const SingleplayerSessionSchema = new Schema(
 })
 
 // Export model
-module.exports = mongoose.model('Singleplayer Session', SingleplayerSessionSchema)
+module.exports = mongoose.model('Typing Session', TypingSessionSchema)
