@@ -35,8 +35,8 @@ const Navbar = () => {
 
       <div className="nav-btn-row">
         <div className="signup-info">Sign up to track progress and play against others!</div>
-        <button>Create Account</button>
-        <button>Sign In</button>
+        <Link to="/create-account"><button className="nav-btn">Create Account</button></Link>
+        <Link to="/sign-up"><button className="nav-btn">Sign In</button></Link>
       </div>
 
       <GoThreeBars id="hamburger-menu" size={30} onClick={toggleSidebar}/>

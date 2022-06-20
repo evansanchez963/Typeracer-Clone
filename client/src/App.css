@@ -34,6 +34,7 @@ button {
   #navbar,
   #homepage,
   #practice-yourself,
+  #create-account,
   #about,
   #footer {
     grid-column: 1 / 2;

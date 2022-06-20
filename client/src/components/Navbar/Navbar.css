@@ -45,6 +45,11 @@
   padding: 0.8rem;
 }
 
+.nav-btn-row a {
+  background-color: transparent;
+  color: white;
+}
+
 #navbar {
   align-items: center;
   background-color: #222222;
