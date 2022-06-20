@@ -36,6 +36,15 @@
   filter: brightness(0.8);
 }
 
+.signup-info {
+  background-color: #8658ba;
+  border-radius: 0.5rem;
+  font-size: small;
+  font-weight: bold;
+  margin: auto;
+  padding: 0.8rem;
+}
+
 #navbar {
   align-items: center;
   background-color: #222222;

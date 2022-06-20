@@ -34,6 +34,7 @@ const Navbar = () => {
       </div>
 
       <div className="nav-btn-row">
+        <div className="signup-info">Sign up to track progress and play against others!</div>
         <button>Create Account</button>
         <button>Sign In</button>
       </div>
