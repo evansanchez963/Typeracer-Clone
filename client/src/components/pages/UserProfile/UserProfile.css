@@ -1,0 +1,28 @@
+.user-profile-container>*,
+.user-stats-container>*,
+.danger-zone-container>* {
+  background-color: inherit;
+}
+
+.user-profile-container,
+.user-stats-container,
+.danger-zone-container {
+  background-color: #333333;
+  border: 1px solid #3B3B3B;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 50rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+#user-profile {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  grid-column: 2 / 3;
+  padding: 1rem;
+}

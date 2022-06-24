@@ -37,6 +37,7 @@ button {
   #about,
   #create-account,
   #login,
+  #user-profile,
   #footer {
     grid-column: 1 / 2;
   }

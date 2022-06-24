@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { About, Footer, Homepage, Navbar, PracticeYourself, CreateAccount, Login } from "./components/index"
+import { About, Footer, Homepage, Navbar, PracticeYourself, CreateAccount, Login, UserProfile } from "./components/index"
 import "./App.css"
 
 const App = () => {
@@ -9,10 +9,11 @@ const App = () => {
         <Navbar/>
         <Routes>
           <Route path="/" exact element={<Homepage/>}></Route>
-          <Route path="/about" exact element={<About/>}></Route>
-          <Route path="/practice-yourself" exact element={<PracticeYourself/>}></Route>
-          <Route path="/create-account" exact element={<CreateAccount/>}></Route>
-          <Route path="/login" exact element={<Login/>}></Route>
+          <Route path="/about" element={<About/>}></Route>
+          <Route path="/practice-yourself" element={<PracticeYourself/>}></Route>
+          <Route path="/create-account" element={<CreateAccount/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/user/:id" element={<UserProfile/>}></Route>
         </Routes>
         <Footer/>
       </div>  
