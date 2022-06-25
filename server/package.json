@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
@@ -11,5 +15,8 @@
     "mongoose": "^6.4.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
   }
 }
