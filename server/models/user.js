@@ -11,7 +11,7 @@ const UserSchema = new Schema({
       "Please provide a valid email."
     ]
   },
-  user_name: {
+  username: {
     type: String, 
     required: [true, "Please provide a username."], 
     unique: true
@@ -21,12 +21,12 @@ const UserSchema = new Schema({
     required: [true, "Please provide a password."],
     select: false
   },
-  resetPasswordToken: String,
-  resetPasswordExpire: Date,
   typing_sessions: [{
     type: Schema.Types.ObjectId, 
     ref: "Typing Session"
-  }]
+  }],
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
 })
 
 // Export model
