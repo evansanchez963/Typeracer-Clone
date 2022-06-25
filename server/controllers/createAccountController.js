@@ -20,16 +20,27 @@ exports.createUser = [
       return;
     }
 
-    const user = new User(
-      {
-        email: req.body.ca-email,
-        user_name: req.body.ca-username,
-        password: req.body.ca-password
-      }).save(err => {
-        if (err) {
-          return next(err)
+    bcrypt.hash(req.body.ca-password, 10, (err, hashedPassword) => {
+      if (err) {
+        return next(err)
+      }
+
+      const user = new User(
+        {
+          email: req.body.ca-email,
+          user_name: req.body.ca-username,
+          password: hashedPassword
+        })
+  
+        user.save(err => {
+          if (err) {
+            return next(err)
+          }
+          res.redirect("/")
         }
-        res.redirect("/")
-      })
+      )
+
+    })
+
   }
 ]
