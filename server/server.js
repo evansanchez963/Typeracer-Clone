@@ -1,14 +1,21 @@
 const express = require("express")
-const app = express()
 const cors = require("cors")
 
-require("dotenv").config({ path: "./config.env" })
+// Routers
+const createAccountRouter = require("./routes/create-account")
+const loginRouter = require("./routes/login")
+const userRouter = require("./routes/user")
 
+const app = express()
+
+require("dotenv").config({ path: "./config.env" })
 const port = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json())
-//app.use(require("./routes/record"));
+app.use("/create-account", createAccountRouter)
+app.use("/login", loginRouter)
+app.use("/user/:id", userRouter)
 
 // get driver connection
 const dbo = require("./database/connection")
