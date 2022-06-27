@@ -1,27 +1,21 @@
-const { MongoClient } = require("mongodb")
-const client = new MongoClient(process.env.ATLAS_URI)
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 
-exports.createAccount = async (req, res, next) => {
+exports.createAccount = async (req, res) => {
 
   const {email, username, password} = req.body
 
   try {
-    const database = client.db("Typeracer_Clone_Database")
-    const collection = database.collection("users")
 
     // Hash password
     const hash = bcrypt.hashSync(password, parseInt(process.env.SALT, 10))
 
-    const user = new User({
+    const user = await User.create({
       email: email, 
       username: username, 
       password: hash,
       typing_sessions: []
     })
-
-    await collection.insertOne(user)
 
     res.status(201).json({
       success: true,
@@ -37,7 +31,7 @@ exports.createAccount = async (req, res, next) => {
 
 }
 
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
 
   const { username, password } = req.body
 
@@ -46,10 +40,7 @@ exports.login = async (req, res, next) => {
   }
 
   try {
-    const database = client.db("Typeracer_Clone_Database")
-    const collection = database.collection("users")
-
-    const user = collection.findOne({ username }).select("+password")
+    const user = await User.findOne({ username }).select("+password")
 
     if(!user) {
       res.status(404).json({ 
@@ -58,7 +49,7 @@ exports.login = async (req, res, next) => {
       })
     }
 
-    const isMatch = bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password)
 
     if(!isMatch) {
       res.status(404).json({
