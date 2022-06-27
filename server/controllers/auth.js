@@ -36,7 +36,15 @@ exports.createAccount = async (req, res, next) => {
 
 }
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
+  /*
+  const { username, password } = req.body
+
+  if(!username || !password) {
+    res.status(400).json({ success: false, error: "Please provide a username and password." })
+  }
+  */
+
   res.send("Login Route")
 }
 

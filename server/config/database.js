@@ -5,8 +5,6 @@ const connectDB = () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-
-  console.log("Successfully connected to MongoDB.")
 }
 
 module.exports = connectDB
