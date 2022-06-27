@@ -36,14 +36,14 @@ exports.login = async (req, res) => {
   const { username, password } = req.body
 
   if(!username || !password) {
-    res.status(400).json({ success: false, error: "Please provide a username and password." })
+    return res.status(400).json({ success: false, error: "Please provide a username and password." })
   }
 
   try {
     const user = await User.findOne({ username }).select("+password")
 
     if(!user) {
-      res.status(404).json({ 
+      return res.status(404).json({ 
         success: false, 
         error: "Invalid credentials"
       })
@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password)
 
     if(!isMatch) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         error: "Invalid credentials"
       })
