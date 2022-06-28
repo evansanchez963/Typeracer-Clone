@@ -29,25 +29,25 @@ exports.createAccount = async (req, res, next) => {
 
 }
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
 
   const { username, password } = req.body
 
   if(!username || !password) {
-    return next(errorResponse(400, "Please provide a username and password."))
+    return next(errorResponse("Please provide a username and password.", 400))
   }
 
   try {
     const user = await User.findOne({ username }).select("+password")
 
     if(!user) {
-      return next(errorResponse(401, "Invalid credentials."))
+      return next(errorResponse("Invalid credentials.", 401))
     }
 
     const isMatch = await bcrypt.compare(password, user.password)
 
     if(!isMatch) {
-      return next(errorResponse(401, "Invalid credentials."))
+      return next(errorResponse("Invalid credentials.", 401))
     }
 
     return res.status(200).json({
