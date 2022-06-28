@@ -1,5 +1,6 @@
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 const errorResponse = require("../utils/errorResponse")
 
 exports.createAccount = async (req, res, next) => {
@@ -18,11 +19,7 @@ exports.createAccount = async (req, res, next) => {
       typing_sessions: []
     })
 
-    return res.status(201).json({
-      success: true,
-      user,
-    })
-
+    sendToken(user, 201, res)
   } catch (err) {
     next(err)
   }
@@ -50,10 +47,7 @@ exports.login = async (req, res, next) => {
       return next(errorResponse("Invalid credentials.", 401))
     }
 
-    return res.status(200).json({
-      success: true,
-      user,
-    })
+    sendToken(user, 201, res)
   } catch(err) {
     next(err)
   }
@@ -66,4 +60,9 @@ exports.forgotPassword = (req, res, next) => {
 
 exports.resetPassword = (req, res, next) => {
   res.send("Reset Password Route")
+}
+
+const sendToken = (user, statusCode, res) => {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES })
+  res.status(statusCode).json({ success: true, token })
 }
