@@ -17,13 +17,13 @@ exports.createAccount = async (req, res) => {
       typing_sessions: []
     })
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       user,
     })
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: err.message
     })
@@ -58,12 +58,12 @@ exports.login = async (req, res) => {
       })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       user,
     })
   } catch(err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: err.message
     })
