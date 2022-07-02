@@ -1,5 +1,4 @@
 const User = require("../models/User")
-const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const errorResponse = require("../utils/errorResponse")
 
@@ -9,13 +8,10 @@ exports.createAccount = async (req, res, next) => {
 
   try {
 
-    // Hash password
-    const hash = bcrypt.hashSync(password, parseInt(process.env.SALT, 10))
-
     const user = await User.create({
       email: email, 
       username: username, 
-      password: hash,
+      password: password,
       typing_sessions: []
     })
 
@@ -28,24 +24,18 @@ exports.createAccount = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
 
-  const { username, password } = req.body
+  const {username, password} = req.body
 
-  if(!username || !password) {
-    return next(errorResponse("Please provide a username and password.", 400))
-  }
-
+  if(!username || !password) return next(errorResponse("Please provide a username and password.", 400))
+  
   try {
     const user = await User.findOne({ username }).select("+password")
 
-    if(!user) {
-      return next(errorResponse("Invalid credentials.", 401))
-    }
+    if(!user) return next(errorResponse("Invalid credentials.", 401))
 
-    const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await user.matchPassword(password)
 
-    if(!isMatch) {
-      return next(errorResponse("Invalid credentials.", 401))
-    }
+    if(!isMatch) return next(errorResponse("Invalid credentials.", 401))
 
     sendToken(user, 201, res)
   } catch(err) {
@@ -54,7 +44,29 @@ exports.login = async (req, res, next) => {
   
 }
 
-exports.forgotPassword = (req, res, next) => {
+exports.forgotPassword = async (req, res, next) => {
+  /*
+  const {email} = req.body
+
+  try {
+    const user = await User.findOne({email})
+
+    if(!user) return next(errorResponse("Email could not be sent.", 404))
+
+    const resetToken = crypto.randomBytes(20).toString("hex")
+    user.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+    user.resetPasswordExpire = Date.now() + 10 * (60 * 1000)
+    await user.save()
+
+    const resetUrl = process.env.RESET_URL + `/passwordreset/${resetToken}`
+    const message = `
+    <h1>Go to this link to reset your password</h1>
+    <a href=${resetUrl} clicktracking=off></a>
+    `
+  } catch(err) {
+
+  }
+  */
   res.send("Forgot Password Route")
 }
 
