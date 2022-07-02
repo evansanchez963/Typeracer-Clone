@@ -45,28 +45,6 @@ exports.login = async (req, res, next) => {
 }
 
 exports.forgotPassword = async (req, res, next) => {
-  /*
-  const {email} = req.body
-
-  try {
-    const user = await User.findOne({email})
-
-    if(!user) return next(errorResponse("Email could not be sent.", 404))
-
-    const resetToken = crypto.randomBytes(20).toString("hex")
-    user.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex")
-    user.resetPasswordExpire = Date.now() + 10 * (60 * 1000)
-    await user.save()
-
-    const resetUrl = process.env.RESET_URL + `/passwordreset/${resetToken}`
-    const message = `
-    <h1>Go to this link to reset your password</h1>
-    <a href=${resetUrl} clicktracking=off></a>
-    `
-  } catch(err) {
-
-  }
-  */
   res.send("Forgot Password Route")
 }
 
