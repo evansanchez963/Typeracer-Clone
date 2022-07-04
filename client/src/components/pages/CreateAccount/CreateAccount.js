@@ -60,35 +60,40 @@ const CreateAccount = () => {
 
         <h1>Create Account</h1>
 
-        {error && <span className="ca-error-message">*{error}</span>}
+        <div className="ca-form-wrapper">
 
-        <form id="ca-form" onSubmit={createAccountHandler}>
+          {error && <span className="ca-error-message">*{error}</span>}
 
-          <div className="ca-form-input">
-            <label htmlFor="ca-username">Username:</label>
-            <input type="text" id="ca-username" name="ca-username" onChange={(e) => setUsername(e.target.value)} required></input>
-          </div>
+          <form id="ca-form" onSubmit={createAccountHandler}>
 
-          <div className="ca-form-input">
-            <label htmlFor="ca-email">Email:</label>
-            <input type="email" id="ca-email" name="ca-email" onChange={(e) => setEmail(e.target.value)} required></input>
-          </div>
+            <div className="ca-form-input">
+              <label htmlFor="ca-username">Username:</label>
+              <input type="text" id="ca-username" name="ca-username" onChange={(e) => setUsername(e.target.value)} required></input>
+            </div>
 
-          <div className="ca-form-input">
-            <label htmlFor="ca-password">Password:</label>
-            <input type="password" id="ca-password" name="ca-password" onChange={(e) => setPassword(e.target.value)} required></input>
-          </div>
+            <div className="ca-form-input">
+              <label htmlFor="ca-email">Email:</label>
+              <input type="email" id="ca-email" name="ca-email" onChange={(e) => setEmail(e.target.value)} required></input>
+            </div>
 
-          <div className="ca-form-input">
-            <label htmlFor="ca-confirm-password">Confirm Password:</label>
-            <input type="password" id="ca-confirm-password" name="ca-confirm-password" onChange={(e) => setConfirmPassword(e.target.value)} required></input>
-          </div>
+            <div className="ca-form-input">
+              <label htmlFor="ca-password">Password:</label>
+              <input type="password" id="ca-password" name="ca-password" onChange={(e) => setPassword(e.target.value)} required></input>
+            </div>
 
-          <input type="submit" value="Sign up!" id="ca-signup-btn"></input>
+            <div className="ca-form-input">
+              <label htmlFor="ca-confirm-password">Confirm Password:</label>
+              <input type="password" id="ca-confirm-password" name="ca-confirm-password" onChange={(e) => setConfirmPassword(e.target.value)} required></input>
+            </div>
 
-          <span className="ca-subtext">Already have an account? <Link to="/login">Login</Link></span>
+            <input type="submit" value="Sign up!" id="ca-signup-btn"></input>
 
-        </form>
+            <span className="ca-subtext">Already have an account? <Link to="/login">Login</Link></span>
+
+          </form>
+
+        </div>
+      
       </div>
 
     </section>

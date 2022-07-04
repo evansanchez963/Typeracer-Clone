@@ -4,14 +4,14 @@ const errorResponse = require("../utils/errorResponse")
 
 exports.createAccount = async (req, res, next) => {
 
-  const {email, username, password} = req.body
+  const { email, username, password } = req.body
 
   try {
 
-    const usernameExists = await User.findOne({ username })
+    const usernameExists = await User.findOne({ username: username })
     if(usernameExists) return next(errorResponse("Username already exists!", 400))
 
-    const emailExists = await User.findOne({ email })
+    const emailExists = await User.findOne({ email: email })
     if(emailExists) return next(errorResponse("Email is already in use!", 400))
 
     const user = await User.create({
@@ -30,12 +30,12 @@ exports.createAccount = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
 
-  const {username, password} = req.body
+  const { username, password } = req.body
 
   if(!username || !password) return next(errorResponse("Please provide a username and password.", 400))
   
   try {
-    const user = await User.findOne({ username }).select("+password")
+    const user = await User.findOne({ username: username }).select("+password")
     if(!user) return next(errorResponse("Invalid credentials.", 401))
 
     const isMatch = await user.matchPassword(password)
