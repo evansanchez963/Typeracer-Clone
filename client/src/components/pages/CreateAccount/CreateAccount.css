@@ -10,6 +10,11 @@
   width: 100%;
 }
 
+.ca-error-message {
+  color: red;
+  font-size: small;
+}
+
 .ca-form-container>*,
 #ca-form>*,
 .ca-form-input>* {
@@ -28,6 +33,15 @@
   color: white;
   text-indent: 0.1rem;
   width: 10rem;
+}
+
+.ca-subtext {
+  font-size: small;
+}
+
+.ca-subtext a {
+  background-color: inherit;
+  color: white;
 }
 
 #ca-signup-btn {

@@ -10,9 +10,16 @@
   width: 100%;
 }
 
+.login-error-message {
+  color: red;
+  font-size: small;
+}
+
+
 .login-form-container>*,
-#login-form>*,
-.login-form-input>* {
+.login-form-wrapper>*,
+.login-form-input>*,
+#login-form>* {
   background-color: inherit;
 }
 
@@ -28,6 +35,15 @@
   color: white;
   text-indent: 0.1rem;
   width: 10rem;
+}
+
+.login-subtext {
+  font-size: small;
+}
+
+.login-subtext a {
+  background-color: inherit;
+  color: white;
 }
 
 #login-signup-btn {
