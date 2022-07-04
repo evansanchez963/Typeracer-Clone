@@ -8,6 +8,12 @@ exports.createAccount = async (req, res, next) => {
 
   try {
 
+    const usernameExists = await User.findOne({ username })
+    if(usernameExists) return next(errorResponse("Username already exists!", 400))
+
+    const emailExists = await User.findOne({ email })
+    if(emailExists) return next(errorResponse("Email is already in use!", 400))
+
     const user = await User.create({
       email: email, 
       username: username, 
@@ -30,11 +36,9 @@ exports.login = async (req, res, next) => {
   
   try {
     const user = await User.findOne({ username }).select("+password")
-
     if(!user) return next(errorResponse("Invalid credentials.", 401))
 
     const isMatch = await user.matchPassword(password)
-
     if(!isMatch) return next(errorResponse("Invalid credentials.", 401))
 
     sendToken(user, 201, res)
