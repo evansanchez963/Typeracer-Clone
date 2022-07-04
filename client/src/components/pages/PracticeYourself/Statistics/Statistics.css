@@ -1,5 +1,4 @@
 .game-stats-container {
-  background-color: transparent;
   display: grid;
   font-weight: bold;
   grid-template-rows: 2.5rem 5rem;
@@ -17,12 +16,7 @@
   padding: 0.5rem;
 }
 
-.stats-info p {
-  background-color: inherit;
-}
-
 .stat {
-  background-color: inherit;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -35,11 +29,6 @@
   flex-direction: column;
   justify-content: center;
   padding: 0.5rem;
-}
-
-.stat-container>*,
-.stat p {
-  background-color: transparent;
 }
 
 .stat-container:nth-child(2) {

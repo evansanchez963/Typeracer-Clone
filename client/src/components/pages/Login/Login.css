@@ -15,14 +15,6 @@
   font-size: small;
 }
 
-
-.login-form-container>*,
-.login-form-wrapper>*,
-.login-form-input>*,
-#login-form>* {
-  background-color: inherit;
-}
-
 .login-form-input {
   display: flex;
   flex-direction: column;
@@ -42,7 +34,6 @@
 }
 
 .login-subtext a {
-  background-color: inherit;
   color: white;
 }
 
@@ -63,6 +54,7 @@
 
 #login {
   align-items: center;
+  background-color: #111111;
   color: white;
   display: flex;
   flex-direction: column;

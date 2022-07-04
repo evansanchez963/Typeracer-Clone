@@ -15,12 +15,6 @@
   font-size: small;
 }
 
-.ca-form-container>*,
-#ca-form>*,
-.ca-form-input>* {
-  background-color: inherit;
-}
-
 .ca-form-input {
   display: flex;
   flex-direction: column;
@@ -40,7 +34,6 @@
 }
 
 .ca-subtext a {
-  background-color: inherit;
   color: white;
 }
 
@@ -61,6 +54,7 @@
 
 #create-account {
   align-items: center;
+  background-color: #111111;
   color: white;
   display: flex;
   flex-direction: column;

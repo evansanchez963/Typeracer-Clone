@@ -22,11 +22,7 @@
 }
 
 #paragraph p {
-  background-color: transparent;
   font-size: large;
   margin-left: 0.5rem;
 }
 
-#paragraph span {
-  background-color: transparent;
-}

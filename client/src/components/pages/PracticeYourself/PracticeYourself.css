@@ -25,12 +25,12 @@
 }
 
 .typing-box p {
-  background-color: inherit;
   font-size: large;
   margin-left: 0.5rem;
 }
 
 #practice-yourself {
+  background-color: #111111;
   display: flex;
   grid-column: 2 / 3;
   justify-content: center;
