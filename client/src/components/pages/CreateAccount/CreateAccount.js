@@ -1,5 +1,6 @@
 import { Link, Navigate } from "react-router-dom"
 import { useState, useEffect } from "react"
+import axios from "axios"
 import "./CreateAccount.css"
 
 const CreateAccount = () => {
@@ -15,40 +16,32 @@ const CreateAccount = () => {
     e.preventDefault()
 
     const userData = {
-      email: email,
-      username: username,
-      password: password
+      email,
+      username,
+      password
+    }
+    const config = { 
+      header: {
+        "Content-Type":"application/json"
+      }
     }
 
     if(password !== confirmPassword) return setError("Passwords do not match!")
 
-    const response = await fetch(
-      "http://localhost:5000/api/auth/createaccount",
-      { 
-        method: "POST",
-        headers: {
-          "Content-Type":"application/json"
-        },
-        body: JSON.stringify(userData)
-      }
-    )
+    try {
+      const { data } = await axios.post(
+        "api/auth/createaccount",
+        userData,
+        config
+      )
 
-    if(!response.ok) {
-      setError(response.statusText)
-      return
+      // If successful, log in user.
+      localStorage.setItem("authToken", data.token)
+      setIsLoggedIn(true)
+    } catch (err) {
+      // Display error in form.
+      setError(err.response.data.error)
     }
-
-    const responseJSON = await response.json()
-
-    if(responseJSON.hasOwnProperty("error")) {
-      setError(responseJSON.error)
-      return
-    }
-
-    localStorage.setItem("authToken", responseJSON.token)
-
-    setIsLoggedIn(true)
-    return
   }
 
   useEffect(() => {

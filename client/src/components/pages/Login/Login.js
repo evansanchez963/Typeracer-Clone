@@ -27,12 +27,13 @@ const Login = () => {
         config
       )
   
+      // If successful, log in user.
       localStorage.setItem("authToken", data.token)
       setIsLoggedIn(true)
     } catch (err) {
+      // Display error in form.
       setError(err.response.data.error)
     }
-
   }
 
   useEffect(() => {
