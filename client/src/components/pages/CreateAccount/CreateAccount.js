@@ -1,16 +1,20 @@
-import { Link, Navigate } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import "./CreateAccount.css"
 
-const CreateAccount = () => {
+const CreateAccount = ({ isLoggedIn, loginHandler }) => {
 
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(isLoggedIn) navigate("/")
+  }, [isLoggedIn, navigate])
 
   const createAccountHandler = async (e) => {
     e.preventDefault()
@@ -36,23 +40,13 @@ const CreateAccount = () => {
       )
 
       // If successful, log in user.
-      localStorage.setItem("authToken", data.token)
-      setIsLoggedIn(true)
+      loginHandler(data.token)
     } catch (err) {
       // Display error in form.
       setError(err.response.data.error)
     }
   }
 
-  useEffect(() => {
-    if(localStorage.getItem("authToken")) {
-      setIsLoggedIn(true)
-    }
-  }, [isLoggedIn])
-
-  if(isLoggedIn) {
-    return <Navigate to="/"/>
-  }
   return (
     <section id="create-account">
 
@@ -68,22 +62,22 @@ const CreateAccount = () => {
 
             <div className="ca-form-input">
               <label htmlFor="ca-username">Username:</label>
-              <input type="text" id="ca-username" name="ca-username" onChange={(e) => setUsername(e.target.value)} required></input>
+              <input type="text" id="ca-username" name="ca-username" onChange={(e) => setUsername(e.target.value)} value={username} required></input>
             </div>
 
             <div className="ca-form-input">
               <label htmlFor="ca-email">Email:</label>
-              <input type="email" id="ca-email" name="ca-email" onChange={(e) => setEmail(e.target.value)} required></input>
+              <input type="email" id="ca-email" name="ca-email" onChange={(e) => setEmail(e.target.value)} value={email} required></input>
             </div>
 
             <div className="ca-form-input">
               <label htmlFor="ca-password">Password:</label>
-              <input type="password" id="ca-password" name="ca-password" onChange={(e) => setPassword(e.target.value)} required></input>
+              <input type="password" id="ca-password" name="ca-password" onChange={(e) => setPassword(e.target.value)} value={password} required></input>
             </div>
 
             <div className="ca-form-input">
               <label htmlFor="ca-confirm-password">Confirm Password:</label>
-              <input type="password" id="ca-confirm-password" name="ca-confirm-password" onChange={(e) => setConfirmPassword(e.target.value)} required></input>
+              <input type="password" id="ca-confirm-password" name="ca-confirm-password" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} required></input>
             </div>
 
             <input type="submit" value="Sign up!" id="ca-signup-btn"></input>

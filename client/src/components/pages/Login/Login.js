@@ -1,16 +1,20 @@
-import { Link, Navigate } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import "./Login.css"
 
-const Login = () => {
+const Login = ({ isLoggedIn, loginHandler }) => {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const navigate = useNavigate()
 
-  const loginHandler = async (e) => {
+  useEffect(() => {
+    if(isLoggedIn) navigate("/")
+  }, [isLoggedIn, navigate])
+
+  const loginFormHandler = async (e) => {
     e.preventDefault()
 
     const userData = { username, password }
@@ -28,23 +32,14 @@ const Login = () => {
       )
   
       // If successful, log in user.
-      localStorage.setItem("authToken", data.token)
-      setIsLoggedIn(true)
+      loginHandler(data.token)
+      navigate("/")
     } catch (err) {
       // Display error in form.
       setError(err.response.data.error)
     }
   }
 
-  useEffect(() => {
-    if(localStorage.getItem("authToken")) {
-      setIsLoggedIn(true)
-    }
-  }, [isLoggedIn])
-
-  if(isLoggedIn) {
-    return <Navigate to="/"/>
-  }
   return (
     <section id="login">
 
@@ -56,16 +51,16 @@ const Login = () => {
 
           {error && <span className="login-error-message">*{error}</span>}
 
-          <form id="login-form" onSubmit={loginHandler}>
+          <form id="login-form" onSubmit={loginFormHandler}>
 
             <div className="login-form-input">
               <label htmlFor="login-username">Username:</label>
-              <input type="text" id="login-username" name="login-username" onChange={(e) => setUsername(e.target.value)} required></input>
+              <input type="text" id="login-username" name="login-username" onChange={(e) => setUsername(e.target.value)} value={username} required></input>
             </div>
 
             <div className="login-form-input">
               <label htmlFor="login-password">Password:</label>
-              <input type="password" id="login-password" name="login-password" onChange={(e) => setPassword(e.target.value)} required></input>
+              <input type="password" id="login-password" name="login-password" onChange={(e) => setPassword(e.target.value)} value={password} required></input>
             </div>
 
             <input type="submit" value="Log In" id="login-signup-btn"></input>

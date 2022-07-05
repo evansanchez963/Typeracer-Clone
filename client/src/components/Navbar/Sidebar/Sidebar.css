@@ -1,13 +1,11 @@
 .sidebar-icon-container {
   align-items: center;
-  background-color: transparent;
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
 .sidebar-icon-links {
-  background-color: transparent;
   color: white;
   display: flex;
   flex-direction: column;
@@ -15,7 +13,6 @@
 }
 
 .sidebar-link-container {
-  background-color: transparent;
   display: flex;
   flex-direction: column;
 }
@@ -41,12 +38,6 @@
 
 .sidebar-link:hover {
   background-color: #005894;
-}
-
-.sidebar-link,
-.sidebar-link>*,
-#sidebar a {
-  background-color: inherit;
 }
 
 .sidebar-link p,
@@ -83,7 +74,6 @@
 }
 
 #sidebar-close-btn {
-  background-color: transparent;
   color: white;
   cursor: pointer;
   display: block;
@@ -93,6 +83,5 @@
 }
 
 #sidebar-user-icon {
-  background-color: transparent;
   color: white;
 }

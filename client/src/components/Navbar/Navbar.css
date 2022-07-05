@@ -67,8 +67,9 @@
 
 @media (max-width: 1000px) {
   .nav-link,
-  .nav-btn-row {
-    display: none;
+  .nav-btn-row,
+  .nav-user-settings {
+    display: none !important;
   }
 
   #hamburger-menu {
