@@ -6,28 +6,38 @@ import "./App.css"
 const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [savedUsername, setSavedUsername] = useState("")
 
   // Check if a user was last logged in in local storage.
   useEffect(() => {
-    if(localStorage.getItem("authToken")) {
+    const lastLoggedIn = localStorage.getItem("userData")
+    if(lastLoggedIn) {
+      const userObject = JSON.parse(lastLoggedIn)
+      setSavedUsername(userObject.username)
       setIsLoggedIn(true)
     }
   }, [])
 
-  const loginHandler = (token) => {
-    localStorage.setItem("authToken", token)
+  const loginHandler = (token, username) => {
+    const userObject = {
+      username: username,
+      token: token
+    }
+    localStorage.setItem("userData", JSON.stringify(userObject))
+    setSavedUsername(username)
     setIsLoggedIn(true)
   }
 
   const logoutHandler = () => {
-    localStorage.removeItem("authToken")
+    localStorage.removeItem("userData")
+    setSavedUsername("")
     setIsLoggedIn(false)
   }
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Navbar isLoggedIn={isLoggedIn} logoutHandler={logoutHandler}/>
+        <Navbar isLoggedIn={isLoggedIn} username={savedUsername} logoutHandler={logoutHandler}/>
         <div id="ad-1"></div>
         <Routes>
           <Route path="/" exact element={<Homepage/>}></Route>

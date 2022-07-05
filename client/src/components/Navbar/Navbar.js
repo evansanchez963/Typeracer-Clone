@@ -8,7 +8,7 @@ import { GoThreeBars } from "react-icons/go"
 import Sidebar from "./Sidebar/Sidebar"
 import "./Navbar.css"
 
-const Navbar = ({ isLoggedIn, logoutHandler }) => {
+const Navbar = ({ isLoggedIn, username, logoutHandler }) => {
   const [sidebarActive, setSidebarActive] = useState(false)
 
   const toggleSidebar = () => setSidebarActive(prev => !prev)
@@ -45,7 +45,7 @@ const Navbar = ({ isLoggedIn, logoutHandler }) => {
       <div className="nav-user-settings" style={{display: isLoggedIn ? "flex":"none"}}>
         <GiFullMotorcycleHelmet className="helmet-icon" size={40}/>
         <div className="nav-user-info">
-          <p>Username</p>
+          <p>{username}</p>
           <div className="nav-user-icons">
             <GoGear size={20}/>
             <MdExitToApp size={20} onClick={logoutHandler}/>

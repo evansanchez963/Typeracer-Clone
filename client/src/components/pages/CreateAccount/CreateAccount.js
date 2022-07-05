@@ -40,7 +40,7 @@ const CreateAccount = ({ isLoggedIn, loginHandler }) => {
       )
 
       // If successful, log in user.
-      loginHandler(data.token)
+      loginHandler(data.token, username)
     } catch (err) {
       // Display error in form.
       setError(err.response.data.error)
