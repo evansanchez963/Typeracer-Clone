@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { IoClose } from "react-icons/io5" 
 import { FaUserCircle } from "react-icons/fa"
+import { GiFullMotorcycleHelmet } from "react-icons/gi"
 import "./Sidebar.css"
 
 const Sidebar = ({ sidebarActive, toggleSidebar, isLoggedIn, logoutHandler }) => {
@@ -9,7 +10,10 @@ const Sidebar = ({ sidebarActive, toggleSidebar, isLoggedIn, logoutHandler }) =>
       <IoClose id="sidebar-close-btn" onClick={toggleSidebar} size={30}/>
 
       <div className="sidebar-icon-container">
-        <FaUserCircle id="sidebar-user-icon" size={40}></FaUserCircle>
+
+        <FaUserCircle className="sidebar-icon" size={40} style={{ display: isLoggedIn ? "none":"block" }}></FaUserCircle>
+        <GiFullMotorcycleHelmet className="sidebar-icon" size={40} style={{ display: isLoggedIn ? "block":"none" }}></GiFullMotorcycleHelmet>
+
         <div className="sidebar-icon-links">
           <Link to="/create-account" className="sidebar-icon-link" style={{ display: isLoggedIn ? "none":"block" }} onClick={toggleSidebar}>Create Account</Link> 
           <Link to="/" className="sidebar-icon-link" style={{ display: isLoggedIn ? "block":"none" }} onClick={toggleSidebar}>Account Settings</Link> 
@@ -22,6 +26,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar, isLoggedIn, logoutHandler }) =>
             }}>Log Out
           </Link>
         </div>
+
       </div>
 
       <div className="sidebar-link-container">

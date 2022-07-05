@@ -16,6 +16,15 @@
   text-decoration: underline;
 }
 
+.signup-info {
+  background-color: #8658ba;
+  border-radius: 0.5rem;
+  font-size: small;
+  font-weight: bold;
+  margin: auto;
+  padding: 0.8rem;
+}
+
 .nav-btn-row {
   display: flex;
   gap: 1rem;
@@ -31,17 +40,39 @@
   filter: brightness(0.8);
 }
 
-.signup-info {
-  background-color: #8658ba;
-  border-radius: 0.5rem;
-  font-size: small;
-  font-weight: bold;
-  margin: auto;
-  padding: 0.8rem;
-}
-
 .nav-btn-row a {
   color: white;
+}
+
+.nav-user-settings {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  justify-content: center;
+}
+
+.helmet-icon,
+.nav-user-icons>* {
+  background-color: #8658ba;
+  border-radius: 0.4rem;
+  padding: 0.1rem;
+}
+
+.nav-user-icons>* {
+  cursor: pointer;
+}
+
+
+
+.nav-user-icons {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
 }
 
 #navbar {

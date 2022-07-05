@@ -42,11 +42,15 @@ const Navbar = ({ isLoggedIn, logoutHandler }) => {
         <Link to="/login"><button className="nav-btn">Sign In</button></Link>
       </div>
 
-      <div className="nav-user-settings" style={{display: isLoggedIn ? "block":"none"}}>
-        <GiFullMotorcycleHelmet size={30}/>
-        <p>Username</p>
-        <GoGear size={10}/>
-        <MdExitToApp size={10} onClick={logoutHandler}/>
+      <div className="nav-user-settings" style={{display: isLoggedIn ? "flex":"none"}}>
+        <GiFullMotorcycleHelmet className="helmet-icon" size={40}/>
+        <div className="nav-user-info">
+          <p>Username</p>
+          <div className="nav-user-icons">
+            <GoGear size={20}/>
+            <MdExitToApp size={20} onClick={logoutHandler}/>
+          </div>
+        </div>
       </div>
 
       <GoThreeBars id="hamburger-menu" size={30} onClick={toggleSidebar}/>
