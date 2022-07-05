@@ -48,28 +48,26 @@ const Login = ({ isLoggedIn, loginHandler }) => {
         <h1>Log In</h1>
 
           <div className="login-form-wrapper">
+            {error && <span className="login-error-message">*{error}</span>}
 
-          {error && <span className="login-error-message">*{error}</span>}
+            <form id="login-form" onSubmit={loginFormHandler}>
 
-          <form id="login-form" onSubmit={loginFormHandler}>
+              <div className="login-form-input">
+                <label htmlFor="login-username">Username:</label>
+                <input type="text" id="login-username" name="login-username" onChange={(e) => setUsername(e.target.value)} value={username} required></input>
+              </div>
 
-            <div className="login-form-input">
-              <label htmlFor="login-username">Username:</label>
-              <input type="text" id="login-username" name="login-username" onChange={(e) => setUsername(e.target.value)} value={username} required></input>
-            </div>
+              <div className="login-form-input">
+                <label htmlFor="login-password">Password:</label>
+                <input type="password" id="login-password" name="login-password" onChange={(e) => setPassword(e.target.value)} value={password} required></input>
+              </div>
 
-            <div className="login-form-input">
-              <label htmlFor="login-password">Password:</label>
-              <input type="password" id="login-password" name="login-password" onChange={(e) => setPassword(e.target.value)} value={password} required></input>
-            </div>
+              <input type="submit" value="Log In" id="login-signup-btn"></input>
 
-            <input type="submit" value="Log In" id="login-signup-btn"></input>
+              <span className="login-subtext">Don't have an account? <Link to="/create-account">Create an Account</Link></span>
 
-            <span className="login-subtext">Don't have an account? <Link to="/create-account">Create an Account</Link></span>
-
-          </form>
-
-        </div>
+            </form>
+          </div>
 
       </div>
 

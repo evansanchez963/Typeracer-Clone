@@ -55,7 +55,6 @@ const CreateAccount = ({ isLoggedIn, loginHandler }) => {
         <h1>Create Account</h1>
 
         <div className="ca-form-wrapper">
-
           {error && <span className="ca-error-message">*{error}</span>}
 
           <form id="ca-form" onSubmit={createAccountHandler}>
@@ -85,7 +84,6 @@ const CreateAccount = ({ isLoggedIn, loginHandler }) => {
             <span className="ca-subtext">Already have an account? <Link to="/login">Login</Link></span>
 
           </form>
-
         </div>
       
       </div>
