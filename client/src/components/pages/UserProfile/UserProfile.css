@@ -10,6 +10,34 @@
   width: 100%;
 }
 
+.user-profile-container {
+  gap: 0.5rem;
+}
+
+.user-profile-container h2 {
+  font-size: medium;
+}
+
+.user-profile-container hr {
+  color: white;
+  margin-bottom: 0.2rem;
+}
+
+.user-info-input,
+.user-password-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info-input input,
+.user-password-input input {
+  background-color: #222222;
+  border: 1px solid #515151;
+  color: white;
+  text-indent: 0.1rem;
+  width: 10rem;
+}
+
 .user-stats-container {
   display: grid;
   font-weight: bold;
@@ -63,4 +91,15 @@
   gap: 2rem;
   grid-column: 2 / 3;
   padding: 1rem;
+}
+
+#user-info-submit,
+#user-password-submit {
+  background-color: #8658ba;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+  margin-top: 0.2rem;
+  padding: 0.2rem;
 }
