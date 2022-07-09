@@ -21,7 +21,6 @@ const UserProfile = ({ isLoggedIn }) => {
 
       <div className="user-profile-container">
         <h1>Profile</h1>
-
         <div className="user-personal-info">
           <h2>1. Personal Information (update info here)</h2>
           <hr></hr>
@@ -37,7 +36,6 @@ const UserProfile = ({ isLoggedIn }) => {
             <input type="submit" value="Submit" id="user-info-submit"></input>
           </form>
         </div>
-
         <div className="user-change-password">
           <h2>2. Change Password (optional)</h2>
           <hr></hr>
@@ -59,7 +57,6 @@ const UserProfile = ({ isLoggedIn }) => {
         <div className="user-stats-info">
           <p>Statistics:</p>
         </div>
-
         <div className="user-stat-container">
           <BsFillKeyboardFill size={30}/>
           <div className="user-stat">
@@ -67,7 +64,6 @@ const UserProfile = ({ isLoggedIn }) => {
             <p>{avgWPM} WPM</p>
           </div>
         </div>
-
         <div className="user-stat-container">
           <SiSpeedtest size={30}/>
           <div className="user-stat">
@@ -75,7 +71,6 @@ const UserProfile = ({ isLoggedIn }) => {
             <p>{highestWPM} WPM</p>
           </div>
         </div>
-
         <div className="user-stat-container">
           <FaFlagCheckered size={30}/>
           <div className="user-stat">
@@ -87,7 +82,6 @@ const UserProfile = ({ isLoggedIn }) => {
 
       <div className="danger-zone-container">
         <h1>Danger Zone</h1>
-
         <button className="danger-option">Delete Progress</button>
         <button className="danger-option">Delete Account</button>
       </div>
