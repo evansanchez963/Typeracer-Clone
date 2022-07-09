@@ -1,6 +1,15 @@
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import "./UserProfile.css"
 
-const UserProfile = () => {
+const UserProfile = ({ isLoggedIn }) => {
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!isLoggedIn) navigate("/")
+  }, [isLoggedIn, navigate])
+
   return (
     <section id="user-profile">
 
