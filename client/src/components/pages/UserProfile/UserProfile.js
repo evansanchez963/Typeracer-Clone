@@ -88,8 +88,8 @@ const UserProfile = ({ isLoggedIn }) => {
       <div className="danger-zone-container">
         <h1>Danger Zone</h1>
 
-        <button>Delete Progress</button>
-        <button>Delete Account</button>
+        <button className="danger-option">Delete Progress</button>
+        <button className="danger-option">Delete Account</button>
       </div>
 
     </section>
