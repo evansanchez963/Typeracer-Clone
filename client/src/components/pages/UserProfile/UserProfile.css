@@ -19,6 +19,7 @@
 
 #user-profile {
   align-items: center;
+  background-color: #111111;
   color: white;
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { logo } from "../../images/index"
 import { GiFullMotorcycleHelmet } from "react-icons/gi"
 import { GoGear } from "react-icons/go"
@@ -10,6 +10,7 @@ import "./Navbar.css"
 
 const Navbar = ({ isLoggedIn, username, logoutHandler }) => {
   const [sidebarActive, setSidebarActive] = useState(false)
+  const navigate = useNavigate()
 
   const toggleSidebar = () => setSidebarActive(prev => !prev)
 
@@ -47,14 +48,14 @@ const Navbar = ({ isLoggedIn, username, logoutHandler }) => {
         <div className="nav-user-info">
           <p>{username}</p>
           <div className="nav-user-icons">
-            <GoGear size={20}/>
+            <GoGear size={20} onClick={() => navigate(`/user/${username}`)}></GoGear>
             <MdExitToApp size={20} onClick={logoutHandler}/>
           </div>
         </div>
       </div>
 
       <GoThreeBars id="hamburger-menu" size={30} onClick={toggleSidebar}/>
-      <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar} isLoggedIn={isLoggedIn} logoutHandler={logoutHandler}/>
+      <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar} isLoggedIn={isLoggedIn} username={username} logoutHandler={logoutHandler}/>
 
     </nav>
   )
