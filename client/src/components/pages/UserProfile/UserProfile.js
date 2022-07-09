@@ -23,7 +23,7 @@ const UserProfile = ({ isLoggedIn }) => {
         <h1>Profile</h1>
 
         <div className="user-personal-info">
-          <h2>1. Personal Information</h2>
+          <h2>1. Personal Information (update info here)</h2>
           <hr></hr>
           <form id="user-info-form">
             <div className="user-info-input">
