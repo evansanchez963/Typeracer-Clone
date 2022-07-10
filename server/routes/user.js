@@ -1,9 +1,9 @@
 const express = require("express")
 const router = express.Router()
-const { getPrivateData } = require("../controllers/user")
+const { getUserInfo } = require("../controllers/user")
 const { protect } = require("../middleware/protect")
 
 // Get private data from specific user.
-router.route("/:userId").get(protect, getPrivateData)
+router.route("/:userId").get(protect, getUserInfo)
 
 module.exports = router
