@@ -16,7 +16,7 @@ app.use(cors({
   methods: ["GET", "POST"] 
 }))
 app.use("/api/auth", require("./routes/auth"))
-app.use("/api/private", require("./routes/private"))
+app.use("/api/user", require("./routes/user"))
 app.use(errorHandler)
 
 const port = process.env.PORT || 5000
