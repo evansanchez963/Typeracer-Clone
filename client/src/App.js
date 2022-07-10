@@ -6,38 +6,38 @@ import "./App.css"
 const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [savedUsername, setSavedUsername] = useState("")
+  const [userId, setUserId] = useState("")
 
   // Check if a user was last logged in in local storage.
   useEffect(() => {
     const lastLoggedIn = localStorage.getItem("userData")
     if(lastLoggedIn) {
       const userObject = JSON.parse(lastLoggedIn)
-      setSavedUsername(userObject.username)
+      setUserId(userObject.id)
       setIsLoggedIn(true)
     }
   }, [])
 
-  const loginHandler = (token, username) => {
+  const loginHandler = (token, userId) => {
     const userObject = {
-      username: username,
+      userId: userId,
       token: token
     }
     localStorage.setItem("userData", JSON.stringify(userObject))
-    setSavedUsername(username)
+    setUserId(userObject.userId)
     setIsLoggedIn(true)
   }
 
   const logoutHandler = () => {
     localStorage.removeItem("userData")
-    setSavedUsername("")
+    setUserId("")
     setIsLoggedIn(false)
   }
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Navbar isLoggedIn={isLoggedIn} username={savedUsername} logoutHandler={logoutHandler}/>
+        <Navbar isLoggedIn={isLoggedIn} userId={userId} logoutHandler={logoutHandler}/>
         <div id="ad-1"></div>
         <Routes>
           <Route exact path="/" element={<Homepage/>}></Route>
@@ -45,7 +45,7 @@ const App = () => {
           <Route exact path="/practice-yourself" element={<PracticeYourself/>}></Route>
           <Route exact path="/create-account" element={<CreateAccount isLoggedIn={isLoggedIn} loginHandler={loginHandler}/>}></Route>
           <Route exact path="/login" element={<Login isLoggedIn={isLoggedIn} loginHandler={loginHandler}/>}></Route>
-          <Route exact path="/user/:username" element={<UserProfile isLoggedIn={isLoggedIn}/>}></Route>
+          <Route exact path="/user/:userId" element={<UserProfile isLoggedIn={isLoggedIn}/>}></Route>
         </Routes>
         <div id="ad-2"></div>
         <Footer/>

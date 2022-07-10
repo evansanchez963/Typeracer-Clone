@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa"
 import { GiFullMotorcycleHelmet } from "react-icons/gi"
 import "./Sidebar.css"
 
-const Sidebar = ({ sidebarActive, toggleSidebar, isLoggedIn, username, logoutHandler }) => {
+const Sidebar = ({ sidebarActive, toggleSidebar, isLoggedIn, userId, logoutHandler }) => {
   return (
     <div id="sidebar" className={sidebarActive ? "is-active":""}>
       <IoClose id="sidebar-close-btn" onClick={toggleSidebar} size={30}/>
@@ -16,7 +16,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar, isLoggedIn, username, logoutHan
 
         <div className="sidebar-icon-links">
           <Link to="/create-account" className="sidebar-icon-link" style={{ display: isLoggedIn ? "none":"block" }} onClick={toggleSidebar}>Create Account</Link> 
-          <Link to={`user/${username}`} className="sidebar-icon-link" style={{ display: isLoggedIn ? "block":"none" }} onClick={toggleSidebar}>Account Settings</Link> 
+          <Link to={`user/${userId}`} className="sidebar-icon-link" style={{ display: isLoggedIn ? "block":"none" }} onClick={toggleSidebar}>Account Settings</Link> 
           <br></br>
           <Link to="/login" className="sidebar-icon-link" style={{ display: isLoggedIn ? "none":"block" }} onClick={toggleSidebar}>Sign In</Link>
           <Link to="/" className="sidebar-icon-link" style={{ display: isLoggedIn ? "block":"none" }} 

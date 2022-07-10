@@ -7,8 +7,11 @@ import { MdExitToApp } from "react-icons/md"
 import { GoThreeBars } from "react-icons/go"
 import Sidebar from "./Sidebar/Sidebar"
 import "./Navbar.css"
+import axios from "axios"
 
-const Navbar = ({ isLoggedIn, username, logoutHandler }) => {
+const Navbar = ({ isLoggedIn, userId, logoutHandler }) => {
+
+  const [username, setUsername] = useState("Username")
   const [sidebarActive, setSidebarActive] = useState(false)
   const navigate = useNavigate()
 
@@ -24,6 +27,29 @@ const Navbar = ({ isLoggedIn, username, logoutHandler }) => {
 
     return () => window.removeEventListener("resize", handleResize)
   }, [])
+
+  // Get username from userId prop.
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const userObject = localStorage.getItem("userData")
+      const user = JSON.parse(userObject)
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${ user.token }`
+        }
+      }
+
+      try {
+        const { data } = await axios.get(`/api/user/${user.userId}`, config)
+        setUsername(data.username)
+      } catch {
+        logoutHandler()
+      }
+    }
+    
+    if(isLoggedIn) fetchUsername()
+  }, [isLoggedIn, logoutHandler])
 
   return (
     <nav id="navbar">
@@ -48,14 +74,14 @@ const Navbar = ({ isLoggedIn, username, logoutHandler }) => {
         <div className="nav-user-info">
           <p>{username}</p>
           <div className="nav-user-icons">
-            <GoGear size={20} onClick={() => navigate(`/user/${username}`)}></GoGear>
+            <GoGear size={20} onClick={() => navigate(`/user/${userId}`)}></GoGear>
             <MdExitToApp size={20} onClick={logoutHandler}/>
           </div>
         </div>
       </div>
 
       <GoThreeBars id="hamburger-menu" size={30} onClick={toggleSidebar}/>
-      <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar} isLoggedIn={isLoggedIn} username={username} logoutHandler={logoutHandler}/>
+      <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar} isLoggedIn={isLoggedIn} userId={userId} logoutHandler={logoutHandler}/>
 
     </nav>
   )

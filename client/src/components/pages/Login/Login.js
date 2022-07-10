@@ -32,7 +32,7 @@ const Login = ({ isLoggedIn, loginHandler }) => {
       )
   
       // If successful, log in user.
-      loginHandler(data.token, username)
+      loginHandler(data.token, data.id)
       navigate("/")
     } catch (err) {
       // Display error in form.
