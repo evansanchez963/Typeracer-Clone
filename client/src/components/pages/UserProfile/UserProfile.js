@@ -1,150 +1,20 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { BsFillKeyboardFill } from "react-icons/bs"
-import { SiSpeedtest } from "react-icons/si"
-import { FaFlagCheckered } from "react-icons/fa"
-import axios from "axios"
+import { UserInfo, UserStats, DangerZone } from "./index"
 import "./UserProfile.css"
 
 const UserProfile = ({ isLoggedIn }) => {
-
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [avgWPM, setAvgWPM] = useState(0)
-  const [highestWPM, setHighestWPM] = useState(0)
-  const [raceCount, setRaceCount] = useState(0)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userObject = localStorage.getItem("userData")
-      const user = JSON.parse(userObject)
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${ user.token }`
-        }
-      }
-
-      try {
-        const { data } = await axios.get(`/api/user/${user.userId}`, config)
-
-        setUsername(data.username)
-        setEmail(data.email)
-      } catch {
-        setUsername("Error")
-        setEmail("Error")
-      }
-    }
-
-    const fetchUserStats = async () => {
-      const userObject = localStorage.getItem("userData")
-      const user = JSON.parse(userObject)
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${ user.token }`
-        }
-      }
-
-      try {
-        const { data } = await axios.get(`/api/user/${user.userId}/stats`, config)
-
-        setAvgWPM(data.avgWPM)
-        setHighestWPM(data.highestWPM)
-        setRaceCount(data.raceCount)
-      } catch {
-        setAvgWPM("Error")
-        setHighestWPM("Error")
-        setRaceCount("Error")
-      }
-    }
-
     if(!isLoggedIn) navigate("/")
-    else if(isLoggedIn) {
-      fetchUserInfo()
-      fetchUserStats()
-    }
   }, [isLoggedIn, navigate])
-
-  const changeInfoHandler = (e) => {
-    e.preventDefault()
-  }
-
-  const changePasswordHandler = (e) => {
-    e.preventDefault()
-  }
 
   return (
     <section id="user-profile">
-
-      <div className="user-profile-container">
-        <h1>Profile</h1>
-        <div className="user-personal-info">
-          <h2>1. Personal Information (update info here)</h2>
-          <hr></hr>
-          <form id="user-info-form" onSubmit={changeInfoHandler}>
-            <div className="user-info-input">
-              <label htmlFor="user-info-username">Username:</label>
-              <input type="text" id="user-info-username" name="user-info-username" onChange={(e) => setUsername(e.target.value)} value={username}></input>
-            </div>
-            <div className="user-info-input">
-              <label htmlFor="user-info-email">Email:</label>
-              <input type="text" id="user-info-email" name="user-info-email" onChange={(e) => setEmail(e.target.value)} value={email}></input>
-            </div>
-            <input type="submit" value="Submit" id="user-info-submit"></input>
-          </form>
-        </div>
-        <div className="user-change-password">
-          <h2>2. Change Password (optional)</h2>
-          <hr></hr>
-          <form id="user-password-form" onSubmit={changePasswordHandler}>
-            <div className="user-password-input">
-              <label htmlFor="user-password">Password:</label>
-              <input type="text" id="user-password" name="user-password"></input>
-            </div>
-            <div className="user-password-input">
-              <label htmlFor="user-confirm-password">Confirm Password:</label>
-              <input type="text" id="user-confirm-password" name="user-confirm-password"></input>
-            </div>
-            <input type="submit" value="Submit" id="user-password-submit"></input>
-          </form>
-        </div>
-      </div>
-
-      <div className="user-stats-container">
-        <div className="user-stats-info">
-          <p>Statistics:</p>
-        </div>
-        <div className="user-stat-container">
-          <BsFillKeyboardFill size={30}/>
-          <div className="user-stat">
-            <p>Avg. WPM:&nbsp;</p>
-            <p>{avgWPM} WPM</p>
-          </div>
-        </div>
-        <div className="user-stat-container">
-          <SiSpeedtest size={30}/>
-          <div className="user-stat">
-            <p>Best Race:&nbsp;</p>
-            <p>{highestWPM} WPM</p>
-          </div>
-        </div>
-        <div className="user-stat-container">
-          <FaFlagCheckered size={30}/>
-          <div className="user-stat">
-            <p>Races:&nbsp;</p>
-            <p>{raceCount} Races</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="danger-zone-container">
-        <h1>Danger Zone</h1>
-        <button className="danger-option">Delete Progress</button>
-        <button className="danger-option">Delete Account</button>
-      </div>
-
+      <UserInfo isLoggedIn={isLoggedIn}></UserInfo>
+      <UserStats isLoggedIn={isLoggedIn}></UserStats>
+      <DangerZone isLoggedIn={isLoggedIn}></DangerZone>
     </section>
   )
 }

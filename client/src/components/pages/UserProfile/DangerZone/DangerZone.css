@@ -1,0 +1,25 @@
+.danger-zone-container {
+  background-color: #333333;
+  border: 1px solid #3B3B3B;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 50rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.danger-zone-container h1 {
+  color: red;
+  margin-bottom: 0.5rem;
+}
+
+.danger-option {
+  background-color: transparent;
+  color: #dc143c;
+  cursor: pointer;
+  margin-right: auto;
+  padding: 0.1rem;
+  text-decoration: underline;
+  width: auto;
+}
