@@ -7,7 +7,6 @@ exports.createAccount = async (req, res, next) => {
   const { email, username, password } = req.body
 
   try {
-
     const usernameExists = await User.findOne({ username: username })
     if(usernameExists) return next(errorResponse("Username already exists!", 400))
 
