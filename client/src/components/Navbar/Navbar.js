@@ -6,8 +6,8 @@ import { GoGear } from "react-icons/go"
 import { MdExitToApp } from "react-icons/md"
 import { GoThreeBars } from "react-icons/go"
 import Sidebar from "./Sidebar/Sidebar"
-import "./Navbar.css"
 import axios from "axios"
+import "./Navbar.css"
 
 const Navbar = ({ isLoggedIn, userId, logoutHandler }) => {
 

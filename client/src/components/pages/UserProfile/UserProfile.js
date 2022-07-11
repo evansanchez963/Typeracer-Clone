@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { BsFillKeyboardFill } from "react-icons/bs"
 import { SiSpeedtest } from "react-icons/si"
 import { FaFlagCheckered } from "react-icons/fa"
+import axios from "axios"
 import "./UserProfile.css"
 
 const UserProfile = ({ isLoggedIn }) => {
@@ -13,7 +14,31 @@ const UserProfile = ({ isLoggedIn }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    const fetchUserStats = async () => {
+      try {
+        const userObject = localStorage.getItem("userData")
+        const user = JSON.parse(userObject)
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${ user.token }`
+          }
+        }
+
+        const { data } = await axios.get(`api/user/${user.userId}/stats`, config)
+
+        setAvgWPM(data.avgWPM)
+        setHighestWPM(data.highestWPM)
+        setRaceCount(data.raceCount)
+      } catch {
+        setAvgWPM("Error")
+        setHighestWPM("Error")
+        setRaceCount("Error")
+      }
+    }
+
     if(!isLoggedIn) navigate("/")
+    else if(isLoggedIn) fetchUserStats()
   }, [isLoggedIn, navigate])
 
   return (
