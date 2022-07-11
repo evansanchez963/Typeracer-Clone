@@ -13,7 +13,7 @@ const app = express()
 app.use(express.json())
 app.use(cors({ 
   origin: process.env.URL,
-  methods: ["GET", "POST"] 
+  methods: ["GET", "POST", "PUT", "DELETE"] 
 }))
 app.use("/api/auth", require("./routes/auth"))
 app.use("/api/user", require("./routes/user"))
