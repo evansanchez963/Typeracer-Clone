@@ -25,7 +25,7 @@ const UserProfile = ({ isLoggedIn }) => {
           }
         }
 
-        const { data } = await axios.get(`api/user/${user.userId}/stats`, config)
+        const { data } = await axios.get(`/api/user/${user.userId}/stats`, config)
 
         setAvgWPM(data.avgWPM)
         setHighestWPM(data.highestWPM)
