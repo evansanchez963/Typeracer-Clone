@@ -28,6 +28,15 @@
   flex-direction: column;
 }
 
+.user-info-input input,
+.user-password-input input {
+  background-color: #222222;
+  border: 1px solid #515151;
+  color: white;
+  text-indent: 0.1rem;
+  width: 10rem;
+}
+
 #user-info-submit,
 #user-password-submit {
   background-color: #8658ba;
