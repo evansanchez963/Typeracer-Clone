@@ -8,23 +8,46 @@ import "./UserProfile.css"
 
 const UserProfile = ({ isLoggedIn }) => {
 
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [avgWPM, setAvgWPM] = useState(0)
   const [highestWPM, setHighestWPM] = useState(0)
   const [raceCount, setRaceCount] = useState(0)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchUserStats = async () => {
-      try {
-        const userObject = localStorage.getItem("userData")
-        const user = JSON.parse(userObject)
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ user.token }`
-          }
+    const fetchUserInfo = async () => {
+      const userObject = localStorage.getItem("userData")
+      const user = JSON.parse(userObject)
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${ user.token }`
         }
+      }
 
+      try {
+        const { data } = await axios.get(`/api/user/${user.userId}`, config)
+
+        setUsername(data.username)
+        setEmail(data.email)
+      } catch {
+        setUsername("Error")
+        setEmail("Error")
+      }
+    }
+
+    const fetchUserStats = async () => {
+      const userObject = localStorage.getItem("userData")
+      const user = JSON.parse(userObject)
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${ user.token }`
+        }
+      }
+
+      try {
         const { data } = await axios.get(`/api/user/${user.userId}/stats`, config)
 
         setAvgWPM(data.avgWPM)
@@ -38,8 +61,19 @@ const UserProfile = ({ isLoggedIn }) => {
     }
 
     if(!isLoggedIn) navigate("/")
-    else if(isLoggedIn) fetchUserStats()
+    else if(isLoggedIn) {
+      fetchUserInfo()
+      fetchUserStats()
+    }
   }, [isLoggedIn, navigate])
+
+  const changeInfoHandler = (e) => {
+    e.preventDefault()
+  }
+
+  const changePasswordHandler = (e) => {
+    e.preventDefault()
+  }
 
   return (
     <section id="user-profile">
@@ -49,14 +83,14 @@ const UserProfile = ({ isLoggedIn }) => {
         <div className="user-personal-info">
           <h2>1. Personal Information (update info here)</h2>
           <hr></hr>
-          <form id="user-info-form">
+          <form id="user-info-form" onSubmit={changeInfoHandler}>
             <div className="user-info-input">
               <label htmlFor="user-info-username">Username:</label>
-              <input type="text" id="user-info-username" name="user-info-username"></input>
+              <input type="text" id="user-info-username" name="user-info-username" onChange={(e) => setUsername(e.target.value)} value={username}></input>
             </div>
             <div className="user-info-input">
               <label htmlFor="user-info-email">Email:</label>
-              <input type="text" id="user-info-email" name="user-info-email"></input>
+              <input type="text" id="user-info-email" name="user-info-email" onChange={(e) => setEmail(e.target.value)} value={email}></input>
             </div>
             <input type="submit" value="Submit" id="user-info-submit"></input>
           </form>
@@ -64,7 +98,7 @@ const UserProfile = ({ isLoggedIn }) => {
         <div className="user-change-password">
           <h2>2. Change Password (optional)</h2>
           <hr></hr>
-          <form id="user-password-form">
+          <form id="user-password-form" onSubmit={changePasswordHandler}>
             <div className="user-password-input">
               <label htmlFor="user-password">Password:</label>
               <input type="text" id="user-password" name="user-password"></input>
