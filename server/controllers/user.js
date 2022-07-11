@@ -26,7 +26,7 @@ exports.getUserStats = async (req, res, next) => {
     const avgWPM = user.typing_sessions.reduce((avg, value, _, { length }) => {
       return (avg + value.WPM / length).toFixed()
     }, 0)
-    const highestWPM = Math.max(...user.typing_sessions.map(value => value.WPM))
+    const highestWPM = user.typing_sessions.length ? Math.max(...user.typing_sessions.map(value => value.WPM)) : 0
     const raceCount = user.typing_sessions.length
 
     return res.status(200).json({ 

@@ -56,6 +56,6 @@ exports.resetPassword = (req, res, next) => {
 }
 
 const sendToken = (user, statusCode, res) => {
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES })
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {})
   return res.status(statusCode).json({ success: true, id: user._id, token })
 }
