@@ -1,42 +1,9 @@
-import { useState, useEffect } from "react"
 import { BsFillKeyboardFill } from "react-icons/bs"
 import { SiSpeedtest } from "react-icons/si"
 import { FaFlagCheckered } from "react-icons/fa"
-import axios from "axios"
 import "./UserStats.css"
 
-const UserStats = ({ isLoggedIn }) => {
-  const [avgWPM, setAvgWPM] = useState(0)
-  const [highestWPM, setHighestWPM] = useState(0)
-  const [raceCount, setRaceCount] = useState(0)
-
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      const userObject = localStorage.getItem("userData")
-      const user = JSON.parse(userObject)
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.token}`
-        }
-      }
-  
-      try {
-        const { data } = await axios.get(`/api/user/${user.userId}/stats`, config)
-  
-        setAvgWPM(data.avgWPM)
-        setHighestWPM(data.highestWPM)
-        setRaceCount(data.raceCount)
-      } catch {
-        setAvgWPM("Error")
-        setHighestWPM("Error")
-        setRaceCount("Error")
-      }
-    }
-
-    if(isLoggedIn) fetchUserStats()
-  }, [isLoggedIn])
-
+const UserStats = ({ avgWPM, highestWPM, raceCount }) => {
   return (
     <div className="user-stats-container">
       <div className="user-stats-info">

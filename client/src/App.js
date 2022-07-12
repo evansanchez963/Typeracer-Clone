@@ -42,7 +42,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Homepage/>}></Route>
           <Route exact path="/about" element={<About/>}></Route>
-          <Route exact path="/practice-yourself" element={<PracticeYourself/>}></Route>
+          <Route exact path="/practice-yourself" element={<PracticeYourself isLoggedIn={isLoggedIn}/>}></Route>
           <Route exact path="/create-account" element={<CreateAccount isLoggedIn={isLoggedIn} loginHandler={loginHandler}/>}></Route>
           <Route exact path="/login" element={<Login isLoggedIn={isLoggedIn} loginHandler={loginHandler}/>}></Route>
           <Route exact path="/user/:userId" element={<UserProfile isLoggedIn={isLoggedIn} logoutHandler={logoutHandler}/>}></Route>

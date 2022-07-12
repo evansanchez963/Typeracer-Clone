@@ -4,7 +4,7 @@ import { useFetch, useTimers, useCalcWPM, useStats } from "./hooks/index"
 import { getCharClass, getWordClass, getTime, getAccuracy, handleKeyDown, handleChange } from "./helpers/index"
 import "./PracticeYourself.css"
 
-const PracticeYourself = () => {
+const PracticeYourself = ({ isLoggedIn }) => {
 
   const [gameStatus, setGameStatus] = useState({isStarted: false, isEnded: false})
   const { countdown, setCountdown, gameTimer } = useTimers(gameStatus, setGameStatus)

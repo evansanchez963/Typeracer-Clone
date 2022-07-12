@@ -1,37 +1,6 @@
-import { useState, useEffect } from "react"
-import axios from "axios"
 import "./UserInfo.css"
 
-const UserInfo = ({ isLoggedIn }) => {
-
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userObject = localStorage.getItem("userData")
-      const user = JSON.parse(userObject)
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${ user.token }`
-        }
-      }
-
-      try {
-        const { data } = await axios.get(`/api/user/${user.userId}`, config)
-
-        setUsername(data.username)
-        setEmail(data.email)
-      } catch {
-        setUsername("Error")
-        setEmail("Error")
-      }
-    }
-
-    if(isLoggedIn) fetchUserInfo()
-  }, [isLoggedIn])
-
+const UserInfo = ({ username, setUsername, email, setEmail }) => {
   const changeInfoHandler = (e) => {
     e.preventDefault()
   }

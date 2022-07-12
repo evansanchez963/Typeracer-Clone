@@ -1,7 +1,7 @@
 import axios from "axios"
 import "./DangerZone.css"
 
-const deleteProgressHandler = async () => {
+const deleteProgressHandler = async (resetUserStats) => {
   if(window.confirm("Are you sure you want to delete your progress?")) {
     const userObject = localStorage.getItem("userData")
     const user = JSON.parse(userObject)
@@ -14,8 +14,7 @@ const deleteProgressHandler = async () => {
 
     try {
       await axios.post(`/api/user/${ user.userId }/restart`, { arr: [] }, config)
-      // Reload page to display user stats correctly in UserStats component.
-      window.location.reload()
+      resetUserStats()
     } catch (err) {
       alert(err.message)
     }
@@ -42,11 +41,11 @@ const deleteAccountHandler = async (logoutHandler) => {
   }
 }
 
-const DangerZone = ({ logoutHandler }) => {
+const DangerZone = ({ logoutHandler, resetUserStats }) => {
   return (
     <div className="danger-zone-container">
       <h1>Danger Zone</h1>
-      <button className="danger-option" onClick={() => deleteProgressHandler()}>Delete Progress</button>
+      <button className="danger-option" onClick={() => deleteProgressHandler(resetUserStats)}>Delete Progress</button>
       <button className="danger-option" onClick={() => deleteAccountHandler(logoutHandler)}>Delete Account</button>
     </div>
   )
