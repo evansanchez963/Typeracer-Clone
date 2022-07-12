@@ -45,7 +45,7 @@ const App = () => {
           <Route exact path="/practice-yourself" element={<PracticeYourself/>}></Route>
           <Route exact path="/create-account" element={<CreateAccount isLoggedIn={isLoggedIn} loginHandler={loginHandler}/>}></Route>
           <Route exact path="/login" element={<Login isLoggedIn={isLoggedIn} loginHandler={loginHandler}/>}></Route>
-          <Route exact path="/user/:userId" element={<UserProfile isLoggedIn={isLoggedIn}/>}></Route>
+          <Route exact path="/user/:userId" element={<UserProfile isLoggedIn={isLoggedIn} logoutHandler={logoutHandler}/>}></Route>
         </Routes>
         <div id="ad-2"></div>
         <Footer/>
