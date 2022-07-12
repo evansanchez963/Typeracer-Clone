@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { GameStatusInfo, ProgressBar, Paragraph, Input, ButtonRow, Statistics } from "./index"
-import { useFetch, useTimers, useCalcWPM, useStats } from "./hooks/index"
-import { getCharClass, getWordClass, getTime, getAccuracy, handleKeyDown, handleChange } from "./helpers/index"
+import { useFetch, useTimers, useCalcWPM, useFinalWPM, useTime, useAccuracy } from "./hooks/index"
+import { getCharClass, getWordClass, getTime, handleKeyDown, handleChange } from "./helpers/index"
+import axios from "axios"
 import "./PracticeYourself.css"
 
 const PracticeYourself = ({ isLoggedIn }) => {
@@ -13,10 +14,51 @@ const PracticeYourself = ({ isLoggedIn }) => {
   const [idxInfo, setIdxInfo] = useState({currCharIdx: -1, currWordIdx: 0})
   const [userTypeInfo, setUserTypeInfo] = useState({charsTyped: 0, errors: 0})
   const WPM = useCalcWPM(gameTimer.time, userTypeInfo.charsTyped, userTypeInfo.errors)
-  const userStats = useStats(getAccuracy, gameStatus, gameTimer, setInputInfo, userTypeInfo, WPM) 
+  const finalWPM = useFinalWPM(gameStatus, WPM)
+  const time = useTime(gameStatus, gameTimer)
+  const accuracy = useAccuracy(gameStatus, userTypeInfo)
+  //const userStats = useStats(getAccuracy, gameStatus, gameTimer, setInputInfo, userTypeInfo, WPM, isLoggedIn) 
+
+  const userStats = { 
+    finalWPM: finalWPM, 
+    time: time, 
+    accuracy: accuracy 
+  }
+
+  useEffect(() => {
+    const pushUserStats = async () => {
+      const userObject = localStorage.getItem("userData")
+      const user = JSON.parse(userObject)
+      const userData = {
+        WPM: finalWPM,
+        time: time,
+        accuracy: accuracy,
+        date: Date.now()
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
+        }
+      }
+  
+      try {
+        await axios.put(
+          `api/user/${user.userId}/session`,
+          userData,
+          config
+        )
+      } catch (err) {
+        alert(err.message)
+      }
+    } 
+
+    if(gameStatus.isEnded) setInputInfo(prev => ({...prev, currInput: ""}))
+    if(gameStatus.isEnded && isLoggedIn) pushUserStats()
+  }, [isLoggedIn, gameStatus.isEnded, finalWPM, time, accuracy])
 
   const getStats = () => {
-    if(gameStatus.isEnded) return <Statistics userStats={userStats} getTime={getTime}/> 
+    if(gameStatus.isEnded) return <Statistics userStats={userStats}/> 
     else return <></>
   }
 

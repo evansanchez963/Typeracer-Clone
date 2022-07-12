@@ -1,11 +1,15 @@
 import useFetch from "./useFetch"
 import useTimers from "./useTimers"
 import useCalcWPM from "./useCalcWPM"
-import useStats from "./useStats"
+import useFinalWPM from "./useFinalWPM"
+import useTime from "./useTime"
+import useAccuracy from "./useAccuracy"
 
 export {
   useFetch, 
   useTimers, 
   useCalcWPM, 
-  useStats
+  useFinalWPM,
+  useTime,
+  useAccuracy
 }

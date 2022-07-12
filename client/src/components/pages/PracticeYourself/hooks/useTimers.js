@@ -4,7 +4,7 @@ const useTimers = (gameStatus, setGameStatus) => {
   const [countdown, setCountdown] = useState({time: 4000, on: false})
   const [gameTimer, setGameTimer] = useState({time: 60000, on: false})
 
-  // Countdown from 3 when first loaded into page.
+  // Countdown from 4 when first loaded into page.
   useEffect(() => {
     let interval = null
 
@@ -23,7 +23,7 @@ const useTimers = (gameStatus, setGameStatus) => {
     return () => clearInterval(interval)
   }, [setGameStatus, countdown.time, countdown.on, setCountdown]) 
 
-    // Start game timer when countdown is over and stop
+  // Start game timer when countdown is over and stop
   // when it has reached 0.
   useEffect(() => {
     let interval = null

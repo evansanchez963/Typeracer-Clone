@@ -38,7 +38,7 @@ const App = () => {
     <BrowserRouter>
       <div className="App">
         <Navbar isLoggedIn={isLoggedIn} userId={userId} logoutHandler={logoutHandler}/>
-        <div id="ad-1"></div>
+        <div id="col-1"></div>
         <Routes>
           <Route exact path="/" element={<Homepage/>}></Route>
           <Route exact path="/about" element={<About/>}></Route>
@@ -47,7 +47,7 @@ const App = () => {
           <Route exact path="/login" element={<Login isLoggedIn={isLoggedIn} loginHandler={loginHandler}/>}></Route>
           <Route exact path="/user/:userId" element={<UserProfile isLoggedIn={isLoggedIn} logoutHandler={logoutHandler}/>}></Route>
         </Routes>
-        <div id="ad-2"></div>
+        <div id="col-2"></div>
         <Footer/>
       </div>  
     </BrowserRouter>

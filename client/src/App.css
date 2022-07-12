@@ -25,16 +25,16 @@ button {
   min-height: 100vh;  
 }
 
-#ad-1,
-#ad-2 {
+#col-1,
+#col-2 {
   background-color: #111111;
 }
 
-#ad-1 {
+#col-1 {
   grid-column: 1 / 2;
 }
 
-#ad-2 {
+#col-2 {
   grid-column: 3 / 4;
 }
 
@@ -43,8 +43,8 @@ button {
     grid-template-columns: 1fr;
   }
 
-  #ad-1,
-  #ad-2 {
+  #col-1,
+  #col-2 {
     display: none;
   }
 

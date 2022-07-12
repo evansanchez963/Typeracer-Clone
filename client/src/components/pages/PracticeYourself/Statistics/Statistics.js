@@ -2,7 +2,7 @@ import { SiSpeedtest } from "react-icons/si"
 import { BiTimeFive, BiCheckCircle } from "react-icons/bi" 
 import "./Statistics.css"
 
-const Statistics = ({ userStats, getTime }) => {
+const Statistics = ({ userStats }) => {
   return (
     <div className="game-stats-container">
 
@@ -22,7 +22,7 @@ const Statistics = ({ userStats, getTime }) => {
         <BiTimeFive size={30}/>
         <div className="stat">
           <p>Time:&nbsp;</p>
-          <p>{getTime(userStats.time)}</p>
+          <p>{userStats.time}</p>
         </div>
       </div>
 
