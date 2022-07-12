@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const TypingSession = require("../models/TypingSession")
 const errorResponse = require("../utils/errorResponse")
 
 // Get user's username and email.
@@ -35,6 +36,26 @@ exports.getUserStats = async (req, res, next) => {
       highestWPM: highestWPM,
       raceCount: raceCount
     })
+  } catch (err) {
+    next(err)
+  }
+}
+
+// Push a typing session object to a specific user's typing session array.
+exports.updateUserSessions = async (req, res, next) => {
+  const { WPM, time, accuracy, date } = req.body
+
+  try {
+    const typingSession = await TypingSession.create({
+      WPM: WPM,
+      time: time,
+      accuracy: accuracy,
+      date: date
+    })
+  
+    await User.findByIdAndUpdate(req.params.userId, { $push: { typing_sessions: typingSession } })
+
+    return res.status(201).json({ success: true })
   } catch (err) {
     next(err)
   }
