@@ -42,12 +42,9 @@ exports.getUserStats = async (req, res, next) => {
 
 // Replace a user's typing session array with an empty one.
 exports.resetUserStats = async (req, res, next) => {
+  const { arr } = req.body
   try {
-    const user = await User.findById(req.params.userId)
-    if(!user) return next(errorResponse("This user does not exist!", 400))
-
-    user.overwrite({ typing_sessions: [] })
-    await user.save()
+    await User.findByIdAndUpdate(req.params.userId, { typing_sessions: arr })
 
     return res.status(200).json({ success: true })
   } catch (err) {
