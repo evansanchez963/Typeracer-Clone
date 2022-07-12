@@ -17,7 +17,6 @@ const PracticeYourself = ({ isLoggedIn }) => {
   const finalWPM = useFinalWPM(gameStatus, WPM)
   const time = useTime(gameStatus, gameTimer)
   const accuracy = useAccuracy(gameStatus, userTypeInfo)
-  //const userStats = useStats(getAccuracy, gameStatus, gameTimer, setInputInfo, userTypeInfo, WPM, isLoggedIn) 
 
   const userStats = { 
     finalWPM: finalWPM, 
@@ -49,6 +48,7 @@ const PracticeYourself = ({ isLoggedIn }) => {
           config
         )
       } catch (err) {
+        console.log(err)
         alert(err.message)
       }
     } 
