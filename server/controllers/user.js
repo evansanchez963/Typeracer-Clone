@@ -39,3 +39,29 @@ exports.getUserStats = async (req, res, next) => {
     next(err)
   }
 }
+
+// Replace a user's typing session array with an empty one.
+exports.resetUserStats = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    if(!user) return next(errorResponse("This user does not exist!", 400))
+
+    user.overwrite({ typing_sessions: [] })
+    await user.save()
+
+    return res.status(200).json({ success: true })
+  } catch (err) {
+    next(err)
+  }
+}
+
+// Delete a user document in the Mongo Atlas database by user ID.
+exports.deleteUser = async (req, res, next) => {
+  try {
+    await User.findByIdAndDelete(req.params.userId)
+
+    return res.status(200).json({ success: true })
+  } catch (err) {
+    next(err)
+  }
+}
