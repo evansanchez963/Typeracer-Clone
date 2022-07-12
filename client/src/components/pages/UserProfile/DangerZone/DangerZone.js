@@ -1,8 +1,7 @@
-import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import "./DangerZone.css"
 
-const deleteProgressHandler = async (navigate) => {
+const deleteProgressHandler = async () => {
   if(window.confirm("Are you sure you want to delete your progress?")) {
     const userObject = localStorage.getItem("userData")
     const user = JSON.parse(userObject)
@@ -14,8 +13,9 @@ const deleteProgressHandler = async (navigate) => {
     }
 
     try {
-      await axios.post(`/api/user/${ user.userId }/restart`, config)
-      navigate(`/user/${ user.userId }`)
+      await axios.post(`/api/user/${ user.userId }/restart`, { arr: [] }, config)
+      // Reload page to display user stats correctly in UserStats component.
+      window.location.reload()
     } catch (err) {
       alert(err.message)
     }
@@ -43,13 +43,10 @@ const deleteAccountHandler = async (logoutHandler) => {
 }
 
 const DangerZone = ({ logoutHandler }) => {
-
-  const navigate = useNavigate()
-
   return (
     <div className="danger-zone-container">
       <h1>Danger Zone</h1>
-      <button className="danger-option" onClick={() => deleteProgressHandler(navigate)}>Delete Progress</button>
+      <button className="danger-option" onClick={() => deleteProgressHandler()}>Delete Progress</button>
       <button className="danger-option" onClick={() => deleteAccountHandler(logoutHandler)}>Delete Account</button>
     </div>
   )
