@@ -18,16 +18,36 @@ exports.getUserInfo = async (req, res, next) => {
   }
 }
 
-// Get user's avg. WPM, best WPM, and number of races.
+// Get user's avg. WPM, highest recorded WPM, and number of races.
 exports.getUserStats = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     if(!user) return next(errorResponse("This user does not exist!", 400))
 
-    const avgWPM = user.typing_sessions.reduce((avg, value, _, { length }) => {
-      return (avg + value.WPM / length).toFixed()
-    }, 0)
-    const highestWPM = user.typing_sessions.length ? Math.max(...user.typing_sessions.map(value => value.WPM)) : 0
+    const getAvgWPM = async () => {
+      let sumWPM = 0
+
+      for(let i = 0; i < user.typing_sessions.length; i += 1) {
+        let session = await TypingSession.findById(user.typing_sessions[i]._id)
+        sumWPM += session.WPM
+      }
+
+      return user.typing_sessions.length ? (sumWPM / user.typing_sessions.length).toFixed() : 0
+    }
+
+    const getHighestWPM = async () => {
+      let highestWPM = 0
+
+      for(let i = 0; i < user.typing_sessions.length; i += 1) {
+        let session = await TypingSession.findById(user.typing_sessions[i]._id)
+        if(highestWPM < session.WPM) highestWPM = session.WPM
+      }
+
+      return highestWPM
+    }
+
+    const avgWPM = await getAvgWPM()
+    const highestWPM = await getHighestWPM()
     const raceCount = user.typing_sessions.length
 
     return res.status(200).json({ 
@@ -64,7 +84,17 @@ exports.updateUserSessions = async (req, res, next) => {
 exports.resetUserStats = async (req, res, next) => {
   const { arr } = req.body
   try {
-    await User.findByIdAndUpdate(req.params.userId, { typing_sessions: arr })
+    const user = await User.findById(req.params.userId)
+    if(!user) return next(errorResponse("This user does not exist!", 400))
+
+    // Delete all typing sessions associated with user.
+    for(let i = 0; i < user.typing_sessions.length; i += 1) {
+      await TypingSession.findByIdAndDelete(user.typing_sessions[i]._id)
+    }
+    
+    // Set user's typing sessions to empty array.
+    user.typing_sessions = arr
+    await user.save()
 
     return res.status(200).json({ success: true })
   } catch (err) {
@@ -75,6 +105,14 @@ exports.resetUserStats = async (req, res, next) => {
 // Delete a user document in the Mongo Atlas database by user ID.
 exports.deleteUser = async (req, res, next) => {
   try {
+    const user = await User.findById(req.params.userId)
+    if(!user) return next(errorResponse("This user does not exist!", 400))
+
+    // Delete all typing sessions associated with user.
+    for(let i = 0; i < user.typing_sessions.length; i += 1) {
+      await TypingSession.findByIdAndDelete(user.typing_sessions[i]._id)
+    }
+
     await User.findByIdAndDelete(req.params.userId)
 
     return res.status(200).json({ success: true })
