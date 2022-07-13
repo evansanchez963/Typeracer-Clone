@@ -47,15 +47,17 @@ const PracticeYourself = ({ isLoggedIn }) => {
           config
         )
       } catch (err) {
+        console.log(err.response)
         alert(err.message)
       }
     } 
 
     if(gameStatus.isEnded) setInputInfo(prev => ({...prev, currInput: ""}))
-    if(gameStatus.isEnded && isLoggedIn) {
-      console.log("Push stats!")
-      pushUserStats()
-    }
+    if(
+      gameStatus.isEnded && 
+      isLoggedIn &&
+      time !== ""
+      ) pushUserStats()
   }, [isLoggedIn, gameStatus.isEnded, finalWPM, time, accuracy])
 
   const getStats = () => {
@@ -64,9 +66,9 @@ const PracticeYourself = ({ isLoggedIn }) => {
   }
 
   if(loadInfo.loadError) {
-    return <div>Error: {loadInfo.loadError.message}</div>
+    return <div id="py-error-screen">Error: {loadInfo.loadError.message}</div>
   } else if(loadInfo.isLoading) {
-    return <div>Loading...</div>
+    return <div id="py-loading-screen">Loading...</div>
   } else {
     return (
       <section id="practice-yourself">

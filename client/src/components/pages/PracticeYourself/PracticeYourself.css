@@ -29,6 +29,11 @@
   margin-left: 0.5rem;
 }
 
+#py-error-screen,
+#py-loading-screen {
+  background-color: #111111;
+}
+
 #practice-yourself {
   background-color: #111111;
   display: flex;
