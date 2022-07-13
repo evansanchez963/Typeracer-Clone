@@ -13,7 +13,11 @@ const deleteProgressHandler = async (resetUserStats) => {
     }
 
     try {
-      await axios.post(`/api/user/${ user.userId }/restart`, { arr: [] }, config)
+      await axios.post(
+        `/api/user/${ user.userId }/restart`, 
+        { arr: [] }, 
+        config
+      )
       resetUserStats()
     } catch (err) {
       alert(err.message)

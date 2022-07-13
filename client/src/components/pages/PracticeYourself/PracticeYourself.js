@@ -31,30 +31,31 @@ const PracticeYourself = ({ isLoggedIn }) => {
       const userData = {
         WPM: finalWPM,
         time: time,
-        accuracy: accuracy,
-        date: Date.now()
+        accuracy: accuracy
       }
       const config = {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.token}`
+          "Authorization": `Bearer ${ user.token }`
         }
       }
   
       try {
         await axios.put(
-          `api/user/${user.userId}/session`,
+          `api/user/${ user.userId }/session`,
           userData,
           config
         )
       } catch (err) {
-        console.log(err)
         alert(err.message)
       }
     } 
 
     if(gameStatus.isEnded) setInputInfo(prev => ({...prev, currInput: ""}))
-    if(gameStatus.isEnded && isLoggedIn) pushUserStats()
+    if(gameStatus.isEnded && isLoggedIn) {
+      console.log("Push stats!")
+      pushUserStats()
+    }
   }, [isLoggedIn, gameStatus.isEnded, finalWPM, time, accuracy])
 
   const getStats = () => {
