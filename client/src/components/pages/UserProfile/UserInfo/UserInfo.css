@@ -43,7 +43,7 @@
   border: none;
   border-radius: 0.5rem;
   color: white;
-  cursor: pointer;
+  cursor: not-allowed;
   margin-top: 0.2rem;
   padding: 0.2rem;
 }
