@@ -43,18 +43,17 @@ exports.getUserStats = async (req, res, next) => {
 
 // Push a typing session object to a specific user's typing session array.
 exports.updateUserSessions = async (req, res, next) => {
-  const { WPM, time, accuracy, date } = req.body
+  const { WPM, time, accuracy } = req.body
 
   try {
     const typingSession = await TypingSession.create({
       WPM: WPM,
       time: time,
-      accuracy: accuracy,
-      date: date
+      accuracy: accuracy
     })
   
     await User.findByIdAndUpdate(req.params.userId, { $push: { typing_sessions: typingSession } })
-
+    
     return res.status(201).json({ success: true })
   } catch (err) {
     next(err)
