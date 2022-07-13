@@ -50,10 +50,11 @@ const UserProfile = ({ isLoggedIn, logoutHandler }) => {
         setAvgWPM(data.avgWPM)
         setHighestWPM(data.highestWPM)
         setRaceCount(data.raceCount)
-      } catch {
+      } catch (err) {
         setAvgWPM("Error")
         setHighestWPM("Error")
         setRaceCount("Error")
+        alert(err.message)
       }
     }
 
