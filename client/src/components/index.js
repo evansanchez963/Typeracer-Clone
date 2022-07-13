@@ -1,8 +1,15 @@
-import Navbar from "./Navbar/Navbar"
-import { Homepage, About, PracticeYourself, CreateAccount, Login, UserProfile } from "./pages/index"
-import Footer from "./Footer/Footer"
+import Navbar from "./Navbar/Navbar";
+import {
+  Homepage,
+  About,
+  PracticeYourself,
+  CreateAccount,
+  Login,
+  UserProfile,
+} from "./pages/index";
+import Footer from "./Footer/Footer";
 
-export { 
+export {
   Navbar,
   Homepage,
   About,
@@ -10,5 +17,5 @@ export {
   CreateAccount,
   Login,
   Footer,
-  UserProfile
-} 
+  UserProfile,
+};

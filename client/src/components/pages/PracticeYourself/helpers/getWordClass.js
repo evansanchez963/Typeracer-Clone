@@ -1,8 +1,8 @@
 const getWordClass = (wordIdx, gameStatus, idxInfo) => {
-  if(gameStatus.isStarted && !gameStatus.isEnded) {
-    if(wordIdx === idxInfo.currWordIdx) return "active-word"
+  if (gameStatus.isStarted && !gameStatus.isEnded) {
+    if (wordIdx === idxInfo.currWordIdx) return "active-word";
   }
-  return ""
-}
+  return "";
+};
 
-export default getWordClass
+export default getWordClass;
