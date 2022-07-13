@@ -1,29 +1,33 @@
-require("dotenv").config({ path: "./config.env" })
+require("dotenv").config({ path: "./config.env" });
 
-const express = require("express")
-const cors = require("cors")
-const connectDB = require("./config/database")
-const errorHandler = require("./middleware/error")
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/database");
+const errorHandler = require("./middleware/error");
 
 // Connect to database.
-connectDB()
+connectDB();
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-app.use(cors({ 
-  origin: process.env.URL,
-  methods: ["GET", "POST", "PUT", "DELETE"] 
-}))
-app.use("/api/auth", require("./routes/auth"))
-app.use("/api/user", require("./routes/user"))
-app.use(errorHandler)
+app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/user", require("./routes/user"));
+app.use(errorHandler);
 
-const port = process.env.PORT || 5000
- 
-const server = app.listen(port, () => console.log(`Server is running on port: ${port}`))
+const port = process.env.PORT || 5000;
+
+const server = app.listen(port, () =>
+  console.log(`Server is running on port: ${port}`)
+);
 
 process.on("unhandledRejection", (err) => {
-  console.log(`Logged Error: ${err}`)
-  server.close(() => process.exit(1))
-})
+  console.log(`Logged Error: ${err}`);
+  server.close(() => process.exit(1));
+});
