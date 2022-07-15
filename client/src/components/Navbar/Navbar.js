@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth, useUserId, useLogout } from "../../context/AuthContext";
 import { logo } from "../../images/index";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { GoGear } from "react-icons/go";
@@ -9,8 +10,11 @@ import Sidebar from "./Sidebar/Sidebar";
 import axios from "axios";
 import "./Navbar.css";
 
-const Navbar = ({ isLoggedIn, userId, logoutHandler }) => {
-  const [username, setUsername] = useState("Username");
+const Navbar = () => {
+  const isLoggedIn = useAuth();
+  const userId = useUserId();
+  const logoutHandler = useLogout();
+  const [username, setUsername] = useState("");
   const [sidebarActive, setSidebarActive] = useState(false);
   const navigate = useNavigate();
 
@@ -27,7 +31,7 @@ const Navbar = ({ isLoggedIn, userId, logoutHandler }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Get username from userId prop.
+  // Get username from userId.
   useEffect(() => {
     const fetchUsername = async () => {
       const userObject = localStorage.getItem("userData");
@@ -103,13 +107,7 @@ const Navbar = ({ isLoggedIn, userId, logoutHandler }) => {
       </div>
 
       <GoThreeBars id="hamburger-menu" size={30} onClick={toggleSidebar} />
-      <Sidebar
-        sidebarActive={sidebarActive}
-        toggleSidebar={toggleSidebar}
-        isLoggedIn={isLoggedIn}
-        userId={userId}
-        logoutHandler={logoutHandler}
-      />
+      <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar} />
     </nav>
   );
 };

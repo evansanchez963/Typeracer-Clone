@@ -1,16 +1,15 @@
 import { Link } from "react-router-dom";
+import { useAuth, useUserId, useLogout } from "../../../context/AuthContext";
 import { IoClose } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import "./Sidebar.css";
 
-const Sidebar = ({
-  sidebarActive,
-  toggleSidebar,
-  isLoggedIn,
-  userId,
-  logoutHandler,
-}) => {
+const Sidebar = ({ sidebarActive, toggleSidebar }) => {
+  const isLoggedIn = useAuth();
+  const userId = useUserId();
+  const logoutHandler = useLogout();
+
   return (
     <div id="sidebar" className={sidebarActive ? "is-active" : ""}>
       <IoClose id="sidebar-close-btn" onClick={toggleSidebar} size={30} />

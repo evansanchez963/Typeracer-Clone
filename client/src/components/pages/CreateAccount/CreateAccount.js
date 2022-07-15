@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuth, useLogin } from "../../../context/AuthContext";
 import axios from "axios";
 import "./CreateAccount.css";
 
-const CreateAccount = ({ isLoggedIn, loginHandler }) => {
+const CreateAccount = () => {
+  const isLoggedIn = useAuth();
+  const loginHandler = useLogin();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

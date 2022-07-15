@@ -1,7 +1,7 @@
-import { BsFillKeyboardFill } from "react-icons/bs"
-import { SiSpeedtest } from "react-icons/si"
-import { FaFlagCheckered } from "react-icons/fa"
-import "./UserStats.css"
+import { BsFillKeyboardFill } from "react-icons/bs";
+import { SiSpeedtest } from "react-icons/si";
+import { FaFlagCheckered } from "react-icons/fa";
+import "./UserStats.css";
 
 const UserStats = ({ avgWPM, highestWPM, raceCount }) => {
   return (
@@ -11,7 +11,7 @@ const UserStats = ({ avgWPM, highestWPM, raceCount }) => {
       </div>
 
       <div className="user-stat-container">
-        <BsFillKeyboardFill size={30}/>
+        <BsFillKeyboardFill size={30} />
         <div className="user-stat">
           <p>Avg. WPM:&nbsp;</p>
           <p>{avgWPM} WPM</p>
@@ -19,7 +19,7 @@ const UserStats = ({ avgWPM, highestWPM, raceCount }) => {
       </div>
 
       <div className="user-stat-container">
-        <SiSpeedtest size={30}/>
+        <SiSpeedtest size={30} />
         <div className="user-stat">
           <p>Best Race:&nbsp;</p>
           <p>{highestWPM} WPM</p>
@@ -27,14 +27,14 @@ const UserStats = ({ avgWPM, highestWPM, raceCount }) => {
       </div>
 
       <div className="user-stat-container">
-        <FaFlagCheckered size={30}/>
+        <FaFlagCheckered size={30} />
         <div className="user-stat">
           <p>Races:&nbsp;</p>
           <p>{raceCount} Races</p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserStats
+export default UserStats;

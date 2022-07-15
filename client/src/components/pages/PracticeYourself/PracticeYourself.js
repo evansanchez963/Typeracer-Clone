@@ -22,10 +22,12 @@ import {
   handleKeyDown,
   handleChange,
 } from "../../../features/gamelogic/utils/index";
+import { useAuth } from "../../../context/AuthContext";
 import axios from "axios";
 import "./PracticeYourself.css";
 
-const PracticeYourself = ({ isLoggedIn }) => {
+const PracticeYourself = () => {
+  const isLoggedIn = useAuth();
   const [gameStatus, setGameStatus] = useState({
     isStarted: false,
     isEnded: false,
