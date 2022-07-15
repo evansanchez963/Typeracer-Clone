@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAccuracy } from "../helpers/index";
+import { getAccuracy } from "../utils/index";
 
 const useAccuracy = (gameStatus, userTypeInfo) => {
   const [accuracy, setAccuracy] = useState(0);

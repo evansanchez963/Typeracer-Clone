@@ -6,7 +6,7 @@ import {
   Input,
   ButtonRow,
   Statistics,
-} from "./index";
+} from "../../../features/gamelogic/index";
 import {
   useFetch,
   useTimers,
@@ -14,14 +14,14 @@ import {
   useFinalWPM,
   useTime,
   useAccuracy,
-} from "./hooks/index";
+} from "../../../features/gamelogic/hooks/index";
 import {
   getCharClass,
   getWordClass,
   getTime,
   handleKeyDown,
   handleChange,
-} from "./helpers/index";
+} from "../../../features/gamelogic/utils/index";
 import axios from "axios";
 import "./PracticeYourself.css";
 

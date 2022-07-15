@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTime } from "../helpers/index";
+import { getTime } from "../utils/index";
 
 const useTime = (gameStatus, gameTimer) => {
   const [time, setTime] = useState("");
