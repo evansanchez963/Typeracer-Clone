@@ -30,9 +30,10 @@ const UserProfile = () => {
 
         setUsername(data.username);
         setEmail(data.email);
-      } catch {
+      } catch (err) {
         setUsername("Error");
         setEmail("Error");
+        alert(err);
       }
     };
 
@@ -60,6 +61,7 @@ const UserProfile = () => {
         setHighestWPM("Error");
         setRaceCount("Error");
         alert(err.message);
+        console.log(err.response);
       }
     };
 
