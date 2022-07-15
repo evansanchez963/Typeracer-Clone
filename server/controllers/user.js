@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const TypingSession = require("../models/TypingSession");
 const errorResponse = require("../utils/errorResponse");
+const { mongoose } = require("mongoose");
 
 // Get user's username and email.
 exports.getUserInfo = async (req, res, next) => {
@@ -25,27 +26,35 @@ exports.getUserStats = async (req, res, next) => {
     if (!user) return next(errorResponse("This user does not exist!", 400));
 
     const getAvgWPM = async () => {
-      let sumWPM = 0;
+      if (!user.typing_sessions.length) return 0;
 
-      for (let i = 0; i < user.typing_sessions.length; i += 1) {
-        let session = await TypingSession.findById(user.typing_sessions[i]._id);
-        sumWPM += session.WPM;
-      }
+      const query = await TypingSession.aggregate([
+        { $match: { _id: { $in: user.typing_sessions } } },
+        {
+          $group: {
+            _id: user._id,
+            avg: { $avg: "$WPM" },
+          },
+        },
+      ]);
 
-      return user.typing_sessions.length
-        ? (sumWPM / user.typing_sessions.length).toFixed()
-        : 0;
+      return query[0].avg.toFixed();
     };
 
     const getHighestWPM = async () => {
-      let highestWPM = 0;
+      if (!user.typing_sessions.length) return 0;
 
-      for (let i = 0; i < user.typing_sessions.length; i += 1) {
-        let session = await TypingSession.findById(user.typing_sessions[i]._id);
-        if (highestWPM < session.WPM) highestWPM = session.WPM;
-      }
+      const query = await TypingSession.aggregate([
+        { $match: { _id: { $in: user.typing_sessions } } },
+        {
+          $group: {
+            _id: user._id,
+            max: { $max: "$WPM" },
+          },
+        },
+      ]);
 
-      return highestWPM;
+      return query[0].max;
     };
 
     const avgWPM = await getAvgWPM();
@@ -68,13 +77,17 @@ exports.updateUserSessions = async (req, res, next) => {
   const { WPM, time, accuracy } = req.body;
 
   try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return next(errorResponse("This user does not exist!", 400));
+
     const typingSession = await TypingSession.create({
+      user: user,
       WPM: WPM,
       time: time,
       accuracy: accuracy,
     });
 
-    await User.findByIdAndUpdate(req.params.userId, {
+    await user.updateOne({
       $push: { typing_sessions: typingSession },
     });
 
@@ -92,9 +105,7 @@ exports.resetUserStats = async (req, res, next) => {
     if (!user) return next(errorResponse("This user does not exist!", 400));
 
     // Delete all typing sessions associated with user.
-    for (let i = 0; i < user.typing_sessions.length; i += 1) {
-      await TypingSession.findByIdAndDelete(user.typing_sessions[i]._id);
-    }
+    await TypingSession.deleteMany({ user: user._id });
 
     // Set user's typing sessions to empty array.
     user.typing_sessions = arr;
@@ -113,11 +124,9 @@ exports.deleteUser = async (req, res, next) => {
     if (!user) return next(errorResponse("This user does not exist!", 400));
 
     // Delete all typing sessions associated with user.
-    for (let i = 0; i < user.typing_sessions.length; i += 1) {
-      await TypingSession.findByIdAndDelete(user.typing_sessions[i]._id);
-    }
+    await TypingSession.deleteMany({ user: user._id });
 
-    await User.findByIdAndDelete(req.params.userId);
+    await user.deleteOne();
 
     return res.status(200).json({ success: true });
   } catch (err) {
