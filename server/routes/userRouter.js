@@ -6,7 +6,7 @@ const {
   updateUserSessions,
   resetUserStats,
   deleteUser,
-} = require("../controllers/user");
+} = require("../controllers/userController");
 const { protect } = require("../middleware/protect");
 
 /* These are operations that only authenticated users can perform. */

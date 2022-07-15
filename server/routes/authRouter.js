@@ -6,7 +6,7 @@ const {
   login,
   forgotPassword,
   resetPassword,
-} = require("../controllers/auth");
+} = require("../controllers/authController");
 
 router.route("/createaccount").post(createAccount);
 

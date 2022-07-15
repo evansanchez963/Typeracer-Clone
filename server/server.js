@@ -17,8 +17,8 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/user", require("./routes/user"));
+app.use("/api/auth", require("./routes/authRouter"));
+app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
