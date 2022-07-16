@@ -6,11 +6,14 @@ import {
   Input,
   ButtonRow,
   Statistics,
-} from "../../../features/gamelogic/index";
+} from "../../../features/gamelogic/components/index";
 import {
   useGameStatus,
   useFetch,
   useTimers,
+  useInput,
+  useIdxInfo,
+  useTypeInfo,
   useCalcWPM,
   useFinalWPM,
   useTime,
@@ -31,37 +34,28 @@ const PracticeYourself = () => {
   const isLoggedIn = useAuth();
   const { isGameStarted, isGameEnded, startGame, endGame, restartGame } =
     useGameStatus();
-  /*
-  const [gameStatus, setGameStatus] = useState({
-    isStarted: false,
-    isEnded: false,
-  });
-  */
-  //const { countdown, setCountdown, gameTimer } = useTimers...
-  const { startCountdown, resetTimers } = useTimers(
+  const { gameTimer, startCountdown, resetTimers } = useTimers(
     isGameEnded,
     startGame,
     endGame
   );
-  //const { loadInfo, textInfo } = useFetch(startCountdown);
   const { isLoading, loadError, chars, words } = useFetch(startCountdown);
-  const [inputInfo, setInputInfo] = useState({
-    currInput: "",
-    inputValid: true,
-  });
-  const [idxInfo, setIdxInfo] = useState({ currCharIdx: -1, currWordIdx: 0 });
-  const [userTypeInfo, setUserTypeInfo] = useState({
-    charsTyped: 0,
-    errors: 0,
-  });
-  const WPM = useCalcWPM(
-    gameTimer.time,
-    userTypeInfo.charsTyped,
-    userTypeInfo.errors
-  );
-  const finalWPM = useFinalWPM(gameStatus, WPM);
-  const time = useTime(gameStatus, gameTimer);
-  const accuracy = useAccuracy(gameStatus, userTypeInfo);
+  const { currInput, inputValid, setCurrInput, setInputValid } = useInput();
+  const {
+    currCharIdx,
+    currWordIdx,
+    incCharIdx,
+    decCharIdx,
+    resetCharIdx,
+    incWordIdx,
+    resetWordIdx,
+  } = useIdxInfo();
+  const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
+    useTypeInfo();
+  const WPM = useCalcWPM(gameTimer, charsTyped, errors);
+  const finalWPM = useFinalWPM(isGameEnded, WPM);
+  const time = useTime(isGameEnded, gameTimer);
+  const accuracy = useAccuracy(isGameEnded, charsTyped, errors);
 
   const userStats = {
     finalWPM: finalWPM,

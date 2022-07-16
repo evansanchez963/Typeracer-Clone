@@ -3,9 +3,9 @@ import { useEffect, useReducer } from "react";
 
 const ACTIONS = {
   LOADED: "loaded",
-  GET_LOAD_ERROR: "get load error",
-  GET_CHARS: "get chars",
-  GET_WORDS: "get words",
+  SET_LOAD_ERROR: "get load error",
+  SET_CHARS: "get chars",
+  SET_WORDS: "get words",
   RESET_INFO: "reset info",
 };
 
@@ -13,11 +13,11 @@ const reducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.LOADED:
       return { ...state, isLoading: false };
-    case ACTIONS.GET_LOAD_ERROR:
+    case ACTIONS.SET_LOAD_ERROR:
       return { ...state, loadError: action.payload };
-    case ACTIONS.GET_CHARS:
+    case ACTIONS.SET_CHARS:
       return { ...state, chars: action.payload };
-    case ACTIONS.GET_WORDS:
+    case ACTIONS.SET_WORDS:
       return { ...state, words: action.payload };
     case ACTIONS.RESET_INFO:
       return {
@@ -57,9 +57,9 @@ const useFetch = (startCountdown) => {
         );
         const text = await response.text();
         //setTextInfo((prev) => ({ ...prev, chars: text.split("") }));
-        dispatch({ type: ACTIONS.GET_CHARS, payload: text.split("") });
+        dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
         //setTextInfo((prev) => ({ ...prev, words: text.split(" ") }));
-        dispatch({ type: ACTIONS.GET_WORDS, payload: text.split(" ") });
+        dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
         //setLoadInfo((prev) => ({ ...prev, isLoading: false }));
         loaded();
         //setCountdown((prev) => ({ ...prev, on: true }));
@@ -69,7 +69,7 @@ const useFetch = (startCountdown) => {
         }
       } catch (err) {
         //setLoadInfo((prev) => ({ ...prev, loadError: loadError }));
-        dispatch({ type: ACTIONS.GET_LOAD_ERROR, payload: err });
+        dispatch({ type: ACTIONS.SET_LOAD_ERROR, payload: err });
         //setLoadInfo((prev) => ({ ...prev, isLoading: false }));
         loaded();
       }
