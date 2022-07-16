@@ -29,18 +29,22 @@ import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
   const isLoggedIn = useAuth();
+  const { isGameStarted, isGameEnded, startGame, endGame, restartGame } =
+    useGameStatus();
+  /*
   const [gameStatus, setGameStatus] = useState({
     isStarted: false,
     isEnded: false,
   });
-  const { countdown, setCountdown, gameTimer } = useTimers(
-    gameStatus,
-    setGameStatus
+  */
+  //const { countdown, setCountdown, gameTimer } = useTimers...
+  const { startCountdown, resetTimers } = useTimers(
+    isGameEnded,
+    startGame,
+    endGame
   );
-  const { loadInfo, textInfo } = useFetch(
-    "http://metaphorpsum.com/paragraphs/1/1",
-    setCountdown
-  );
+  //const { loadInfo, textInfo } = useFetch(startCountdown);
+  const { isLoading, loadError, chars, words } = useFetch(startCountdown);
   const [inputInfo, setInputInfo] = useState({
     currInput: "",
     inputValid: true,
@@ -89,13 +93,12 @@ const PracticeYourself = () => {
       }
     };
 
-    if (gameStatus.isEnded)
-      setInputInfo((prev) => ({ ...prev, currInput: "" }));
-    if (gameStatus.isEnded && isLoggedIn && time !== "") pushUserStats();
-  }, [isLoggedIn, gameStatus.isEnded, finalWPM, time, accuracy]);
+    if (isGameEnded) setInputInfo((prev) => ({ ...prev, currInput: "" }));
+    if (isGameEnded && isLoggedIn && time !== "") pushUserStats();
+  }, [isLoggedIn, isGameEnded, finalWPM, time, accuracy]);
 
   const getStats = () => {
-    if (gameStatus.isEnded) return <Statistics userStats={userStats} />;
+    if (isGameEnded) return <Statistics userStats={userStats} />;
     else return <></>;
   };
 
@@ -153,7 +156,7 @@ const PracticeYourself = () => {
             </div>
           </div>
 
-          <ButtonRow isEnded={gameStatus.isEnded} />
+          <ButtonRow isEnded={isGameEnded} />
           {getStats()}
         </div>
       </section>

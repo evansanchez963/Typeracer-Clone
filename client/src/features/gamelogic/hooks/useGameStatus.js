@@ -20,17 +20,19 @@ const reducer = (state, action) => {
 };
 
 const useGameStatus = () => {
-  const [state, dispatch] = useReducer(reducer, {
+  const gameStatus = {
     isStarted: false,
     isEnded: false,
-  });
+  };
+  const [state, dispatch] = useReducer(reducer, gameStatus);
 
   const isGameStarted = state.isStarted;
   const isGameEnded = state.isEnded;
   const startGame = () => dispatch({ type: ACTIONS.START_GAME });
+  const endGame = () => dispatch({ type: ACTIONS.END_GAME });
   const restartGame = () => dispatch({ type: ACTIONS.RESTART_GAME });
 
-  return { isGameStarted, isGameEnded, startGame, restartGame };
+  return { isGameStarted, isGameEnded, startGame, endGame, restartGame };
 };
 
 export default useGameStatus;
