@@ -8,6 +8,7 @@ import {
   Statistics,
 } from "../../../features/gamelogic/index";
 import {
+  useGameStatus,
   useFetch,
   useTimers,
   useCalcWPM,
