@@ -13,7 +13,7 @@ const TypingSessionSchema = new Schema({
   },
   time: {
     type: String,
-    default: 0,
+    default: "00:00",
   },
   accuracy: {
     type: Number,
