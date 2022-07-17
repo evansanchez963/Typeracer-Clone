@@ -1,13 +1,8 @@
+import getCharClass from "../../utils/getCharClass";
+import getWordClass from "../../utils/getWordClass";
 import "./Paragraph.css";
 
-const Paragraph = ({
-  words,
-  getCharClass,
-  getWordClass,
-  gameStatus,
-  inputInfo,
-  idxInfo,
-}) => {
+const Paragraph = ({ gameStatus, words, currInput, idxInfo }) => {
   return (
     <p id="paragraph">
       {words.map((word, wordIdx) => (
@@ -21,7 +16,7 @@ const Paragraph = ({
                   charIdx,
                   wordIdx,
                   gameStatus,
-                  inputInfo,
+                  currInput,
                   idxInfo
                 )}
               >

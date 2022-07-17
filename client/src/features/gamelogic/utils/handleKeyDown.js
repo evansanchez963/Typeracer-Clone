@@ -1,40 +1,39 @@
 // Evaluate input when user types.
 // If input is wrong, user can only backspace.
+
+import { GameStatusInfo } from "../components";
+
 const handleKeyDown = (
-  event,
-  setGameStatus,
+  e,
+  gameStatus,
   textInfo,
   inputInfo,
-  setInputInfo,
   idxInfo,
-  setIdxInfo,
-  setUserTypeInfo
+  typeInfo
 ) => {
-  if (event.key === " ") {
+  if (e.key === " ") {
     // Space evaluates word at current word index.
 
     if (inputInfo.currInput === textInfo.words[idxInfo.currWordIdx]) {
-      setInputInfo((prev) => ({ ...prev, currInput: "" }));
-      setIdxInfo((prev) => ({ ...prev, currCharIdx: -1 }));
-      setIdxInfo((prev) => ({ ...prev, currWordIdx: prev.currWordIdx + 1 }));
-      setUserTypeInfo((prev) => ({ ...prev, charsTyped: prev.charsTyped + 1 }));
+      inputInfo.setCurrInput("");
+      idxInfo.decCharIdx();
+      idxInfo.incWordIdx();
+      typeInfo.incCharsTyped();
     } else {
       if (inputInfo.inputValid) {
-        setInputInfo((prev) => ({ ...prev, currInput: prev.currInput + " " }));
-        setIdxInfo((prev) => ({ ...prev, currCharIdx: prev.currCharIdx + 1 }));
+        inputInfo.setCurrInput(inputInfo.currInput + " ");
+        idxInfo.incCharIdx();
       }
-      setInputInfo((prev) => ({ ...prev, inputValid: false }));
-      setUserTypeInfo((prev) => ({ ...prev, errors: prev.errors + 1 }));
+      inputInfo.setInputValid(false);
+      typeInfo.incErrors();
     }
-  } else if (event.key === "Backspace") {
-    if (!inputInfo.inputValid)
-      setInputInfo((prev) => ({ ...prev, inputValid: true }));
-    if (inputInfo.currInput !== "")
-      setIdxInfo((prev) => ({ ...prev, currCharIdx: prev.currCharIdx - 1 }));
+  } else if (e.key === "Backspace") {
+    if (!inputInfo.inputValid) inputInfo.setInputValid(true);
+    if (inputInfo.currInput !== "") idxInfo.decCharIdx();
   } else {
     // Evaluate whether current typed character is correct.
 
-    if (event.key !== "Shift" && inputInfo.inputValid) {
+    if (e.key !== "Shift" && inputInfo.inputValid) {
       const lastWord = textInfo.words[textInfo.words.length - 1];
       const lastWordChars = lastWord.split("");
       const lastChar = lastWordChars[lastWordChars.length - 1];
@@ -44,39 +43,27 @@ const handleKeyDown = (
       if (
         textInfo.words.length - 1 === idxInfo.currWordIdx &&
         lastWordChars.length - 1 === idxInfo.currCharIdx + 1 &&
-        lastChar === event.key
+        lastChar === e.key
       ) {
-        setIdxInfo((prev) => ({ ...prev, currCharIdx: -1 }));
-        setIdxInfo((prev) => ({ ...prev, currWordIdx: prev.currWordIdx + 1 }));
-        setGameStatus((prev) => ({ ...prev, isEnded: true }));
+        idxInfo.decCharIdx();
+        idxInfo.incWordIdx();
+        gameStatus.endGame();
       } else {
         const charToCheck =
           textInfo.words[idxInfo.currWordIdx].split("")[
             idxInfo.currCharIdx + 1
           ];
 
-        if (event.key !== charToCheck) {
+        if (e.key !== charToCheck) {
           if (inputInfo.inputValid) {
-            setInputInfo((prev) => ({
-              ...prev,
-              currInput: prev.currInput + event.key,
-            }));
-            setIdxInfo((prev) => ({
-              ...prev,
-              currCharIdx: prev.currCharIdx + 1,
-            }));
+            inputInfo.setCurrInput(inputInfo.currInput + e.key);
+            idxInfo.incCharIdx();
           }
-          setInputInfo((prev) => ({ ...prev, inputValid: false }));
-          setUserTypeInfo((prev) => ({ ...prev, errors: prev.errors + 1 }));
+          inputInfo.setInputValid(false);
+          typeInfo.incErrors();
         } else {
-          setIdxInfo((prev) => ({
-            ...prev,
-            currCharIdx: prev.currCharIdx + 1,
-          }));
-          setUserTypeInfo((prev) => ({
-            ...prev,
-            charsTyped: prev.charsTyped + 1,
-          }));
+          idxInfo.incCharIdx();
+          typeInfo.incCharsTyped();
         }
       }
     }

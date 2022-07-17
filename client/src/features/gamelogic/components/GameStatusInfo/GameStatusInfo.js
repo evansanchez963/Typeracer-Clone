@@ -1,6 +1,7 @@
+import formatTime from "../../utils/formatTime";
 import "./GameStatusInfo.css";
 
-const GameStatusInfo = ({ gameStatus, countdown, gameTimer, formatTime }) => {
+const GameStatusInfo = ({ gameStatus, timers }) => {
   const getStatusMsg = () => {
     if (!gameStatus.isStarted) return <p>The race is about to start...</p>;
     else if (gameStatus.isEnded) return <p>The race has ended!</p>;
@@ -8,8 +9,8 @@ const GameStatusInfo = ({ gameStatus, countdown, gameTimer, formatTime }) => {
   };
 
   const getTimer = () => {
-    if (countdown.on) return <p>{formatTime(countdown.time)}</p>;
-    else if (gameTimer.on) return <p>{formatTime(gameTimer.time)}</p>;
+    if (timers.countdownOn) return <p>{formatTime(timers.countdown)}</p>;
+    else if (timers.gameTimerOn) return <p>{formatTime(timers.gameTimer)}</p>;
     else return <p>00:00</p>;
   };
 

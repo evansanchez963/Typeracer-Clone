@@ -47,8 +47,10 @@ const useTimers = (isGameEnded, startGame, endGame) => {
 
   const [state, dispatch] = useReducer(reducer, timers);
 
-  const gameTimer = state.gameTimer;
   const countdown = state.countdown;
+  const countdownOn = state.countdownOn;
+  const gameTimer = state.gameTimer;
+  const gameTimerOn = state.gameTimerOn;
   const startCountdown = dispatch({ type: ACTIONS.START_COUNTDOWN });
   const stopCountdown = dispatch({ type: ACTIONS.STOP_COUNTDOWN });
   const decrementCountdown = dispatch({ type: ACTIONS.DECREMENT_COUNTDOWN });
@@ -74,14 +76,7 @@ const useTimers = (isGameEnded, startGame, endGame) => {
     }
 
     return () => clearInterval(interval);
-  }, [
-    state.countdown,
-    state.countdownOn,
-    decrementCountdown,
-    startGame,
-    startGameTimer,
-    stopCountdown,
-  ]);
+  }, [state.countdown, state.countdownOn]);
 
   // Start game timer when countdown is over and stop
   // when it has reached 0.
@@ -102,16 +97,16 @@ const useTimers = (isGameEnded, startGame, endGame) => {
     }
 
     return () => clearInterval(interval);
-  }, [
-    state.gameTimer,
-    state.gameTimerOn,
-    decrementGameTimer,
-    endGame,
-    isGameEnded,
-    stopGameTimer,
-  ]);
+  }, [state.gameTimer, state.gameTimerOn]);
 
-  return { gameTimer, countdown, startCountdown, restartTimers };
+  return {
+    countdown,
+    countdownOn,
+    gameTimer,
+    gameTimerOn,
+    startCountdown,
+    restartTimers,
+  };
 };
 
 export default useTimers;

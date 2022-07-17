@@ -3,12 +3,12 @@ const getCharClass = (
   charIdx,
   wordIdx,
   gameStatus,
-  inputInfo,
+  currInput,
   idxInfo
 ) => {
   if (charIdx === idxInfo.currCharIdx && wordIdx === idxInfo.currWordIdx) {
     if (gameStatus.isStarted && !gameStatus.isEnded) {
-      if (char === inputInfo.currInput.split("")[charIdx]) return "correct";
+      if (char === currInput.split("")[charIdx]) return "correct";
       else {
         return "incorrect";
       }

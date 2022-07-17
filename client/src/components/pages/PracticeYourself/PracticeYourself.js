@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   GameStatusInfo,
   ProgressBar,
@@ -19,13 +19,6 @@ import {
   useTime,
   useAccuracy,
 } from "../../../features/gamelogic/hooks/index";
-import {
-  getCharClass,
-  getWordClass,
-  formatTime,
-  handleKeyDown,
-  handleChange,
-} from "../../../features/gamelogic/utils/index";
 import { useAuth } from "../../../context/AuthContext";
 import axios from "axios";
 import "./PracticeYourself.css";
@@ -34,11 +27,8 @@ const PracticeYourself = () => {
   const isLoggedIn = useAuth();
   const { isGameStarted, isGameEnded, startGame, endGame, restartGame } =
     useGameStatus();
-  const { gameTimer, countdown, startCountdown, resetTimers } = useTimers(
-    isGameEnded,
-    startGame,
-    endGame
-  );
+  const { countdown, countdownOn, gameTimer, gameTimerOn, startCountdown } =
+    useTimers(isGameEnded, startGame, endGame);
   const { isLoading, loadError, chars, words } = useFetch(startCountdown);
   const { currInput, inputValid, setCurrInput, setInputValid } = useInput();
   const {
@@ -60,6 +50,42 @@ const PracticeYourself = () => {
   const gameStatus = {
     isGameStarted: isGameStarted,
     isGameEnded: isGameEnded,
+    startGame: startGame,
+    endGame: endGame,
+    restartGame: restartGame,
+  };
+  const timers = {
+    countdown: countdown,
+    countdownOn: countdownOn,
+    gameTimer: gameTimer,
+    gameTimerOn: gameTimerOn,
+    startCountdown: startCountdown,
+  };
+  const textInfo = {
+    chars: chars,
+    words: words,
+  };
+  const inputInfo = {
+    currInput: currInput,
+    inputValid: inputValid,
+    setCurrInput: setCurrInput,
+    setInputValid: setInputValid,
+  };
+  const idxInfo = {
+    currCharIdx: currCharIdx,
+    currWordIdx: currWordIdx,
+    incCharIdx: incCharIdx,
+    decCharIdx: decCharIdx,
+    resetCharIdx: resetCharIdx,
+    incWordIdx: incWordIdx,
+    resetWordIdx: resetWordIdx,
+  };
+  const typeInfo = {
+    charsTyped: charsTyped,
+    errors: errors,
+    incCharsTyped: incCharsTyped,
+    incErrors: incErrors,
+    resetTypeInfo: resetTypeInfo,
   };
   const userStats = {
     finalWPM: finalWPM,
@@ -111,50 +137,31 @@ const PracticeYourself = () => {
           <h1>Practice Racetrack</h1>
 
           <div className="typing-section">
-            <GameStatusInfo
-              gameStatus={gameStatus}
-              countdown={countdown}
-              gameTimer={gameTimer}
-              formatTime={formatTime}
-            />
+            <GameStatusInfo gameStatus={gameStatus} timers={timers} />
             <ProgressBar
-              chars={textInfo.chars}
-              charsTyped={userTypeInfo.charsTyped}
+              chars={typeInfo.chars}
+              charsTyped={typeInfo.charsTyped}
               WPM={WPM}
             />
 
             <div className="typing-box">
               <Paragraph
-                words={textInfo.words}
-                getCharClass={getCharClass}
-                getWordClass={getWordClass}
                 gameStatus={gameStatus}
-                inputInfo={inputInfo}
+                words={textInfo.words}
+                currInput={inputInfo.currInput}
                 idxInfo={idxInfo}
               />
               <Input
-                inputInfo={inputInfo}
                 gameStatus={gameStatus}
-                handleKeyDown={(event) => {
-                  handleKeyDown(
-                    event,
-                    setGameStatus,
-                    textInfo,
-                    inputInfo,
-                    setInputInfo,
-                    idxInfo,
-                    setIdxInfo,
-                    setUserTypeInfo
-                  );
-                }}
-                handleChange={(event) => {
-                  handleChange(event, setInputInfo);
-                }}
+                textInfo={textInfo}
+                inputInfo={inputInfo}
+                idxInfo={idxInfo}
+                typeInfo={typeInfo}
               />
             </div>
           </div>
 
-          <ButtonRow isEnded={isGameEnded} />
+          <ButtonRow isEnded={gameStatus.isGameEnded} />
           {getStats()}
         </div>
       </section>

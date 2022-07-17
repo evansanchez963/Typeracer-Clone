@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useReducer } from "react";
 
 const ACTIONS = {
@@ -52,9 +51,7 @@ const useFetch = (startCountdown) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(
-          "http://metaphorpsum.com/paragraphs/1/1"
-        );
+        const response = await fetch("http://metaphorpsum.com/paragraphs/1/1");
         const text = await response.text();
         dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
         dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
@@ -70,7 +67,7 @@ const useFetch = (startCountdown) => {
     };
 
     getData();
-  }, [loaded, startCountdown]);
+  }, []);
 
   return { isLoading, loadError, chars, words };
 };
