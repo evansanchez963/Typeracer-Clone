@@ -31,7 +31,6 @@ const useGameStatus = () => {
   const startGame = () => dispatch({ type: ACTIONS.START_GAME });
   const endGame = () => dispatch({ type: ACTIONS.END_GAME });
   const restartGame = () => dispatch({ type: ACTIONS.RESTART_GAME });
-
   return { isGameStarted, isGameEnded, startGame, endGame, restartGame };
 };
 

@@ -56,29 +56,22 @@ const useFetch = (startCountdown) => {
           "http://metaphorpsum.com/paragraphs/1/1"
         );
         const text = await response.text();
-        //setTextInfo((prev) => ({ ...prev, chars: text.split("") }));
         dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
-        //setTextInfo((prev) => ({ ...prev, words: text.split(" ") }));
         dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
-        //setLoadInfo((prev) => ({ ...prev, isLoading: false }));
         loaded();
-        //setCountdown((prev) => ({ ...prev, on: true }));
         startCountdown();
         if (!response.ok) {
           throw Error(response.statusText);
         }
       } catch (err) {
-        //setLoadInfo((prev) => ({ ...prev, loadError: loadError }));
         dispatch({ type: ACTIONS.SET_LOAD_ERROR, payload: err });
-        //setLoadInfo((prev) => ({ ...prev, isLoading: false }));
         loaded();
       }
     };
 
     getData();
-  }, []);
+  }, [loaded, startCountdown]);
 
-  //return { loadInfo, textInfo };
   return { isLoading, loadError, chars, words };
 };
 

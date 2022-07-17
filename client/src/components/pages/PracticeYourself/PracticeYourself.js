@@ -22,7 +22,7 @@ import {
 import {
   getCharClass,
   getWordClass,
-  getTime,
+  formatTime,
   handleKeyDown,
   handleChange,
 } from "../../../features/gamelogic/utils/index";
@@ -34,7 +34,7 @@ const PracticeYourself = () => {
   const isLoggedIn = useAuth();
   const { isGameStarted, isGameEnded, startGame, endGame, restartGame } =
     useGameStatus();
-  const { gameTimer, startCountdown, resetTimers } = useTimers(
+  const { gameTimer, countdown, startCountdown, resetTimers } = useTimers(
     isGameEnded,
     startGame,
     endGame
@@ -57,6 +57,10 @@ const PracticeYourself = () => {
   const time = useTime(isGameEnded, gameTimer);
   const accuracy = useAccuracy(isGameEnded, charsTyped, errors);
 
+  const gameStatus = {
+    isGameStarted: isGameStarted,
+    isGameEnded: isGameEnded,
+  };
   const userStats = {
     finalWPM: finalWPM,
     time: time,
@@ -87,7 +91,7 @@ const PracticeYourself = () => {
       }
     };
 
-    if (isGameEnded) setInputInfo((prev) => ({ ...prev, currInput: "" }));
+    if (isGameEnded) setCurrInput("");
     if (isGameEnded && isLoggedIn && time !== "") pushUserStats();
   }, [isLoggedIn, isGameEnded, finalWPM, time, accuracy]);
 
@@ -96,9 +100,9 @@ const PracticeYourself = () => {
     else return <></>;
   };
 
-  if (loadInfo.loadError) {
-    return <div id="py-error-screen">Error: {loadInfo.loadError.message}</div>;
-  } else if (loadInfo.isLoading) {
+  if (loadError) {
+    return <div id="py-error-screen">Error: {loadError.message}</div>;
+  } else if (isLoading) {
     return <div id="py-loading-screen">Loading...</div>;
   } else {
     return (
@@ -111,7 +115,7 @@ const PracticeYourself = () => {
               gameStatus={gameStatus}
               countdown={countdown}
               gameTimer={gameTimer}
-              getTime={getTime}
+              formatTime={formatTime}
             />
             <ProgressBar
               chars={textInfo.chars}
