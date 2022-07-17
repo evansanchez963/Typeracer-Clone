@@ -35,11 +35,11 @@ const useIdxInfo = () => {
 
   const currCharIdx = state.currCharIdx;
   const currWordIdx = state.currWordIdx;
-  const incCharIdx = dispatch({ type: ACTIONS.INC_CHAR_IDX });
-  const decCharIdx = dispatch({ type: ACTIONS.DEC_CHAR_IDX });
-  const resetCharIdx = dispatch({ type: ACTIONS.RESET_CHAR_IDX });
-  const incWordIdx = dispatch({ type: ACTIONS.INC_WORD_IDX });
-  const resetWordIdx = dispatch({ type: ACTIONS.RESET_WORD_IDX });
+  const incCharIdx = () => dispatch({ type: ACTIONS.INC_CHAR_IDX });
+  const decCharIdx = () => dispatch({ type: ACTIONS.DEC_CHAR_IDX });
+  const resetCharIdx = () => dispatch({ type: ACTIONS.RESET_CHAR_IDX });
+  const incWordIdx = () => dispatch({ type: ACTIONS.INC_WORD_IDX });
+  const resetWordIdx = () => dispatch({ type: ACTIONS.RESET_WORD_IDX });
 
   return {
     currCharIdx,

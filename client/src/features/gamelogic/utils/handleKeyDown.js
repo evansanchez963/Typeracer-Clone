@@ -1,8 +1,6 @@
 // Evaluate input when user types.
 // If input is wrong, user can only backspace.
 
-import { GameStatusInfo } from "../components";
-
 const handleKeyDown = (
   e,
   gameStatus,

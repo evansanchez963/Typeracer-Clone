@@ -15,8 +15,10 @@ const reducer = (state, action) => {
     case ACTIONS.SET_LOAD_ERROR:
       return { ...state, loadError: action.payload };
     case ACTIONS.SET_CHARS:
+      console.log(action.payload);
       return { ...state, chars: action.payload };
     case ACTIONS.SET_WORDS:
+      console.log(action.payload);
       return { ...state, words: action.payload };
     case ACTIONS.RESET_INFO:
       return {
@@ -45,7 +47,11 @@ const useFetch = (startCountdown) => {
   const loadError = state.loadError;
   const chars = state.chars;
   const words = state.words;
-  const loaded = dispatch({ type: ACTIONS.LOADED });
+  const setChars = (text) =>
+    dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
+  const setWords = (text) =>
+    dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
+  const loaded = () => dispatch({ type: ACTIONS.LOADED });
 
   // Get data from metaphorsum API and turn on countdown timer.
   useEffect(() => {
@@ -53,11 +59,12 @@ const useFetch = (startCountdown) => {
       try {
         const response = await fetch("http://metaphorpsum.com/paragraphs/1/1");
         const text = await response.text();
-        dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
-        dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
+        setChars(text);
+        setWords(text);
         loaded();
         startCountdown();
         if (!response.ok) {
+          console.log("Error!");
           throw Error(response.statusText);
         }
       } catch (err) {

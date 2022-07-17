@@ -51,13 +51,15 @@ const useTimers = (isGameEnded, startGame, endGame) => {
   const countdownOn = state.countdownOn;
   const gameTimer = state.gameTimer;
   const gameTimerOn = state.gameTimerOn;
-  const startCountdown = dispatch({ type: ACTIONS.START_COUNTDOWN });
-  const stopCountdown = dispatch({ type: ACTIONS.STOP_COUNTDOWN });
-  const decrementCountdown = dispatch({ type: ACTIONS.DECREMENT_COUNTDOWN });
-  const startGameTimer = dispatch({ type: ACTIONS.START_GAME_TIMER });
-  const stopGameTimer = dispatch({ type: ACTIONS.STOP_GAME_TIMER });
-  const decrementGameTimer = dispatch({ type: ACTIONS.DECREMENT_GAME_TIMER });
-  const restartTimers = dispatch({ type: ACTIONS.RESTART_TIMERS });
+  const startCountdown = () => dispatch({ type: ACTIONS.START_COUNTDOWN });
+  const stopCountdown = () => dispatch({ type: ACTIONS.STOP_COUNTDOWN });
+  const decrementCountdown = () =>
+    dispatch({ type: ACTIONS.DECREMENT_COUNTDOWN });
+  const startGameTimer = () => dispatch({ type: ACTIONS.START_GAME_TIMER });
+  const stopGameTimer = () => dispatch({ type: ACTIONS.STOP_GAME_TIMER });
+  const decrementGameTimer = () =>
+    dispatch({ type: ACTIONS.DECREMENT_GAME_TIMER });
+  const restartTimers = () => dispatch({ type: ACTIONS.RESTART_TIMERS });
 
   // Countdown from 4 when first loaded into page.
   useEffect(() => {

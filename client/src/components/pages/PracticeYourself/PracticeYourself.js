@@ -139,7 +139,7 @@ const PracticeYourself = () => {
           <div className="typing-section">
             <GameStatusInfo gameStatus={gameStatus} timers={timers} />
             <ProgressBar
-              chars={typeInfo.chars}
+              chars={textInfo.chars}
               charsTyped={typeInfo.charsTyped}
               WPM={WPM}
             />

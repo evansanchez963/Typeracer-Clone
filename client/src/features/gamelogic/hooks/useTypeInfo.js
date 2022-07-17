@@ -29,9 +29,9 @@ const useTypeInfo = () => {
 
   const charsTyped = state.charsTyped;
   const errors = state.errors;
-  const incCharsTyped = dispatch({ type: ACTIONS.INC_CHARS_TYPED });
-  const incErrors = dispatch({ type: ACTIONS.INC_ERRORS });
-  const resetTypeInfo = dispatch({ type: ACTIONS.RESET_TYPE_INFO });
+  const incCharsTyped = () => dispatch({ type: ACTIONS.INC_CHARS_TYPED });
+  const incErrors = () => dispatch({ type: ACTIONS.INC_ERRORS });
+  const resetTypeInfo = () => dispatch({ type: ACTIONS.RESET_TYPE_INFO });
 
   return { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo };
 };
