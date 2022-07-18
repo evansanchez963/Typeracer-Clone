@@ -1,5 +1,12 @@
 import { useEffect, useReducer } from "react";
 
+const initialState = {
+  countdown: 4000,
+  countdownOn: false,
+  gameTimer: 60000,
+  gameTimerOn: false,
+};
+
 const ACTIONS = {
   START_COUNTDOWN: "start countdown",
   STOP_COUNTDOWN: "stop countdown",
@@ -26,7 +33,6 @@ const reducer = (state, action) => {
       return { ...state, gameTimer: state.gameTimer - 1000 };
     case ACTIONS.RESTART_TIMERS:
       return {
-        ...state,
         countdown: 4000,
         countdownOn: false,
         gameTimer: 60000,
@@ -37,20 +43,10 @@ const reducer = (state, action) => {
   }
 };
 
-const useTimers = (isGameEnded, startGame, endGame) => {
-  const timers = {
-    countdown: 4000,
-    countdownOn: false,
-    gameTimer: 60000,
-    gameTimerOn: false,
-  };
+const useTimers = (isEnded, startGame, endGame) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { countdown, countdownOn, gameTimer, gameTimerOn } = state;
 
-  const [state, dispatch] = useReducer(reducer, timers);
-
-  const countdown = state.countdown;
-  const countdownOn = state.countdownOn;
-  const gameTimer = state.gameTimer;
-  const gameTimerOn = state.gameTimerOn;
   const startCountdown = () => dispatch({ type: ACTIONS.START_COUNTDOWN });
   const stopCountdown = () => dispatch({ type: ACTIONS.STOP_COUNTDOWN });
   const decrementCountdown = () =>
@@ -65,41 +61,41 @@ const useTimers = (isGameEnded, startGame, endGame) => {
   useEffect(() => {
     let interval = null;
 
-    if (state.countdown < 0) {
+    if (countdown < 0) {
       stopCountdown();
       startGame();
       startGameTimer();
-    } else if (state.countdownOn) {
+    } else if (countdownOn) {
       interval = setInterval(() => {
         decrementCountdown();
       }, 1000);
-    } else if (!state.countdownOn) {
+    } else if (!countdownOn) {
       clearInterval(interval);
     }
 
     return () => clearInterval(interval);
-  }, [state.countdown, state.countdownOn]);
+  }, [countdown, countdownOn]);
 
   // Start game timer when countdown is over and stop
   // when it has reached 0.
   useEffect(() => {
     let interval = null;
 
-    if (isGameEnded) {
+    if (isEnded) {
       stopGameTimer();
-    } else if (state.gameTimer < 0) {
+    } else if (gameTimer < 0) {
       stopGameTimer();
       endGame();
-    } else if (state.gameTimerOn) {
+    } else if (gameTimerOn) {
       interval = setInterval(() => {
         decrementGameTimer();
       }, 1000);
-    } else if (!state.gameTimerOn) {
+    } else if (!gameTimerOn) {
       clearInterval(interval);
     }
 
     return () => clearInterval(interval);
-  }, [state.gameTimer, state.gameTimerOn]);
+  }, [gameTimer, gameTimerOn]);
 
   return {
     countdown,

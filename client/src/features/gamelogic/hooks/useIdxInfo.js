@@ -1,5 +1,10 @@
 import { useReducer } from "react";
 
+const initialState = {
+  currCharIdx: -1,
+  currWordIdx: 0,
+};
+
 const ACTIONS = {
   INC_CHAR_IDX: "increment char index",
   DEC_CHAR_IDX: "decrement char index",
@@ -26,15 +31,9 @@ const reducer = (state, action) => {
 };
 
 const useIdxInfo = () => {
-  const idxInfo = {
-    currCharIdx: -1,
-    currWordIdx: 0,
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { currCharIdx, currWordIdx } = state;
 
-  const [state, dispatch] = useReducer(reducer, idxInfo);
-
-  const currCharIdx = state.currCharIdx;
-  const currWordIdx = state.currWordIdx;
   const incCharIdx = () => dispatch({ type: ACTIONS.INC_CHAR_IDX });
   const decCharIdx = () => dispatch({ type: ACTIONS.DEC_CHAR_IDX });
   const resetCharIdx = () => dispatch({ type: ACTIONS.RESET_CHAR_IDX });

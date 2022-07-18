@@ -6,10 +6,10 @@ const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
   const typeInputRef = useRef(null);
 
   useEffect(() => {
-    if (gameStatus.isGameStarted || !gameStatus.isGameEnded) {
+    if (gameStatus.isStarted || !gameStatus.isEnded) {
       typeInputRef.current.focus();
     }
-  }, [gameStatus.isGameStarted, gameStatus.isGameEnded]);
+  }, [gameStatus.isStarted, gameStatus.isEnded]);
 
   return (
     <input
@@ -25,7 +25,7 @@ const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
       onChange={(e) => inputInfo.setCurrInput(e.target.value)}
       value={inputInfo.currInput}
       placeholder="Type in here when the race starts..."
-      disabled={!gameStatus.isGameStarted || gameStatus.isGameEnded}
+      disabled={!gameStatus.isStarted || gameStatus.isEnded}
       ref={typeInputRef}
     ></input>
   );

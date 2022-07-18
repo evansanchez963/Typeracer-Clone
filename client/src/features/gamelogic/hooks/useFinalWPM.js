@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
-const useFinalWPM = (isGameEnded, WPM) => {
+const useFinalWPM = (isEnded, WPM) => {
   const [finalWPM, setFinalWPM] = useState(0);
 
   useEffect(() => {
-    if (isGameEnded) setFinalWPM(WPM);
-  }, [isGameEnded, WPM]);
+    if (isEnded) setFinalWPM(WPM);
+  }, [isEnded, WPM]);
 
   return finalWPM;
 };

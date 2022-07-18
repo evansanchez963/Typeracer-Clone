@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { formatTime } from "../utils/index";
 
-const useTime = (isGameEnded, gameTimer) => {
+const useTime = (isEnded, gameTimer) => {
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    if (isGameEnded) setTime(formatTime(60000 - gameTimer.time));
-  }, [isGameEnded, gameTimer.time]);
+    if (isEnded) setTime(formatTime(60000 - gameTimer.time));
+  }, [isEnded, gameTimer.time]);
 
   return time;
 };

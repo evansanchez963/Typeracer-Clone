@@ -1,5 +1,10 @@
 import { useReducer } from "react";
 
+const initialState = {
+  currInput: "",
+  inputValid: true,
+};
+
 const ACTIONS = {
   SET_CURR_INPUT: "set curr input",
   SET_INPUT_VALID: "set input valid",
@@ -17,15 +22,9 @@ const reducer = (state, action) => {
 };
 
 const useInput = () => {
-  const inputInfo = {
-    currInput: "",
-    inputValid: true,
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { currInput, inputValid } = state;
 
-  const [state, dispatch] = useReducer(reducer, inputInfo);
-
-  const currInput = state.currInput;
-  const inputValid = state.inputValid;
   const setCurrInput = (input) =>
     dispatch({ type: ACTIONS.SET_CURR_INPUT, payload: input });
   const setInputValid = (bool) =>

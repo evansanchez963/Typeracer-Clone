@@ -1,5 +1,10 @@
 import { useReducer } from "react";
 
+const initialState = {
+  charsTyped: 0,
+  errors: 0,
+};
+
 const ACTIONS = {
   INC_CHARS_TYPED: "increment characaters typed",
   INC_ERRORS: "increment errors",
@@ -20,15 +25,9 @@ const reducer = (state, action) => {
 };
 
 const useTypeInfo = () => {
-  const userTypeInfo = {
-    charsTyped: 0,
-    errors: 0,
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { charsTyped, errors } = state;
 
-  const [state, dispatch] = useReducer(reducer, userTypeInfo);
-
-  const charsTyped = state.charsTyped;
-  const errors = state.errors;
   const incCharsTyped = () => dispatch({ type: ACTIONS.INC_CHARS_TYPED });
   const incErrors = () => dispatch({ type: ACTIONS.INC_ERRORS });
   const resetTypeInfo = () => dispatch({ type: ACTIONS.RESET_TYPE_INFO });

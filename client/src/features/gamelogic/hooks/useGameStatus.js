@@ -1,5 +1,10 @@
 import { useReducer } from "react";
 
+const initialState = {
+  isStarted: false,
+  isEnded: false,
+};
+
 const ACTIONS = {
   START_GAME: "start game",
   END_GAME: "end game",
@@ -20,18 +25,14 @@ const reducer = (state, action) => {
 };
 
 const useGameStatus = () => {
-  const gameStatus = {
-    isStarted: false,
-    isEnded: false,
-  };
-  const [state, dispatch] = useReducer(reducer, gameStatus);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { isStarted, isEnded } = state;
 
-  const isGameStarted = state.isStarted;
-  const isGameEnded = state.isEnded;
   const startGame = () => dispatch({ type: ACTIONS.START_GAME });
   const endGame = () => dispatch({ type: ACTIONS.END_GAME });
   const restartGame = () => dispatch({ type: ACTIONS.RESTART_GAME });
-  return { isGameStarted, isGameEnded, startGame, endGame, restartGame };
+
+  return { isStarted, isEnded, startGame, endGame, restartGame };
 };
 
 export default useGameStatus;

@@ -25,10 +25,10 @@ import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
   const isLoggedIn = useAuth();
-  const { isGameStarted, isGameEnded, startGame, endGame, restartGame } =
+  const { isStarted, isEnded, startGame, endGame, restartGame } =
     useGameStatus();
   const { countdown, countdownOn, gameTimer, gameTimerOn, startCountdown } =
-    useTimers(isGameEnded, startGame, endGame);
+    useTimers(isEnded, startGame, endGame);
   const { isLoading, loadError, chars, words } = useFetch(startCountdown);
   const { currInput, inputValid, setCurrInput, setInputValid } = useInput();
   const {
@@ -43,54 +43,54 @@ const PracticeYourself = () => {
   const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
     useTypeInfo();
   const WPM = useCalcWPM(gameTimer, charsTyped, errors);
-  const finalWPM = useFinalWPM(isGameEnded, WPM);
-  const time = useTime(isGameEnded, gameTimer);
-  const accuracy = useAccuracy(isGameEnded, charsTyped, errors);
+  const finalWPM = useFinalWPM(isEnded, WPM);
+  const time = useTime(isEnded, gameTimer);
+  const accuracy = useAccuracy(isEnded, charsTyped, errors);
 
   const gameStatus = {
-    isGameStarted: isGameStarted,
-    isGameEnded: isGameEnded,
-    startGame: startGame,
-    endGame: endGame,
-    restartGame: restartGame,
+    isStarted,
+    isEnded,
+    startGame,
+    endGame,
+    restartGame,
   };
   const timers = {
-    countdown: countdown,
-    countdownOn: countdownOn,
-    gameTimer: gameTimer,
-    gameTimerOn: gameTimerOn,
-    startCountdown: startCountdown,
+    countdown,
+    countdownOn,
+    gameTimer,
+    gameTimerOn,
+    startCountdown,
   };
   const textInfo = {
-    chars: chars,
-    words: words,
+    chars,
+    words,
   };
   const inputInfo = {
-    currInput: currInput,
-    inputValid: inputValid,
-    setCurrInput: setCurrInput,
-    setInputValid: setInputValid,
+    currInput,
+    inputValid,
+    setCurrInput,
+    setInputValid,
   };
   const idxInfo = {
-    currCharIdx: currCharIdx,
-    currWordIdx: currWordIdx,
-    incCharIdx: incCharIdx,
-    decCharIdx: decCharIdx,
-    resetCharIdx: resetCharIdx,
-    incWordIdx: incWordIdx,
-    resetWordIdx: resetWordIdx,
+    currCharIdx,
+    currWordIdx,
+    incCharIdx,
+    decCharIdx,
+    resetCharIdx,
+    incWordIdx,
+    resetWordIdx,
   };
   const typeInfo = {
-    charsTyped: charsTyped,
-    errors: errors,
-    incCharsTyped: incCharsTyped,
-    incErrors: incErrors,
-    resetTypeInfo: resetTypeInfo,
+    charsTyped,
+    errors,
+    incCharsTyped,
+    incErrors,
+    resetTypeInfo,
   };
   const userStats = {
-    finalWPM: finalWPM,
-    time: time,
-    accuracy: accuracy,
+    finalWPM,
+    time,
+    accuracy,
   };
 
   useEffect(() => {
@@ -117,12 +117,12 @@ const PracticeYourself = () => {
       }
     };
 
-    if (isGameEnded) setCurrInput("");
-    if (isGameEnded && isLoggedIn && time !== "") pushUserStats();
-  }, [isLoggedIn, isGameEnded, finalWPM, time, accuracy]);
+    if (isEnded) setCurrInput("");
+    if (isEnded && isLoggedIn && time !== "") pushUserStats();
+  }, [isLoggedIn, isEnded, finalWPM, time, accuracy]);
 
   const getStats = () => {
-    if (isGameEnded) return <Statistics userStats={userStats} />;
+    if (isEnded) return <Statistics userStats={userStats} />;
     else return <></>;
   };
 
@@ -161,7 +161,7 @@ const PracticeYourself = () => {
             </div>
           </div>
 
-          <ButtonRow isEnded={gameStatus.isGameEnded} />
+          <ButtonRow isEnded={gameStatus.isEnded} />
           {getStats()}
         </div>
       </section>
