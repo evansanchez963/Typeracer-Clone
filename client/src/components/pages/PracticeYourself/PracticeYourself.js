@@ -30,7 +30,8 @@ const PracticeYourself = () => {
   const { countdown, countdownOn, gameTimer, gameTimerOn, startCountdown } =
     useTimers(isEnded, startGame, endGame);
   const { isLoading, loadError, chars, words } = useFetch(startCountdown);
-  const { currInput, inputValid, setCurrInput, setInputValid } = useInput();
+  const { currInput, inputValid, setCurrInput, addChar, setInputValid } =
+    useInput();
   const {
     currCharIdx,
     currWordIdx,
@@ -68,6 +69,7 @@ const PracticeYourself = () => {
   const inputInfo = {
     currInput,
     inputValid,
+    addChar,
     setCurrInput,
     setInputValid,
   };
