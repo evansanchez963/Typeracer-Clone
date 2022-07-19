@@ -83,6 +83,7 @@ const useTimers = (isEnded, startGame, endGame) => {
 
     if (isEnded) {
       stopGameTimer();
+      endGame();
     } else if (gameTimer === 0) {
       stopGameTimer();
       endGame();
@@ -95,7 +96,7 @@ const useTimers = (isEnded, startGame, endGame) => {
     }
 
     return () => clearInterval(interval);
-  }, [gameTimer, gameTimerOn]);
+  }, [isEnded, gameTimer, gameTimerOn]);
 
   return {
     countdown,
