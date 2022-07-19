@@ -5,8 +5,8 @@ const useTime = (isEnded, gameTimer) => {
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    if (isEnded) setTime(formatTime(60000 - gameTimer.time));
-  }, [isEnded, gameTimer.time]);
+    if (isEnded) setTime(formatTime(60000 - gameTimer));
+  }, [isEnded, gameTimer]);
 
   return time;
 };

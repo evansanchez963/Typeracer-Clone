@@ -23,6 +23,7 @@ const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
         handleKeyDown(e, gameStatus, textInfo, inputInfo, idxInfo, typeInfo)
       }
       onChange={(e) => {
+        // If there is whitespace, do not concantenate it to currInput.
         if (!/\s/.test(e.target.value)) inputInfo.setCurrInput(e.target.value);
       }}
       value={inputInfo.currInput}

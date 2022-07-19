@@ -19,7 +19,7 @@ const reducer = (state, action) => {
       return { ...state, currInput: state.currInput + action.payload };
     }
     case ACTIONS.SET_INPUT_VALID:
-      return { ...state, currInput: action.payload };
+      return { ...state, inputValid: action.payload };
     default:
       return state;
   }
