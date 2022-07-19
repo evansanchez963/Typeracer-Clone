@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./ButtonRow.css";
 
-const ButtonRow = ({ isEnded }) => {
+const ButtonRow = ({ isEnded, restart }) => {
   return (
     <div className="practice-yourself-btn-row">
       <Link to="/">
@@ -10,7 +10,7 @@ const ButtonRow = ({ isEnded }) => {
       <button
         id="new-race"
         style={{ display: isEnded ? "block" : "none" }}
-        onClick={() => window.location.reload()}
+        onClick={restart}
       >
         New race
       </button>

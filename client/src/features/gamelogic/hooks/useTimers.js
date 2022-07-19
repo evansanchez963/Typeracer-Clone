@@ -32,12 +32,7 @@ const reducer = (state, action) => {
     case ACTIONS.DECREMENT_GAME_TIMER:
       return { ...state, gameTimer: state.gameTimer - 1000 };
     case ACTIONS.RESTART_TIMERS:
-      return {
-        countdown: 4000,
-        countdownOn: false,
-        gameTimer: 60000,
-        gameTimerOn: false,
-      };
+      return initialState;
     default:
       return state;
   }
@@ -55,7 +50,7 @@ const useTimers = (isEnded, startGame, endGame) => {
   const stopGameTimer = () => dispatch({ type: ACTIONS.STOP_GAME_TIMER });
   const decrementGameTimer = () =>
     dispatch({ type: ACTIONS.DECREMENT_GAME_TIMER });
-  const restartTimers = () => dispatch({ type: ACTIONS.RESTART_TIMERS });
+  const resetTimers = () => dispatch({ type: ACTIONS.RESTART_TIMERS });
 
   // Countdown from 4 when first loaded into page.
   useEffect(() => {
@@ -104,7 +99,7 @@ const useTimers = (isEnded, startGame, endGame) => {
     gameTimer,
     gameTimerOn,
     startCountdown,
-    restartTimers,
+    resetTimers,
   };
 };
 

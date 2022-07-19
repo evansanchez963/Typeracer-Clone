@@ -11,6 +11,7 @@ const ACTIONS = {
   RESET_CHAR_IDX: "reset char index",
   INC_WORD_IDX: "increment word index",
   RESET_WORD_IDX: "reset word index",
+  RESET_IDX_INFO: "reset index info",
 };
 
 const reducer = (state, action) => {
@@ -25,6 +26,8 @@ const reducer = (state, action) => {
       return { ...state, currWordIdx: state.currWordIdx + 1 };
     case ACTIONS.RESET_WORD_IDX:
       return { ...state, currWordIdx: 0 };
+    case ACTIONS.RESET_IDX_INFO:
+      return initialState;
     default:
       return state;
   }
@@ -39,6 +42,7 @@ const useIdxInfo = () => {
   const resetCharIdx = () => dispatch({ type: ACTIONS.RESET_CHAR_IDX });
   const incWordIdx = () => dispatch({ type: ACTIONS.INC_WORD_IDX });
   const resetWordIdx = () => dispatch({ type: ACTIONS.RESET_WORD_IDX });
+  const resetIdxInfo = () => dispatch({ type: ACTIONS.RESET_IDX_INFO });
 
   return {
     currCharIdx,
@@ -48,6 +52,7 @@ const useIdxInfo = () => {
     resetCharIdx,
     incWordIdx,
     resetWordIdx,
+    resetIdxInfo,
   };
 };
 

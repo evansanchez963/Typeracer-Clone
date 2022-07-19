@@ -26,13 +26,7 @@ const reducer = (state, action) => {
     case ACTIONS.SET_WORDS:
       return { ...state, words: action.payload };
     case ACTIONS.RESET_INFO:
-      return {
-        ...state,
-        isLoading: true,
-        loadError: null,
-        chars: [],
-        words: [],
-      };
+      return initialState;
     default:
       return state;
   }
@@ -43,6 +37,7 @@ const useFetch = (startCountdown) => {
   const { isLoading, loadError, chars, words } = state;
 
   const loaded = () => dispatch({ type: ACTIONS.LOADED });
+  const resetTextInfo = () => dispatch({ type: ACTIONS.RESET_INFO });
 
   // Get data from metaphorsum API and turn on countdown timer.
   useEffect(() => {
@@ -67,7 +62,7 @@ const useFetch = (startCountdown) => {
     getData();
   }, []);
 
-  return { isLoading, loadError, chars, words };
+  return { isLoading, loadError, chars, words, resetTextInfo };
 };
 
 export default useFetch;

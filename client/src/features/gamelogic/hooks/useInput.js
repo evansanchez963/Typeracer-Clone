@@ -9,6 +9,7 @@ const ACTIONS = {
   SET_CURR_INPUT: "set curr input",
   ADD_CHAR: "add char",
   SET_INPUT_VALID: "set input valid",
+  RESET_INPUT: "reset input",
 };
 
 const reducer = (state, action) => {
@@ -20,6 +21,8 @@ const reducer = (state, action) => {
     }
     case ACTIONS.SET_INPUT_VALID:
       return { ...state, inputValid: action.payload };
+    case ACTIONS.RESET_INPUT:
+      return initialState;
     default:
       return state;
   }
@@ -34,8 +37,16 @@ const useInput = () => {
   const addChar = (char) => dispatch({ type: ACTIONS.ADD_CHAR, payload: char });
   const setInputValid = (bool) =>
     dispatch({ type: ACTIONS.SET_INPUT_VALID, payload: bool });
+  const resetInput = () => dispatch({ type: ACTIONS.RESET_INPUT });
 
-  return { currInput, inputValid, setCurrInput, addChar, setInputValid };
+  return {
+    currInput,
+    inputValid,
+    setCurrInput,
+    addChar,
+    setInputValid,
+    resetInput,
+  };
 };
 
 export default useInput;

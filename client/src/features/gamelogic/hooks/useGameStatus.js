@@ -18,7 +18,7 @@ const reducer = (state, action) => {
     case ACTIONS.END_GAME:
       return { ...state, isEnded: true };
     case ACTIONS.RESTART_GAME:
-      return { ...state, isStarted: false, isEnded: false };
+      return initialState;
     default:
       return state;
   }

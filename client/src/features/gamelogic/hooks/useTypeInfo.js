@@ -18,7 +18,7 @@ const reducer = (state, action) => {
     case ACTIONS.INC_ERRORS:
       return { ...state, errors: state.errors + 1 };
     case ACTIONS.RESET_TYPE_INFO:
-      return { ...state, charsTyped: 0, errors: 0 };
+      return initialState;
     default:
       return state;
   }
