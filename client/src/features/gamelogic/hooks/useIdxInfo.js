@@ -20,7 +20,7 @@ const reducer = (state, action) => {
     case ACTIONS.DEC_CHAR_IDX:
       return { ...state, currCharIdx: state.currCharIdx - 1 };
     case ACTIONS.RESET_CHAR_IDX:
-      return { ...state, currCharIdx: 0 };
+      return { ...state, currCharIdx: -1 };
     case ACTIONS.INC_WORD_IDX:
       return { ...state, currWordIdx: state.currWordIdx + 1 };
     case ACTIONS.RESET_WORD_IDX:

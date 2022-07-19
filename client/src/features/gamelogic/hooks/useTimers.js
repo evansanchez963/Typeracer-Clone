@@ -3,7 +3,7 @@ import { useEffect, useReducer } from "react";
 const initialState = {
   countdown: 4000,
   countdownOn: false,
-  gameTimer: 5000,
+  gameTimer: 60000,
   gameTimerOn: false,
 };
 

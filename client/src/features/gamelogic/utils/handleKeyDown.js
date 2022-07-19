@@ -22,7 +22,7 @@ const handleKeyDown = (
     // If the word is incorrect...
     else {
       if (inputInfo.inputValid) {
-        //inputInfo.addChar(" ");
+        inputInfo.addChar(" ");
         idxInfo.incCharIdx();
       }
       inputInfo.setInputValid(false);

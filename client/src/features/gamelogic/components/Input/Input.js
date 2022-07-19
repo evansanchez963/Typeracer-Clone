@@ -22,7 +22,9 @@ const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
       onKeyDown={(e) =>
         handleKeyDown(e, gameStatus, textInfo, inputInfo, idxInfo, typeInfo)
       }
-      onChange={(e) => inputInfo.setCurrInput(e.target.value)}
+      onChange={(e) => {
+        if (!/\s/.test(e.target.value)) inputInfo.setCurrInput(e.target.value);
+      }}
       value={inputInfo.currInput}
       placeholder="Type in here when the race starts..."
       disabled={!gameStatus.isStarted || gameStatus.isEnded}
