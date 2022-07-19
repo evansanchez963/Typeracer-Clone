@@ -32,7 +32,7 @@ const reducer = (state, action) => {
   }
 };
 
-const useFetch = (startCountdown) => {
+const useFetch = (isStarted, isEnded, startCountdown) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, loadError, chars, words } = state;
 
@@ -59,8 +59,8 @@ const useFetch = (startCountdown) => {
       }
     };
 
-    getData();
-  }, []);
+    if (!isStarted && !isEnded) getData();
+  }, [isStarted, isEnded]);
 
   return { isLoading, loadError, chars, words, resetTextInfo };
 };

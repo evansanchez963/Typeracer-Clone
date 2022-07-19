@@ -35,8 +35,11 @@ const PracticeYourself = () => {
     startCountdown,
     resetTimers,
   } = useTimers(isEnded, startGame, endGame);
-  const { isLoading, loadError, chars, words, resetTextInfo } =
-    useFetch(startCountdown);
+  const { isLoading, loadError, chars, words, resetTextInfo } = useFetch(
+    isStarted,
+    isEnded,
+    startCountdown
+  );
   const {
     currInput,
     inputValid,
@@ -139,12 +142,20 @@ const PracticeYourself = () => {
       }
     };
 
-    if (isEnded) setCurrInput("");
-    if (isEnded && isLoggedIn && time !== "") pushUserStats();
-  }, [isLoggedIn, isEnded, finalWPM, time, accuracy]);
+    if (gameStatus.isStarted && gameStatus.isEnded) setCurrInput("");
+    if (gameStatus.isStarted && gameStatus.isEnded && isLoggedIn && time !== "")
+      pushUserStats();
+  }, [
+    isLoggedIn,
+    gameStatus.isStarted,
+    gameStatus.isEnded,
+    finalWPM,
+    time,
+    accuracy,
+  ]);
 
   const getStats = () => {
-    if (isEnded) return <Statistics userStats={userStats} />;
+    if (gameStatus.isEnded) return <Statistics userStats={userStats} />;
     else return <></>;
   };
 
