@@ -3,7 +3,7 @@ import { useEffect, useReducer } from "react";
 const initialState = {
   countdown: 4000,
   countdownOn: false,
-  gameTimer: 60000,
+  gameTimer: 5000,
   gameTimerOn: false,
 };
 
@@ -83,7 +83,7 @@ const useTimers = (isEnded, startGame, endGame) => {
 
     if (isEnded) {
       stopGameTimer();
-    } else if (gameTimer < 0) {
+    } else if (gameTimer === 0) {
       stopGameTimer();
       endGame();
     } else if (gameTimerOn) {

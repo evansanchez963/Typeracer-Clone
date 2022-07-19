@@ -12,14 +12,17 @@ const handleKeyDown = (
   if (e.key === " ") {
     // Space evaluates word at current word index.
 
+    // If the word is correct...
     if (inputInfo.currInput === textInfo.words[idxInfo.currWordIdx]) {
       inputInfo.setCurrInput("");
-      idxInfo.decCharIdx();
+      idxInfo.resetCharIdx();
       idxInfo.incWordIdx();
       typeInfo.incCharsTyped();
-    } else {
+    }
+    // If the word is incorrect...
+    else {
       if (inputInfo.inputValid) {
-        inputInfo.setCurrInput(inputInfo.currInput + " ");
+        //inputInfo.addChar(" ");
         idxInfo.incCharIdx();
       }
       inputInfo.setInputValid(false);
@@ -54,7 +57,7 @@ const handleKeyDown = (
 
         if (e.key !== charToCheck) {
           if (inputInfo.inputValid) {
-            inputInfo.setCurrInput(inputInfo.currInput + e.key);
+            inputInfo.addChar(e.key);
             idxInfo.incCharIdx();
           }
           inputInfo.setInputValid(false);
