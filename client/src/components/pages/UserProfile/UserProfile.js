@@ -61,7 +61,6 @@ const UserProfile = () => {
         setHighestWPM("Error");
         setRaceCount("Error");
         alert(err.message);
-        console.log(err.response);
       }
     };
 

@@ -60,10 +60,10 @@ const PracticeYourself = () => {
   } = useIdxInfo();
   const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
     useTypeInfo();
-  const WPM = useCalcWPM(gameTimer, charsTyped, errors);
-  const finalWPM = useFinalWPM(isEnded, WPM);
-  const time = useTime(isEnded, gameTimer);
-  const accuracy = useAccuracy(isEnded, charsTyped, errors);
+  const WPM = useCalcWPM(isStarted, isEnded, gameTimer, charsTyped, errors);
+  const finalWPM = useFinalWPM(isStarted, isEnded, WPM);
+  const time = useTime(isStarted, isEnded, gameTimer);
+  const accuracy = useAccuracy(isStarted, isEnded, charsTyped, errors);
 
   const gameStatus = {
     isStarted,
@@ -137,7 +137,6 @@ const PracticeYourself = () => {
       try {
         await axios.put(`api/user/${user.userId}/session`, userData, config);
       } catch (err) {
-        console.log(err.response);
         alert(err.message);
       }
     };

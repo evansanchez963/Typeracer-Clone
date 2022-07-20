@@ -50,7 +50,6 @@ const useFetch = (isStarted, isEnded, startCountdown) => {
         loaded();
         startCountdown();
         if (!response.ok) {
-          console.log("Error!");
           throw Error(response.statusText);
         }
       } catch (err) {
