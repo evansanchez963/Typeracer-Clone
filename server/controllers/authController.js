@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const errorResponse = require("../utils/errorResponse");
 
@@ -14,10 +15,13 @@ exports.createAccount = async (req, res, next) => {
     if (emailExists)
       return next(errorResponse("Email is already in use!", 400));
 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const user = await User.create({
       email: email,
       username: username,
-      password: password,
+      password: hashedPassword,
       typing_sessions: [],
     });
 
@@ -37,21 +41,13 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ username: username }).select("+password");
     if (!user) return next(errorResponse("Invalid credentials.", 401));
 
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return next(errorResponse("Invalid credentials.", 401));
 
     sendToken(user, 201, res);
   } catch (err) {
     next(err);
   }
-};
-
-exports.forgotPassword = async (req, res, next) => {
-  res.send("Forgot Password Route");
-};
-
-exports.resetPassword = (req, res, next) => {
-  res.send("Reset Password Route");
 };
 
 const sendToken = (user, statusCode, res) => {
