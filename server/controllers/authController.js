@@ -15,7 +15,7 @@ exports.createAccount = async (req, res, next) => {
     if (emailExists)
       return next(errorResponse("Email is already in use!", 400));
 
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(parseInt(process.env.SALT, 10));
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
