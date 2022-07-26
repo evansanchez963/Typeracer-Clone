@@ -7,7 +7,7 @@ const errorHandler = require("./middleware/error");
 const app = express();
 const io = require("socket.io")(process.env.SERVER_PORT, {
   cors: {
-    origin: [process.env.CLIENT_PORT],
+    origin: [process.env.CLIENT_URL],
   },
 });
 
@@ -18,7 +18,7 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.CLIENT_PORT,
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
