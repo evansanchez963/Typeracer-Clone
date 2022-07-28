@@ -7,6 +7,7 @@ import {
   CreateAccount,
   Login,
   UserProfile,
+  GameRoom,
 } from "./pages/index";
 import Footer from "./Footer/Footer";
 
@@ -20,4 +21,5 @@ export {
   Login,
   Footer,
   UserProfile,
+  GameRoom,
 };
