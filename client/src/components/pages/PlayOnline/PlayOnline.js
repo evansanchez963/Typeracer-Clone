@@ -28,7 +28,11 @@ const PlayOnline = () => {
 
         <h2>OR</h2>
 
-        <input type="text" placeholder="Enter game code..."></input>
+        <input
+          type="text"
+          placeholder="Enter game code..."
+          maxLength={5}
+        ></input>
         <button>Join Game</button>
       </div>
     </section>

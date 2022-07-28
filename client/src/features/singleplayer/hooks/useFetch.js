@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import axios from "axios";
 
 const initialState = {
   isLoading: true,
@@ -43,15 +44,15 @@ const useFetch = (isStarted, isEnded, startCountdown) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch("http://metaphorpsum.com/paragraphs/1/1");
-        const text = await response.text();
+        const response = await axios.get(
+          "http://metaphorpsum.com/paragraphs/1/1"
+        );
+        console.log(response.data);
+        const text = response.data;
         dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
         dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
         loaded();
         startCountdown();
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
       } catch (err) {
         dispatch({ type: ACTIONS.SET_LOAD_ERROR, payload: err });
         loaded();
