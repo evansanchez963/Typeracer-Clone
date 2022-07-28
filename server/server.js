@@ -7,10 +7,10 @@ const errorHandler = require("./middleware/error");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
-  cors: { origin: process.env.CLIENT_URL },
+  cors: { origin: "http://localhost:3000" },
   methods: ["GET", "POST", "PUT", "DELETE"],
 });
-const port = process.env.SERVER_PORT || 5000;
+const port = 5000;
 
 // Connect to database.
 connectDB();
@@ -19,7 +19,7 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
