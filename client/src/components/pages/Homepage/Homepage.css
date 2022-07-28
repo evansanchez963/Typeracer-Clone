@@ -51,9 +51,8 @@
 }
 
 #play-online-btn {
-  /* background-color:#4caf50; */
-  background-color: #ffb21c;
-  cursor: not-allowed
+  background-color:#4caf50;
+  cursor: pointer;
 }
 
 #play-yourself-btn {

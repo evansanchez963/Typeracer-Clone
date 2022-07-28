@@ -14,9 +14,9 @@ const Homepage = () => {
         <div className="gamemode">
           <div className="gamemode-info">
             <p>Get matched up with online opponents</p>
-            <Link to="/">
-              <button id="play-online-btn" className="gamemode-btn" disabled>
-                Under construction
+            <Link to="/play-online">
+              <button id="play-online-btn" className="gamemode-btn">
+                Play Online
               </button>
             </Link>
           </div>
