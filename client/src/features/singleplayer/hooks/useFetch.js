@@ -47,7 +47,6 @@ const useFetch = (isStarted, isEnded, startCountdown) => {
         const response = await axios.get(
           "http://metaphorpsum.com/paragraphs/1/1"
         );
-        console.log(response.data);
         const text = response.data;
         dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
         dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
