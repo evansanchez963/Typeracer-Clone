@@ -1,9 +1,16 @@
 import { useState, useEffect } from "react";
 //import { useSocket } from "../../../context/SocketContext";
+import createGameCode from "../../../features/multiplayer/utils/createGameCode";
 import "./PlayOnline.css";
 
 const PlayOnline = () => {
   //const socket = useSocket();
+
+  const [gameCode, setGameCode] = useState(null);
+
+  useEffect(() => {
+    setGameCode(createGameCode());
+  }, []);
 
   /*
   useEffect(() => {
@@ -16,7 +23,7 @@ const PlayOnline = () => {
   return (
     <section id="play-online">
       <div className="online-options">
-        <h1>Game Code: 00000</h1>
+        <h1>Game Code: {gameCode}</h1>
         <button>Create New Game</button>
 
         <h2>OR</h2>

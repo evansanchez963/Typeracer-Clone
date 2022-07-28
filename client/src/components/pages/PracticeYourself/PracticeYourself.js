@@ -135,7 +135,7 @@ const PracticeYourself = () => {
       };
 
       try {
-        await axios.put(`api/user/${user.userId}/session`, userData, config);
+        await axios.put(`/api/user/${user.userId}/session`, userData, config);
       } catch (err) {
         alert(err.message);
       }

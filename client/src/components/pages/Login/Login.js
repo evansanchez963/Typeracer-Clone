@@ -27,7 +27,7 @@ const Login = () => {
     };
 
     try {
-      const { data } = await axios.post("api/auth/login", userData, config);
+      const { data } = await axios.post("/api/auth/login", userData, config);
 
       // If successful, log in user.
       loginHandler(data.token, data.id);

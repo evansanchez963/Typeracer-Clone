@@ -37,7 +37,7 @@ const CreateAccount = () => {
 
     try {
       const { data } = await axios.post(
-        "api/auth/createaccount",
+        "/api/auth/createaccount",
         userData,
         config
       );
