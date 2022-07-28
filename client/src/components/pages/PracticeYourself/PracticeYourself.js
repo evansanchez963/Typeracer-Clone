@@ -6,7 +6,7 @@ import {
   Input,
   ButtonRow,
   Statistics,
-} from "../../../features/gamelogic/components/index";
+} from "../../../features/singleplayer/components/index";
 import {
   useGameStatus,
   useFetch,
@@ -18,7 +18,7 @@ import {
   useFinalWPM,
   useTime,
   useAccuracy,
-} from "../../../features/gamelogic/hooks/index";
+} from "../../../features/singleplayer/hooks/index";
 import { useAuth } from "../../../context/AuthContext";
 import axios from "axios";
 import "./PracticeYourself.css";
