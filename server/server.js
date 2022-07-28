@@ -5,11 +5,12 @@ const cors = require("cors");
 const connectDB = require("./config/database");
 const errorHandler = require("./middleware/error");
 const app = express();
-const io = require("socket.io")(process.env.SERVER_PORT, {
-  cors: {
-    origin: [process.env.CLIENT_URL],
-  },
+const server = require("http").createServer(app);
+const io = require("socket.io")(server, {
+  cors: { origin: process.env.CLIENT_URL },
+  methods: ["GET", "POST", "PUT", "DELETE"],
 });
+const port = process.env.SERVER_PORT || 5000;
 
 // Connect to database.
 connectDB();
@@ -28,13 +29,10 @@ app.use(errorHandler);
 
 // Socket.io functions
 io.on("connection", (socket) => {
-  console.log(socket.id);
+  console.log(`User connected with ID ${socket.id}`);
 });
 
-const port = process.env.SERVER_PORT || 5000;
-const server = app.listen(port, () =>
-  console.log(`Server is running on port: ${port}`)
-);
+server.listen(port, () => console.log(`Server is running on port: ${port}`));
 
 process.on("unhandledRejection", (err) => {
   console.log(`Logged Error: ${err}`);
