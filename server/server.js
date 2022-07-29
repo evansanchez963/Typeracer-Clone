@@ -27,9 +27,23 @@ app.use("/api/auth", require("./routes/authRouter"));
 app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
 
-// Socket.io functions
+// Socket.io event listeners.
 io.on("connection", (socket) => {
-  console.log(`User connected with ID ${socket.id}`);
+  console.log(`User ${socket.id} connected`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User ${socket.id} connected to room ${data}`);
+  });
+
+  socket.on("leave_room", (data) => {
+    socket.leave(data);
+    console.log(`User ${socket.id} left room ${data}`);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`User ${socket.id} disconnected`);
+  });
 });
 
 server.listen(port, () => console.log(`Server is running on port: ${port}`));
