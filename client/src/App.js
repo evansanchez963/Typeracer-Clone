@@ -16,8 +16,8 @@ import "./App.css";
 
 const App = () => {
   return (
-    <ContextProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ContextProvider>
         <div className="App">
           <Navbar />
           <div id="col-1"></div>
@@ -46,8 +46,8 @@ const App = () => {
           <div id="col-2"></div>
           <Footer />
         </div>
-      </BrowserRouter>
-    </ContextProvider>
+      </ContextProvider>
+    </BrowserRouter>
   );
 };
 

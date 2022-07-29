@@ -40,8 +40,10 @@ const PlayOnline = () => {
         ></input>
         <button
           onClick={() => {
-            joinRoomHandler(joinCode);
-            navigate(`/gameroom/${joinCode}`);
+            if (joinCode.length === 5) {
+              joinRoomHandler(joinCode);
+              navigate(`/gameroom/${joinCode}`);
+            }
           }}
         >
           Join Game
