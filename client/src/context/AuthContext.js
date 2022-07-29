@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 
 const AuthContext = React.createContext();
 const UserIdContext = React.createContext();
+const UsernameContext = React.createContext();
 const LoginContext = React.createContext();
 const LogoutContext = React.createContext();
 
@@ -12,6 +14,10 @@ const useAuth = () => {
 
 const useUserId = () => {
   return useContext(UserIdContext);
+};
+
+const useUsername = () => {
+  return useContext(UsernameContext);
 };
 
 const useLogin = () => {
@@ -25,6 +31,7 @@ const useLogout = () => {
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("");
+  const [username, setUsername] = useState("");
 
   // Check if a user was last logged in by checking local storage.
   useEffect(() => {
@@ -35,6 +42,29 @@ const AuthProvider = ({ children }) => {
       setIsLoggedIn(true);
     }
   }, []);
+
+  // Get username from userId.
+  useEffect(() => {
+    const getUsername = async () => {
+      const userObject = localStorage.getItem("userData");
+      const user = JSON.parse(userObject);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      try {
+        const { data } = await axios.get(`/api/user/${user.userId}`, config);
+        setUsername(data.username);
+      } catch {
+        setUsername("Error");
+      }
+    };
+
+    if (isLoggedIn) getUsername();
+  }, [isLoggedIn]);
 
   const loginHandler = (token, userId) => {
     const userObject = {
@@ -49,20 +79,23 @@ const AuthProvider = ({ children }) => {
   const logoutHandler = () => {
     localStorage.removeItem("userData");
     setUserId("");
+    setUsername("");
     setIsLoggedIn(false);
   };
 
   return (
     <AuthContext.Provider value={isLoggedIn}>
       <UserIdContext.Provider value={userId}>
-        <LoginContext.Provider value={loginHandler}>
-          <LogoutContext.Provider value={logoutHandler}>
-            {children}
-          </LogoutContext.Provider>
-        </LoginContext.Provider>
+        <UsernameContext.Provider value={username}>
+          <LoginContext.Provider value={loginHandler}>
+            <LogoutContext.Provider value={logoutHandler}>
+              {children}
+            </LogoutContext.Provider>
+          </LoginContext.Provider>
+        </UsernameContext.Provider>
       </UserIdContext.Provider>
     </AuthContext.Provider>
   );
 };
 
-export { useAuth, useUserId, useLogin, useLogout, AuthProvider };
+export { useAuth, useUserId, useUsername, useLogin, useLogout, AuthProvider };

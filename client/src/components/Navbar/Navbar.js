@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth, useUserId, useLogout } from "../../context/AuthContext";
+import {
+  useAuth,
+  useUserId,
+  useUsername,
+  useLogout,
+} from "../../context/AuthContext";
 import { logo } from "../../images/index";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { GoGear } from "react-icons/go";
 import { MdExitToApp } from "react-icons/md";
 import { GoThreeBars } from "react-icons/go";
 import Sidebar from "./Sidebar/Sidebar";
-import axios from "axios";
 import "./Navbar.css";
 
 const Navbar = () => {
   const isLoggedIn = useAuth();
   const userId = useUserId();
   const logoutHandler = useLogout();
-  const [username, setUsername] = useState("");
+  const username = useUsername();
   const [sidebarActive, setSidebarActive] = useState(false);
   const navigate = useNavigate();
 
@@ -30,29 +34,6 @@ const Navbar = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Get username from userId.
-  useEffect(() => {
-    const fetchUsername = async () => {
-      const userObject = localStorage.getItem("userData");
-      const user = JSON.parse(userObject);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
-      try {
-        const { data } = await axios.get(`/api/user/${user.userId}`, config);
-        setUsername(data.username);
-      } catch {
-        logoutHandler();
-      }
-    };
-
-    if (isLoggedIn) fetchUsername();
-  }, [isLoggedIn, logoutHandler]);
 
   return (
     <nav id="navbar">
