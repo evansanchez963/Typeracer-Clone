@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useAuth, useUsername } from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 
@@ -21,15 +22,17 @@ const useJoinRoom = () => {
 
 const SocketProvider = ({ children }) => {
   const [joinedRoomCode, setJoinedRoomCode] = useState("");
+  const isLoggedIn = useAuth();
+  const username = useUsername();
   const location = useLocation();
 
-  const joinRoomHandler = (roomId) => {
-    socket.emit("join_room", roomId);
-    setJoinedRoomCode(roomId);
+  const joinRoomHandler = (data) => {
+    socket.emit("join_room", data);
+    setJoinedRoomCode(data.room);
   };
 
-  const leaveRoomHandler = (roomId) => {
-    socket.emit("leave_room", roomId);
+  const leaveRoomHandler = (data) => {
+    socket.emit("leave_room", data);
     setJoinedRoomCode("");
   };
 
@@ -39,9 +42,12 @@ const SocketProvider = ({ children }) => {
       location.pathname !== `/gameroom/${joinedRoomCode}` &&
       joinedRoomCode !== ""
     ) {
-      leaveRoomHandler(joinedRoomCode);
+      leaveRoomHandler({
+        room: joinedRoomCode,
+        user: isLoggedIn ? username : "Guest",
+      });
     }
-  }, [joinedRoomCode, location]);
+  }, [joinedRoomCode, isLoggedIn, username, location]);
 
   return (
     <SocketContext.Provider value={socket}>

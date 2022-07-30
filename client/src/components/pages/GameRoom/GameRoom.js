@@ -6,7 +6,11 @@ const GameRoom = () => {
 
   //const [joinedUsers, setJoinedUsers] = useState([]);
 
-  return <section id="game-room"></section>;
+  return (
+    <section id="game-room">
+      <h1>Connected Users: numUsers</h1>
+    </section>
+  );
 };
 
 export default GameRoom;

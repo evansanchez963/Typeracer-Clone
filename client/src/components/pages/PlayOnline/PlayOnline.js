@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth, useUserId } from "../../../context/AuthContext";
+import { useAuth, useUsername } from "../../../context/AuthContext";
 import { useJoinRoom } from "../../../context/SocketContext";
 import createGameCode from "../../../features/multiplayer/utils/createGameCode";
 import "./PlayOnline.css";
@@ -8,9 +8,8 @@ import "./PlayOnline.css";
 const PlayOnline = () => {
   const navigate = useNavigate();
   const isLoggedIn = useAuth();
-  const userId = useUserId();
   const joinRoomHandler = useJoinRoom();
-  const [username, setUsername] = useState("");
+  const username = useUsername();
   const [gameCode, setGameCode] = useState("");
   const [joinCode, setJoinCode] = useState("");
 
@@ -25,7 +24,10 @@ const PlayOnline = () => {
         <h1>Game Code: {gameCode}</h1>
         <button
           onClick={() => {
-            joinRoomHandler(gameCode);
+            joinRoomHandler({
+              room: gameCode,
+              user: isLoggedIn ? username : "Guest",
+            });
             navigate(`/gameroom/${gameCode}`);
           }}
         >
@@ -41,7 +43,10 @@ const PlayOnline = () => {
         <button
           onClick={() => {
             if (joinCode.length === 5) {
-              joinRoomHandler(joinCode);
+              joinRoomHandler({
+                room: joinCode,
+                user: isLoggedIn ? username : "Guest",
+              });
               navigate(`/gameroom/${joinCode}`);
             }
           }}
