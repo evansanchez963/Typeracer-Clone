@@ -10,6 +10,7 @@ const io = require("socket.io")(server, {
   cors: { origin: "http://localhost:3000" },
   methods: ["GET", "POST", "PUT", "DELETE"],
 });
+const connect = require("./utils/connect");
 const port = 5000;
 
 // Connect to database.
@@ -28,27 +29,7 @@ app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
 
 // Socket.io event listeners.
-io.on("connection", (socket) => {
-  console.log(`User ${socket.id} connected`);
-
-  socket.on("join_room", (data) => {
-    socket.join(data.room);
-    console.log(
-      `User ${data.user} with ID ${socket.id} connected to room ${data.room}`
-    );
-  });
-
-  socket.on("leave_room", (data) => {
-    socket.leave(data.room);
-    console.log(
-      `User ${data.user} with ID ${socket.id} left room ${data.room}`
-    );
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`User ${socket.id} disconnected`);
-  });
-});
+io.on("connection", connect);
 
 server.listen(port, () => console.log(`Server is running on port: ${port}`));
 
