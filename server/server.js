@@ -10,7 +10,7 @@ const io = require("socket.io")(server, {
   cors: { origin: "http://localhost:3000" },
   methods: ["GET", "POST", "PUT", "DELETE"],
 });
-const connect = require("./utils/connect");
+const connectSocket = require("./utils/connectSocket");
 const port = 5000;
 
 // Connect to database.
@@ -29,7 +29,8 @@ app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
 
 // Socket.io event listeners.
-io.on("connection", connect);
+const connectedClients = {};
+io.on("connection", (socket) => connectSocket(socket, connectedClients));
 
 server.listen(port, () => console.log(`Server is running on port: ${port}`));
 
