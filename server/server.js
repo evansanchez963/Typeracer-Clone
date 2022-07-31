@@ -29,7 +29,7 @@ app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
 
 // Socket.io event listeners.
-const connectedClients = {};
+const connectedClients = {}; // Keeps track of clients connected to a room.
 io.on("connection", (socket) => connectSocket(socket, connectedClients));
 
 server.listen(port, () => console.log(`Server is running on port: ${port}`));

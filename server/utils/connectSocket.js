@@ -4,11 +4,10 @@ const disconnectHandler = require("../socketHandlers/disconnectHandler");
 
 const connectSocket = (socket, connectedClients) => {
   console.log(`User ${socket.id} connected`);
-  console.log(connectedClients);
 
-  joinRoomHandler(socket);
-  leaveRoomHandler(socket);
-  disconnectHandler(socket);
+  joinRoomHandler(socket, connectedClients);
+  leaveRoomHandler(socket, connectedClients);
+  disconnectHandler(socket, connectedClients);
 };
 
 module.exports = connectSocket;
