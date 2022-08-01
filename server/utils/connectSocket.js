@@ -3,10 +3,10 @@ const connectRoomHandler = require("../socketHandlers/connectRoomHandler");
 const leaveRoomHandler = require("../socketHandlers/leaveRoomHandler");
 const disconnectingHandler = require("../socketHandlers/disconnectingHandler");
 
-const connectSocket = (socket, connectedClients) => {
+const connectSocket = (socket, connectedClients, rooms) => {
   console.log(`User ${socket.id} connected`);
 
-  joinRoomHandler(socket, connectedClients);
+  joinRoomHandler(socket, connectedClients, rooms);
   connectRoomHandler(socket, connectedClients);
   leaveRoomHandler(socket, connectedClients);
   disconnectingHandler(socket, connectedClients);

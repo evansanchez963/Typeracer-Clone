@@ -10,6 +10,7 @@ const disconnectingHandler = (socket, connectedClients) => {
       // Assume that a user can only be connected to one room.
       const [, room] = rooms;
 
+      socket.leave(room);
       const connectedClientsInfo = getUserRoster(socket, connectedClients, {
         room: room,
       });
