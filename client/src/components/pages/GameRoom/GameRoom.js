@@ -9,7 +9,6 @@ const GameRoom = () => {
   const roomCode = useRoomCode();
 
   const updateJoinedUsers = (data) => {
-    setUserRoster({});
     const userInfo = {};
     for (const client in data) {
       userInfo[client] = data[client];

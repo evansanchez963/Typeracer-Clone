@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, useUsername } from "../../../context/AuthContext";
 import { useJoinRoom } from "../../../context/SocketContext";
-import createGameCode from "../../../features/multiplayer/utils/createGameCode";
 import "./PlayOnline.css";
 
 const PlayOnline = () => {
@@ -10,49 +9,39 @@ const PlayOnline = () => {
   const isLoggedIn = useAuth();
   const joinRoomHandler = useJoinRoom();
   const username = useUsername();
-  const [gameCode, setGameCode] = useState("");
-  const [joinCode, setJoinCode] = useState("");
+  const [roomCode, setRoomCode] = useState("");
+  const [error, setError] = useState("");
 
-  // Create a 5 character room code every time component is mounted.
-  useEffect(() => {
-    setGameCode(createGameCode());
-  }, []);
+  const joinButtonHandler = async () => {
+    if (roomCode === "") {
+      setError("Room code must not be empty!");
+      return;
+    }
+
+    try {
+      const joined = await joinRoomHandler({
+        room: roomCode,
+        user: isLoggedIn ? username : "Guest",
+      });
+      if (joined) navigate(`/gameroom/${roomCode}`);
+    } catch (err) {
+      setError(err);
+    }
+  };
 
   return (
     <section id="play-online">
       <div className="online-options">
-        <h1>Game Code: {gameCode}</h1>
-        <button
-          onClick={() => {
-            joinRoomHandler({
-              room: gameCode,
-              user: isLoggedIn ? username : "Guest",
-            });
-            navigate(`/gameroom/${gameCode}`);
-          }}
-        >
-          Create New Game
-        </button>
-        <h2>OR</h2>
-        <input
-          type="text"
-          placeholder="Enter game code..."
-          onChange={(e) => setJoinCode(e.target.value)}
-          maxLength={5}
-        ></input>
-        <button
-          onClick={() => {
-            if (joinCode.length === 5) {
-              joinRoomHandler({
-                room: joinCode,
-                user: isLoggedIn ? username : "Guest",
-              });
-              navigate(`/gameroom/${joinCode}`);
-            }
-          }}
-        >
-          Join Game
-        </button>
+        <h1>Join a Room</h1>
+        <div className="play-online-input-wrapper">
+          {error && <span className="play-online-error-message">*{error}</span>}
+          <input
+            type="text"
+            placeholder="Enter room code..."
+            onChange={(e) => setRoomCode(e.target.value)}
+          ></input>
+        </div>
+        <button onClick={joinButtonHandler}>Join Game</button>
       </div>
     </section>
   );

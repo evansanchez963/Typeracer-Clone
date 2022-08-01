@@ -26,9 +26,16 @@ const SocketProvider = ({ children }) => {
   const username = useUsername();
   const location = useLocation();
 
-  const joinRoomHandler = (data) => {
-    socket.emit("join_room", data);
-    setJoinedRoomCode(data.room);
+  // User can either join a room or not be allowed to because it is full.
+  const joinRoomHandler = async (data) => {
+    return new Promise((resolve, reject) => {
+      socket.emit("join_room", data);
+      socket.on("join_room_success", () => {
+        setJoinedRoomCode(data.room);
+        resolve(true);
+      });
+      socket.on("join_room_error", (data) => reject(data));
+    });
   };
 
   const leaveRoomHandler = (data) => {

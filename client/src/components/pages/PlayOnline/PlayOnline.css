@@ -14,7 +14,13 @@
   font-size: large;
 }
 
-.online-options h2 {
+.play-online-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.play-online-error-message {
+  color: red;
   font-size: small;
 }
 
