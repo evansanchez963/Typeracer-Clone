@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSocket, useRoomCode } from "../../../context/SocketContext";
+import {
+  GameroomStatusInfo,
+  UserProgressBar,
+} from "../../../features/multiplayer/components/index";
 import "./GameRoom.css";
 
 const GameRoom = () => {
@@ -18,15 +22,16 @@ const GameRoom = () => {
 
   const renderUsers = () => {
     return (
-      <ul>
+      <div className="user-list">
         {Object.keys(userRoster).map((client) => {
           return (
-            <li key={client}>
+            <div key={client} className="user">
               {userRoster[client]} {socket.id === client ? "(you)" : ""}
-            </li>
+              <UserProgressBar></UserProgressBar>
+            </div>
           );
         })}
-      </ul>
+      </div>
     );
   };
 
@@ -39,8 +44,12 @@ const GameRoom = () => {
 
   return (
     <section id="game-room">
-      <h1>Connected Users: {Object.keys(userRoster).length}</h1>
-      {renderUsers()}
+      <div className="multiplayer-wrapper">
+        <div className="multiplayer-typing-section">
+          <GameroomStatusInfo></GameroomStatusInfo>
+          {renderUsers()}
+        </div>
+      </div>
     </section>
   );
 };

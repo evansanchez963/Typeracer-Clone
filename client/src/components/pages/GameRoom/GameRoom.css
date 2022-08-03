@@ -1,10 +1,35 @@
-#game-room {
-  align-items: center;
+.multiplayer-wrapper {
   color: white;
-  background-color: #111111;
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 1rem;
+  max-width: 50rem;
+}
+
+.multiplayer-typing-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-list,
+.user {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-list {
+  gap: 0.5rem;
+}
+
+.user {
+  gap: 0.2rem;
+}
+
+#game-room {
+  background-color: #111111;
+  display: flex;
   grid-column: 2 / 3;
   justify-content: center;
   padding: 1rem;

@@ -1,0 +1,19 @@
+.user-progress {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+}
+
+.user-progress p {
+  text-align: right;
+  width: 5rem;
+}
+
+.user-progress-bar,
+.user-progress-bar::-webkit-progress-bar,
+.user-progress-bar::-webkit-progress-value,
+.user-progress-bar::-moz-progress-bar {
+  border-radius: 0.5rem;
+  flex: 1;
+  max-height: 1rem;
+}

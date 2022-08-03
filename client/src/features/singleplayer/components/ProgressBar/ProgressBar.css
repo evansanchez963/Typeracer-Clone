@@ -5,7 +5,8 @@
 }
 
 .game-progress p {
-  margin-left: 1rem;
+  text-align: right;
+  width: 5rem;
 }
 
 #progress-bar,

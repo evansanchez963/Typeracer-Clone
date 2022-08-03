@@ -159,16 +159,16 @@ const PracticeYourself = () => {
   };
 
   if (loadError) {
-    return <div id="py-error-screen">Error: {loadError.message}</div>;
+    return <div id="singleplayer-error-screen">Error: {loadError.message}</div>;
   } else if (isLoading) {
-    return <div id="py-loading-screen">Loading...</div>;
+    return <div id="singleplayer-loading-screen">Loading...</div>;
   } else {
     return (
       <section id="practice-yourself">
-        <div className="py-wrapper">
+        <div className="singleplayer-wrapper">
           <h1>Practice Racetrack</h1>
 
-          <div className="typing-section">
+          <div className="singleplayer-typing-section">
             <GameStatusInfo gameStatus={gameStatus} timers={timers} />
             <ProgressBar
               chars={textInfo.chars}
@@ -176,7 +176,7 @@ const PracticeYourself = () => {
               WPM={WPM}
             />
 
-            <div className="typing-box">
+            <div className="singleplayer-typing-box">
               <Paragraph
                 gameStatus={gameStatus}
                 words={textInfo.words}
