@@ -27,6 +27,22 @@
   gap: 0.2rem;
 }
 
+.multiplayer-typing-box {
+  background-color: #333333;
+  border: 1px solid #3B3B3B;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.multiplayer-typing-box p {
+  font-size: large;
+  margin-left: 0.5rem;
+}
+
 #game-room {
   background-color: #111111;
   display: flex;
