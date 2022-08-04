@@ -17,7 +17,7 @@ const disconnectingHandler = (socket, connectedClients) => {
       socket.to(room).emit("get_user_roster", connectedClientsInfo); // Emit info of user that disconnected to others in room.
     }
 
-    console.log(`User ${socket.id} disconnected`);
+    console.log(`User ${socket.id} disconnected.`);
   });
 };
 

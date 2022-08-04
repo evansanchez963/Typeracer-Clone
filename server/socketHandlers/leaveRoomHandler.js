@@ -9,7 +9,7 @@ const leaveRoomHandler = (socket, connectedClients) => {
     socket.to(data.room).emit("get_user_roster", connectedClientsInfo); // Emit info of user that left to others in room.
 
     console.log(
-      `User ${data.user} with ID ${socket.id} left room ${data.room}`
+      `User ${data.user} with ID: ${socket.id} left room ${data.room}.`
     );
   });
 };
