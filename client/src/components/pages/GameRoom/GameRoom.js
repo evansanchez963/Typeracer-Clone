@@ -13,7 +13,7 @@ const GameRoom = () => {
   const socket = useSocket();
   const roomCode = useRoomCode();
 
-  const { text } = useFetch(roomCode, userRoster);
+  const { isLoading, loadError, text } = useFetch(roomCode, userRoster);
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};
@@ -45,18 +45,23 @@ const GameRoom = () => {
     return () => socket.off("get_user_roster", updateJoinedUsers);
   }, [socket, roomCode]);
 
-  return (
-    <section id="game-room">
-      <div className="multiplayer-wrapper">
-        <div className="multiplayer-typing-section">
-          <GameroomStatusInfo></GameroomStatusInfo>
-          {renderUsers()}
+  if (loadError) {
+    return <div id="multiplayer-error-screen">Error: {loadError.message}</div>;
+  } else if (isLoading) {
+    return <div id="multiplayer-loading-screen">Loading...</div>;
+  } else
+    return (
+      <section id="game-room">
+        <div className="multiplayer-wrapper">
+          <div className="multiplayer-typing-section">
+            <GameroomStatusInfo></GameroomStatusInfo>
+            {renderUsers()}
 
-          <div className="multiplayer-typing-box">{text}</div>
+            <div className="multiplayer-typing-box">{text}</div>
+          </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
 };
 
 export default GameRoom;

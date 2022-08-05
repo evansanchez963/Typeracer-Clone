@@ -1,10 +1,50 @@
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import { useSocket } from "../../../context/SocketContext";
 import axios from "axios";
 
+const initialState = {
+  isLoading: true,
+  loadError: null,
+  chars: [],
+  words: [],
+  text: "",
+};
+
+const ACTIONS = {
+  LOADED: "loaded",
+  SET_LOAD_ERROR: "get load error",
+  SET_CHARS: "get chars",
+  SET_WORDS: "get words",
+  SET_TEXT: "set text",
+  RESET_INFO: "reset info",
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.LOADED:
+      return { ...state, isLoading: false };
+    case ACTIONS.SET_LOAD_ERROR:
+      return { ...state, loadError: action.payload };
+    case ACTIONS.SET_CHARS:
+      return { ...state, chars: action.payload };
+    case ACTIONS.SET_WORDS:
+      return { ...state, words: action.payload };
+    case ACTIONS.SET_TEXT:
+      return { ...state, text: action.payload };
+    case ACTIONS.RESET_INFO:
+      return initialState;
+    default:
+      return state;
+  }
+};
+
 const useFetch = (roomCode, userRoster) => {
-  const [text, setText] = useState("");
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { isLoading, loadError, chars, words, text } = state;
   const socket = useSocket();
+
+  const loaded = () => dispatch({ type: ACTIONS.LOADED });
+  const resetTextInfo = () => dispatch({ type: ACTIONS.RESET_INFO });
 
   const fetchDataHandler = async (data) => {
     if (data.fetchData) {
@@ -13,15 +53,18 @@ const useFetch = (roomCode, userRoster) => {
         const response = await axios.get(
           "http://metaphorpsum.com/paragraphs/1/1"
         );
-        setText(response.data);
+        dispatch({ type: ACTIONS.SET_TEXT, payload: response.data });
+        loaded();
       } catch (err) {
-        setText(err);
+        dispatch({ type: ACTIONS.SET_LOAD_ERROR, payload: err });
+        loaded();
       }
     } else return;
   };
 
   const recieveDataHandler = (data) => {
-    setText(data.text);
+    dispatch({ type: ACTIONS.SET_TEXT, payload: data.text });
+    loaded();
   };
 
   useEffect(() => {
@@ -43,7 +86,7 @@ const useFetch = (roomCode, userRoster) => {
     };
   }, [roomCode, userRoster, text, socket]);
 
-  return { text };
+  return { isLoading, loadError, text };
 };
 
 export default useFetch;

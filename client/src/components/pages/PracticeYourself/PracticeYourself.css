@@ -33,6 +33,8 @@
 #singleplayer-loading-screen {
   background-color: #111111;
   color: white;
+  grid-column: 2 / 3;
+  padding: 1rem;
 }
 
 #practice-yourself {
