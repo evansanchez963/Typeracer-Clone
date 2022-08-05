@@ -4,7 +4,7 @@ import {
   GameroomStatusInfo,
   UserProgressBar,
 } from "../../../features/multiplayer/components/index";
-//import { useFetch } from "../../../features/multiplayer/hooks/index";
+import { useFetch } from "../../../features/multiplayer/hooks/index";
 import "./GameRoom.css";
 
 const GameRoom = () => {
@@ -13,7 +13,7 @@ const GameRoom = () => {
   const socket = useSocket();
   const roomCode = useRoomCode();
 
-  //const { text } = useFetch(socket, roomCode, userRoster);
+  const { text } = useFetch(roomCode, userRoster);
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};
@@ -52,7 +52,7 @@ const GameRoom = () => {
           <GameroomStatusInfo></GameroomStatusInfo>
           {renderUsers()}
 
-          <div className="multiplayer-typing-box"></div>
+          <div className="multiplayer-typing-box">{text}</div>
         </div>
       </div>
     </section>
