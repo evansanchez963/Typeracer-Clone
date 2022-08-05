@@ -8,6 +8,7 @@ const useFetch = (roomCode, userRoster) => {
 
   const fetchDataHandler = async (data) => {
     if (data.fetchData) {
+      console.log("Fetch data!");
       try {
         const response = await axios.get(
           "http://metaphorpsum.com/paragraphs/1/1"
@@ -20,8 +21,6 @@ const useFetch = (roomCode, userRoster) => {
   };
 
   const recieveDataHandler = (data) => {
-    console.log("Recieve text!");
-    console.log(data.text);
     setText(data.text);
   };
 
