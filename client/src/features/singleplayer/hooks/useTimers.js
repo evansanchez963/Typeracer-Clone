@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useCallback } from "react";
 
 const initialState = {
   countdown: 4000,
@@ -42,7 +42,10 @@ const useTimers = (isEnded, startGame, endGame) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { countdown, countdownOn, gameTimer, gameTimerOn } = state;
 
-  const startCountdown = () => dispatch({ type: ACTIONS.START_COUNTDOWN });
+  const startCountdown = useCallback(
+    () => dispatch({ type: ACTIONS.START_COUNTDOWN }),
+    []
+  );
   const stopCountdown = () => dispatch({ type: ACTIONS.STOP_COUNTDOWN });
   const decrementCountdown = () =>
     dispatch({ type: ACTIONS.DECREMENT_COUNTDOWN });
@@ -69,7 +72,7 @@ const useTimers = (isEnded, startGame, endGame) => {
     }
 
     return () => clearInterval(interval);
-  }, [countdown, countdownOn]);
+  }, [startGame, countdown, countdownOn]);
 
   // Start game timer when countdown is over and stop
   // when it has reached 0.
@@ -91,7 +94,7 @@ const useTimers = (isEnded, startGame, endGame) => {
     }
 
     return () => clearInterval(interval);
-  }, [isEnded, gameTimer, gameTimerOn]);
+  }, [endGame, isEnded, gameTimer, gameTimerOn]);
 
   return {
     countdown,

@@ -44,6 +44,10 @@ const useFetch = (roomCode, userRoster) => {
   const socket = useSocket();
 
   const loaded = () => dispatch({ type: ACTIONS.LOADED });
+  const setChars = (chars) =>
+    dispatch({ type: ACTIONS.SET_CHARS, payload: chars });
+  const setWords = (words) =>
+    dispatch({ type: ACTIONS.SET_WORDS, payload: words });
   const resetTextInfo = () => dispatch({ type: ACTIONS.RESET_INFO });
 
   const fetchDataHandler = async (data) => {

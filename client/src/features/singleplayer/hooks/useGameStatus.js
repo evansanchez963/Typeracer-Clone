@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useCallback } from "react";
 
 const initialState = {
   isStarted: false,
@@ -28,9 +28,15 @@ const useGameStatus = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isStarted, isEnded } = state;
 
-  const startGame = () => dispatch({ type: ACTIONS.START_GAME });
-  const endGame = () => dispatch({ type: ACTIONS.END_GAME });
-  const restartGame = () => dispatch({ type: ACTIONS.RESTART_GAME });
+  const startGame = useCallback(
+    () => dispatch({ type: ACTIONS.START_GAME }),
+    []
+  );
+  const endGame = useCallback(() => dispatch({ type: ACTIONS.END_GAME }), []);
+  const restartGame = useCallback(
+    () => dispatch({ type: ACTIONS.RESTART_GAME }),
+    []
+  );
 
   return { isStarted, isEnded, startGame, endGame, restartGame };
 };

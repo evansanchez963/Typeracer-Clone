@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useCallback } from "react";
 
 const initialState = {
   currInput: "",
@@ -32,8 +32,10 @@ const useInput = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { currInput, inputValid } = state;
 
-  const setCurrInput = (input) =>
-    dispatch({ type: ACTIONS.SET_CURR_INPUT, payload: input });
+  const setCurrInput = useCallback(
+    (input) => dispatch({ type: ACTIONS.SET_CURR_INPUT, payload: input }),
+    []
+  );
   const addChar = (char) => dispatch({ type: ACTIONS.ADD_CHAR, payload: char });
   const setInputValid = (bool) =>
     dispatch({ type: ACTIONS.SET_INPUT_VALID, payload: bool });

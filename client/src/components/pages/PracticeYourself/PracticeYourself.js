@@ -148,6 +148,7 @@ const PracticeYourself = () => {
     isLoggedIn,
     gameStatus.isStarted,
     gameStatus.isEnded,
+    setCurrInput,
     finalWPM,
     time,
     accuracy,

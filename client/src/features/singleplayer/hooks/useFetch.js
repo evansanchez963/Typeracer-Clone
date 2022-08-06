@@ -59,7 +59,7 @@ const useFetch = (isStarted, isEnded, startCountdown) => {
     };
 
     if (!isStarted && !isEnded) getData();
-  }, [isStarted, isEnded]);
+  }, [startCountdown, isStarted, isEnded]);
 
   return { isLoading, loadError, chars, words, resetTextInfo };
 };
