@@ -24,7 +24,6 @@ const joinRoomHandler = (socket, connectedClients, rooms) => {
       if (activeRooms[data.room].size === 1) {
         console.log("Fetch text data!");
         socket.emit("fetch_text_data", { fetchData: true });
-        socket.emit("control_timer", { controlTimer: true });
       } else socket.emit("fetch_text_data", { fetchData: false });
 
       // If there are two clients in a room, start a game in that room.
