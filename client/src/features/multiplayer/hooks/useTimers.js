@@ -164,6 +164,7 @@ const useTimers = (roomCode, isRoomStarted, isRoomEnded, endRoom) => {
     countdownOn,
     gameTimer,
     gameTimerOn,
+    startCountdown,
     resetTimers,
   };
 };

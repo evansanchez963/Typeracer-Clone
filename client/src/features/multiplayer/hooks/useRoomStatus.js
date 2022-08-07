@@ -22,7 +22,7 @@ const reducer = (state, action) => {
       return { ...state, isRoomStarted: true };
     case ACTIONS.FINISH_ROOM:
       return { ...state, isRoomFinished: true };
-    case ACTIONS.RESTART_ROOM:
+    case ACTIONS.RESET_ROOM:
       return initialState;
     default:
       return state;
