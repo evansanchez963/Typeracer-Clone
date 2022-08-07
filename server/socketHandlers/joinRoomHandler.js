@@ -19,10 +19,12 @@ const joinRoomHandler = (socket, connectedClients, rooms) => {
 
       activeRooms = getActiveRooms(rooms);
 
-      // The first socket that joins the room fetches the text from the Metaphorsum API on the client.
+      // The first socket that joins the room fetches the text from the Metaphorsum API on the client and controls the timer.
       // The rest of the sockets recieve the same text.
       if (activeRooms[data.room].size === 1) {
+        console.log("Fetch text data!");
         socket.emit("fetch_text_data", { fetchData: true });
+        socket.emit("control_timer", { controlTimer: true });
       } else socket.emit("fetch_text_data", { fetchData: false });
 
       // If there are two clients in a room, start a game in that room.
