@@ -35,8 +35,8 @@ const GameRoom = () => {
     resetClient,
   } = useClientStatus(isRoomStarted, isRoomEnded);
   const { countdown, countdownOn, gameTimer, gameTimerOn, resetTimers } =
-    useTimers(roomCode, isRoomStarted, isRoomEnded, endRoom);
-  const { isLoading, loadError, text } = useFetch(roomCode, userRoster);
+    useTimers(userRoster, roomCode, isRoomStarted, isRoomEnded, endRoom);
+  const { isLoading, loadError, text } = useFetch(userRoster, roomCode);
 
   const roomStatus = {
     finishLine,

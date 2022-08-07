@@ -38,7 +38,7 @@ const reducer = (state, action) => {
   }
 };
 
-const useFetch = (roomCode, userRoster) => {
+const useFetch = (userRoster, roomCode) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isLoading, loadError, chars, words, text } = state;
   const socket = useSocket();
