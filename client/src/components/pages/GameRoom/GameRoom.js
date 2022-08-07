@@ -4,7 +4,12 @@ import {
   GameroomStatusInfo,
   UserProgressBar,
 } from "../../../features/multiplayer/components/index";
-import { useFetch } from "../../../features/multiplayer/hooks/index";
+import {
+  useRoomStatus,
+  useClientStatus,
+  useTimers,
+  useFetch,
+} from "../../../features/multiplayer/hooks/index";
 import "./GameRoom.css";
 
 const GameRoom = () => {
@@ -13,7 +18,58 @@ const GameRoom = () => {
   const socket = useSocket();
   const roomCode = useRoomCode();
 
+  const {
+    finishLine,
+    isRoomStarted,
+    isRoomEnded,
+    clientFinish,
+    endRoom,
+    resetRoom,
+  } = useRoomStatus();
+  const {
+    isClientReady,
+    isClientStarted,
+    isClientEnded,
+    readyClient,
+    endClient,
+    resetClient,
+  } = useClientStatus(isRoomStarted, isRoomEnded);
+  const {
+    countdown,
+    countdownOn,
+    gameTimer,
+    gameTimerOn,
+    startCountdown,
+    resetTimers,
+  } = useTimers(isRoomStarted, isRoomEnded);
   const { isLoading, loadError, text } = useFetch(roomCode, userRoster);
+
+  const roomStatus = {
+    finishLine,
+    isRoomStarted,
+    isRoomEnded,
+    clientFinish,
+    endRoom,
+  };
+  const clientStatus = {
+    isClientReady,
+    isClientStarted,
+    isClientEnded,
+    readyClient,
+    endClient,
+  };
+  const timers = {
+    countdown,
+    countdownOn,
+    gameTimer,
+    gameTimerOn,
+    startCountdown,
+  };
+  const restart = () => {
+    resetRoom();
+    resetClient();
+    resetTimers();
+  };
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};
@@ -54,7 +110,11 @@ const GameRoom = () => {
       <section id="game-room">
         <div className="multiplayer-wrapper">
           <div className="multiplayer-typing-section">
-            <GameroomStatusInfo></GameroomStatusInfo>
+            <GameroomStatusInfo
+              roomStatus={roomStatus}
+              clientStatus={clientStatus}
+              timers={timers}
+            ></GameroomStatusInfo>
             {renderUsers()}
 
             <div className="multiplayer-typing-box">{text}</div>

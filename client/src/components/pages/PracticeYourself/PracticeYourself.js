@@ -25,6 +25,8 @@ import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
   const isLoggedIn = useAuth();
+
+  // Data from custom hooks.
   const { isStarted, isEnded, startGame, endGame, restartGame } =
     useGameStatus();
   const {
@@ -65,6 +67,7 @@ const PracticeYourself = () => {
   const time = useTime(isStarted, isEnded, gameTimer);
   const accuracy = useAccuracy(isStarted, isEnded, charsTyped, errors);
 
+  // Organize the data into objects.
   const gameStatus = {
     isStarted,
     isEnded,
