@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useCallback } from "react";
 import { useSocket } from "../../../context/SocketContext";
 import axios from "axios";
 
@@ -50,9 +50,8 @@ const useFetch = (roomCode, userRoster) => {
     dispatch({ type: ACTIONS.SET_WORDS, payload: words });
   const resetTextInfo = () => dispatch({ type: ACTIONS.RESET_INFO });
 
-  const fetchDataHandler = async (data) => {
+  const fetchDataHandler = useCallback(async (data) => {
     if (data.fetchData) {
-      console.log("Fetch data!");
       try {
         const response = await axios.get(
           "http://metaphorpsum.com/paragraphs/1/1"
@@ -64,12 +63,12 @@ const useFetch = (roomCode, userRoster) => {
         loaded();
       }
     } else return;
-  };
+  }, []);
 
-  const recieveDataHandler = (data) => {
+  const recieveDataHandler = useCallback((data) => {
     dispatch({ type: ACTIONS.SET_TEXT, payload: data.text });
     loaded();
-  };
+  }, []);
 
   useEffect(() => {
     socket.on("fetch_text_data", fetchDataHandler);
@@ -88,7 +87,14 @@ const useFetch = (roomCode, userRoster) => {
       socket.off("fetch_text_data", fetchDataHandler);
       socket.off("recieve_text_data", recieveDataHandler);
     };
-  }, [roomCode, userRoster, text, socket]);
+  }, [
+    roomCode,
+    userRoster,
+    text,
+    socket,
+    fetchDataHandler,
+    recieveDataHandler,
+  ]);
 
   return { isLoading, loadError, text };
 };
