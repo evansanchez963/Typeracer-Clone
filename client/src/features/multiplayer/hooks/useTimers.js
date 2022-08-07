@@ -1,6 +1,8 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useCallback } from "react";
+import { useSocket } from "../../../context/SocketContext";
 
 const initialState = {
+  controlTimer: false,
   countdown: 7000,
   countdownOn: false,
   gameTimer: 60000,
@@ -8,17 +10,21 @@ const initialState = {
 };
 
 const ACTIONS = {
+  CONTROL_TIMER: "control timer",
   START_COUNTDOWN: "start countdown",
   STOP_COUNTDOWN: "stop countdown",
   DECREMENT_COUNTDOWN: "decrement countdown",
   START_GAME_TIMER: "start game timer",
   STOP_GAME_TIMER: "stop game timer",
   DECREMENT_GAME_TIMER: "decrement game timer",
+  SET_TIMER_STATE: "set timer state",
   RESTART_TIMERS: "restart timers",
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case ACTIONS.CONTROL_TIMER:
+      return { ...state, controlTimer: true };
     case ACTIONS.START_COUNTDOWN:
       return { ...state, countdownOn: true };
     case ACTIONS.STOP_COUNTDOWN:
@@ -31,6 +37,14 @@ const reducer = (state, action) => {
       return { ...state, gameTimerOn: false };
     case ACTIONS.DECREMENT_GAME_TIMER:
       return { ...state, gameTimer: state.gameTimer - 1000 };
+    case ACTIONS.SET_TIMER_STATE:
+      return {
+        ...state,
+        countdown: action.payload.countdown,
+        countdownOn: action.payload.countdownOn,
+        gameTimer: action.payload.gameTimer,
+        gameTimerOn: action.payload.gameTimerOn,
+      };
     case ACTIONS.RESTART_TIMERS:
       return initialState;
     default:
@@ -38,10 +52,14 @@ const reducer = (state, action) => {
   }
 };
 
-const useTimers = (isRoomStarted, isRoomEnded) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { countdown, countdownOn, gameTimer, gameTimerOn } = state;
+const useTimers = (roomCode, isRoomStarted, isRoomEnded, endRoom) => {
+  const socket = useSocket();
 
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { controlTimer, countdown, countdownOn, gameTimer, gameTimerOn } =
+    state;
+
+  const setControlTimer = () => dispatch({ type: ACTIONS.CONTROL_TIMER });
   const startCountdown = () => dispatch({ type: ACTIONS.START_COUNTDOWN });
   const stopCountdown = () => dispatch({ type: ACTIONS.STOP_COUNTDOWN });
   const decrementCountdown = () =>
@@ -50,57 +68,102 @@ const useTimers = (isRoomStarted, isRoomEnded) => {
   const stopGameTimer = () => dispatch({ type: ACTIONS.STOP_GAME_TIMER });
   const decrementGameTimer = () =>
     dispatch({ type: ACTIONS.DECREMENT_GAME_TIMER });
+  const setTimerState = (timerState) =>
+    dispatch({ type: ACTIONS.SET_TIMER_STATE, payload: timerState });
   const resetTimers = () => dispatch({ type: ACTIONS.RESTART_TIMERS });
+
+  const controlTimerHandler = useCallback((data) => {
+    if (data.controlTimer) setControlTimer();
+  }, []);
+
+  const recieveTimerHandler = useCallback((data) => {
+    console.log("Recieve timer state!");
+    setTimerState(data.timerState);
+  }, []);
+
+  // If client is first to join room, then control timer.
+  useEffect(() => {
+    socket.on("control_timer", controlTimerHandler);
+    socket.on("recieve_timer_state", recieveTimerHandler);
+
+    return () => {
+      socket.off("control_timer", controlTimerHandler);
+      socket.off("recieve_timer_state", recieveTimerHandler);
+    };
+  }, [socket, controlTimerHandler, recieveTimerHandler]);
+
+  useEffect(() => {
+    if (controlTimer) {
+      console.log("Send timer state!");
+      const timerState = { countdown, countdownOn, gameTimer, gameTimerOn };
+      socket.emit("send_timer_state", {
+        room: roomCode,
+        timerState: timerState,
+      });
+    }
+  }, [
+    roomCode,
+    socket,
+    controlTimer,
+    countdown,
+    countdownOn,
+    gameTimer,
+    gameTimerOn,
+  ]);
 
   // Start countdown timer when two players are in the room.
   useEffect(() => {
-    if (isRoomStarted) startCountdown();
-  }, [isRoomStarted]);
+    if (controlTimer && isRoomStarted) startCountdown();
+  }, [controlTimer, isRoomStarted]);
 
   // Countdown from 4 when two players join the room.
   useEffect(() => {
-    let interval = null;
+    if (controlTimer) {
+      let interval = null;
 
-    if (countdown < 0) {
-      stopCountdown();
-      startGameTimer();
-    } else if (countdownOn) {
-      interval = setInterval(() => {
-        decrementCountdown();
-      }, 1000);
-    } else if (!countdownOn) {
-      clearInterval(interval);
+      if (countdown < 0) {
+        stopCountdown();
+        startGameTimer();
+      } else if (countdownOn) {
+        interval = setInterval(() => {
+          decrementCountdown();
+        }, 1000);
+      } else if (!countdownOn) {
+        clearInterval(interval);
+      }
+
+      return () => clearInterval(interval);
     }
-
-    return () => clearInterval(interval);
-  }, [countdown, countdownOn]);
+  }, [controlTimer, countdown, countdownOn]);
 
   // Start game timer when countdown is over and stop
   // when it has reached 0.
   useEffect(() => {
-    let interval = null;
+    if (controlTimer) {
+      let interval = null;
 
-    if (isRoomEnded) {
-      stopGameTimer();
-    } else if (gameTimer === 0) {
-      stopGameTimer();
-    } else if (gameTimerOn) {
-      interval = setInterval(() => {
-        decrementGameTimer();
-      }, 1000);
-    } else if (!gameTimerOn) {
-      clearInterval(interval);
+      if (isRoomEnded) {
+        stopGameTimer();
+      } else if (gameTimer === 0) {
+        stopGameTimer();
+        endRoom();
+      } else if (gameTimerOn) {
+        interval = setInterval(() => {
+          decrementGameTimer();
+        }, 1000);
+      } else if (!gameTimerOn) {
+        clearInterval(interval);
+      }
+
+      return () => clearInterval(interval);
     }
-
-    return () => clearInterval(interval);
-  }, [isRoomEnded, gameTimer, gameTimerOn]);
+  }, [isRoomEnded, endRoom, controlTimer, gameTimer, gameTimerOn]);
 
   return {
     countdown,
     countdownOn,
     gameTimer,
     gameTimerOn,
-    startCountdown,
     resetTimers,
   };
 };

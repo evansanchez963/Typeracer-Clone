@@ -53,9 +53,11 @@ const useFetch = (roomCode, userRoster) => {
   const fetchDataHandler = useCallback(async (data) => {
     if (data.fetchData) {
       try {
+        console.log("Fetch text data!");
         const response = await axios.get(
           "http://metaphorpsum.com/paragraphs/1/1"
         );
+        console.log(response.data);
         dispatch({ type: ACTIONS.SET_TEXT, payload: response.data });
         loaded();
       } catch (err) {

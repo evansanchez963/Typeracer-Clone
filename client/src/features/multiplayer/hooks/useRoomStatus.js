@@ -38,7 +38,7 @@ const useRoomStatus = () => {
   const clientFinish = (clientStats) =>
     dispatch({ type: ACTIONS.CLIENT_WON, payload: clientStats });
   const startRoom = () => dispatch({ type: ACTIONS.START_ROOM });
-  const endRoom = () => dispatch({ type: ACTIONS.END_ROOM });
+  const endRoom = useCallback(() => dispatch({ type: ACTIONS.END_ROOM }), []);
   const resetRoom = () => dispatch({ type: ACTIONS.RESET_ROOM });
 
   const startGameHandler = useCallback((data) => {
@@ -55,7 +55,7 @@ const useRoomStatus = () => {
   // When both clients finish typing, end game.
   useEffect(() => {
     if (finishLine.length === 2) endRoom();
-  }, [finishLine]);
+  }, [finishLine, endRoom]);
 
   return {
     finishLine,

@@ -34,14 +34,8 @@ const GameRoom = () => {
     endClient,
     resetClient,
   } = useClientStatus(isRoomStarted, isRoomEnded);
-  const {
-    countdown,
-    countdownOn,
-    gameTimer,
-    gameTimerOn,
-    startCountdown,
-    resetTimers,
-  } = useTimers(isRoomStarted, isRoomEnded);
+  const { countdown, countdownOn, gameTimer, gameTimerOn, resetTimers } =
+    useTimers(roomCode, isRoomStarted, isRoomEnded, endRoom);
   const { isLoading, loadError, text } = useFetch(roomCode, userRoster);
 
   const roomStatus = {
@@ -63,7 +57,6 @@ const GameRoom = () => {
     countdownOn,
     gameTimer,
     gameTimerOn,
-    startCountdown,
   };
   const restart = () => {
     resetRoom();
