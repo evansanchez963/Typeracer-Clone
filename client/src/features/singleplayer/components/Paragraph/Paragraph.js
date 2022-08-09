@@ -4,7 +4,7 @@ import "./Paragraph.css";
 
 const Paragraph = ({ gameStatus, words, currInput, idxInfo }) => {
   return (
-    <p id="paragraph">
+    <p className="paragraph">
       {words.map((word, wordIdx) => (
         <span key={word + wordIdx}>
           <span className={getWordClass(wordIdx, gameStatus, idxInfo)}>

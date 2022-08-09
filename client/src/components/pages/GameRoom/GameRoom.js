@@ -35,7 +35,7 @@ const GameRoom = () => {
     startClient,
     endClient
   );
-  const { isLoading, loadError, text } = useFetch(userRoster, roomCode);
+  const { isLoading, loadError, chars, words } = useFetch(userRoster);
 
   const roomStatus = {
     finishLine,
@@ -111,7 +111,7 @@ const GameRoom = () => {
             ></GameroomStatusInfo>
             {renderUsers()}
 
-            <div className="multiplayer-typing-box">{text}</div>
+            <div className="multiplayer-typing-box"></div>
           </div>
         </div>
       </section>
