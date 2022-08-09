@@ -10,6 +10,7 @@ import {
   useTimers,
   useFetch,
   useInput,
+  useIdxInfo,
 } from "../../../features/multiplayer/hooks/index";
 import "./GameRoom.css";
 
@@ -45,6 +46,16 @@ const GameRoom = () => {
     setInputValid,
     resetInput,
   } = useInput();
+  const {
+    currCharIdx,
+    currWordIdx,
+    incCharIdx,
+    decCharIdx,
+    resetCharIdx,
+    incWordIdx,
+    resetWordIdx,
+    resetIdxInfo,
+  } = useIdxInfo();
 
   const roomStatus = {
     finishLine,
