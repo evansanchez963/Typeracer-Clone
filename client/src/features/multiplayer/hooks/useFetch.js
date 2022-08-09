@@ -57,7 +57,6 @@ const useFetch = (userRoster, roomCode) => {
         const response = await axios.get(
           "http://metaphorpsum.com/paragraphs/1/1"
         );
-        console.log(response.data);
         dispatch({ type: ACTIONS.SET_TEXT, payload: response.data });
         loaded();
       } catch (err) {
