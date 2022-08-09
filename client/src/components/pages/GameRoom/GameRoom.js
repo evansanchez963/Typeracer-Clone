@@ -9,6 +9,7 @@ import {
   useClientStatus,
   useTimers,
   useFetch,
+  useInput,
 } from "../../../features/multiplayer/hooks/index";
 import "./GameRoom.css";
 
@@ -36,6 +37,14 @@ const GameRoom = () => {
     endClient
   );
   const { isLoading, loadError, chars, words } = useFetch(userRoster);
+  const {
+    currInput,
+    inputValid,
+    setCurrInput,
+    addChar,
+    setInputValid,
+    resetInput,
+  } = useInput();
 
   const roomStatus = {
     finishLine,
@@ -55,6 +64,10 @@ const GameRoom = () => {
     countdownOn,
     gameTimer,
     gameTimerOn,
+  };
+  const textInfo = {
+    chars,
+    words,
   };
   /*
   const restart = () => {
