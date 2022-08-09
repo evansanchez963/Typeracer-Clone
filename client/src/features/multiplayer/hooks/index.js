@@ -7,6 +7,8 @@ import useIdxInfo from "./useIdxInfo";
 import useTypeInfo from "./useTypeInfo";
 import useCalcWPM from "./useCalcWPM";
 import useFinalWPM from "./useFinalWPM";
+import useTime from "./useTime";
+import useAccuracy from "./useAccuracy";
 
 export {
   useRoomStatus,
@@ -18,4 +20,6 @@ export {
   useTypeInfo,
   useCalcWPM,
   useFinalWPM,
+  useTime,
+  useAccuracy,
 };
