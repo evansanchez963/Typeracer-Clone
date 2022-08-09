@@ -38,14 +38,8 @@ const GameRoom = () => {
     endClient
   );
   const { isLoading, loadError, chars, words } = useFetch(userRoster);
-  const {
-    currInput,
-    inputValid,
-    setCurrInput,
-    addChar,
-    setInputValid,
-    resetInput,
-  } = useInput();
+  const { currInput, inputValid, setCurrInput, addChar, setInputValid } =
+    useInput();
   const {
     currCharIdx,
     currWordIdx,
@@ -54,7 +48,6 @@ const GameRoom = () => {
     resetCharIdx,
     incWordIdx,
     resetWordIdx,
-    resetIdxInfo,
   } = useIdxInfo();
 
   const roomStatus = {
