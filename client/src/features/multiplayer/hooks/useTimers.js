@@ -24,7 +24,7 @@ const ACTIONS = {
 const reducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.SET_CONTROL_TIMER:
-      return { ...state, controlTimer: action.payload };
+      return { ...state, controlTimer: true };
     case ACTIONS.START_COUNTDOWN:
       return { ...state, countdownOn: true };
     case ACTIONS.STOP_COUNTDOWN:
@@ -65,8 +65,7 @@ const useTimers = (
   const { controlTimer, countdown, countdownOn, gameTimer, gameTimerOn } =
     state;
 
-  const setControlTimer = (bool) =>
-    dispatch({ type: ACTIONS.SET_CONTROL_TIMER, payload: bool });
+  const setControlTimer = () => dispatch({ type: ACTIONS.SET_CONTROL_TIMER });
   const startCountdown = () => dispatch({ type: ACTIONS.START_COUNTDOWN });
   const stopCountdown = () => dispatch({ type: ACTIONS.STOP_COUNTDOWN });
   const decrementCountdown = () =>
@@ -87,8 +86,7 @@ const useTimers = (
   useEffect(() => {
     socket.on("recieve_timer_state", recieveTimerHandler);
 
-    if (Object.keys(userRoster)[0] === socket.id) setControlTimer(true);
-    else setControlTimer(false);
+    if (Object.keys(userRoster)[0] === socket.id) setControlTimer();
 
     return () => {
       socket.off("recieve_timer_state", recieveTimerHandler);
@@ -98,7 +96,6 @@ const useTimers = (
   // While client controls timer, send timer state to the rest of the clients in the room.
   useEffect(() => {
     if (controlTimer) {
-      console.log("Send timer state!");
       const timerState = { countdown, countdownOn, gameTimer, gameTimerOn };
       socket.emit("send_timer_state", {
         room: roomCode,
