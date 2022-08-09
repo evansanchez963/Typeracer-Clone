@@ -5,6 +5,8 @@ import useFetch from "./useFetch";
 import useInput from "./useInput";
 import useIdxInfo from "./useIdxInfo";
 import useTypeInfo from "./useTypeInfo";
+import useCalcWPM from "./useCalcWPM";
+import useFinalWPM from "./useFinalWPM";
 
 export {
   useRoomStatus,
@@ -14,4 +16,6 @@ export {
   useInput,
   useIdxInfo,
   useTypeInfo,
+  useCalcWPM,
+  useFinalWPM,
 };

@@ -64,6 +64,7 @@ const PracticeYourself = () => {
   } = useIdxInfo();
   const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
     useTypeInfo();
+
   const WPM = useCalcWPM(isStarted, isEnded, gameTimer, charsTyped, errors);
   const finalWPM = useFinalWPM(isStarted, isEnded, WPM);
   const time = useTime(isStarted, isEnded, gameTimer);

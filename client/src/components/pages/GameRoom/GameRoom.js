@@ -12,6 +12,8 @@ import {
   useInput,
   useIdxInfo,
   useTypeInfo,
+  useCalcWPM,
+  useFinalWPM,
 } from "../../../features/multiplayer/hooks/index";
 import "./GameRoom.css";
 
@@ -54,6 +56,16 @@ const GameRoom = () => {
   } = useIdxInfo();
   const { charsTyped, errors, incCharsTyped, incErrors } = useTypeInfo();
 
+  const WPM = useCalcWPM(
+    isClientStarted,
+    isClientEnded,
+    gameTimer,
+    charsTyped,
+    errors
+  );
+  const finalWPM = useFinalWPM(isClientStarted, isClientEnded, WPM);
+
+  // Organize the data into objects.
   const roomStatus = {
     finishLine,
     isRoomStarted,
