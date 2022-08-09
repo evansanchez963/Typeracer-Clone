@@ -1,11 +1,12 @@
 import { useEffect, useReducer, useCallback } from "react";
-import { useSocket } from "../../../context/SocketContext";
+import { createRoutesFromChildren } from "react-router-dom";
+import { useSocket, useRoomCode } from "../../../context/SocketContext";
 
 const initialState = {
   controlTimer: false,
   countdown: 7000,
   countdownOn: false,
-  gameTimer: 60000,
+  gameTimer: 10000,
   gameTimerOn: false,
 };
 
@@ -52,14 +53,11 @@ const reducer = (state, action) => {
   }
 };
 
-const useTimers = (
-  userRoster,
-  roomCode,
-  isRoomStarted,
-  isRoomEnded,
-  endRoom
-) => {
+const useTimers = (userRoster, isRoomStarted, isRoomEnded, startClient) => {
   const socket = useSocket();
+  const roomCode = useRoomCode();
+
+  const hostSocketId = Object.keys(userRoster)[0];
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { controlTimer, countdown, countdownOn, gameTimer, gameTimerOn } =
@@ -82,16 +80,20 @@ const useTimers = (
     setTimerState(data.timerState);
   }, []);
 
+  useEffect(() => {
+    if (countdown < 0) startClient();
+  }, [countdown, startClient]);
+
   // If client is first to join room, then control timer.
   useEffect(() => {
     socket.on("recieve_timer_state", recieveTimerHandler);
 
-    if (Object.keys(userRoster)[0] === socket.id) setControlTimer();
+    if (hostSocketId === socket.id) setControlTimer();
 
     return () => {
       socket.off("recieve_timer_state", recieveTimerHandler);
     };
-  }, [userRoster, socket, recieveTimerHandler]);
+  }, [userRoster, socket, hostSocketId, recieveTimerHandler]);
 
   // While client controls timer, send timer state to the rest of the clients in the room.
   useEffect(() => {
@@ -137,8 +139,7 @@ const useTimers = (
     }
   }, [controlTimer, countdown, countdownOn]);
 
-  // Start game timer when countdown is over and stop
-  // when it has reached 0.
+  // Start game timer when countdown is over and stop game when it has reached 0.
   useEffect(() => {
     if (controlTimer) {
       let interval = null;
@@ -147,7 +148,7 @@ const useTimers = (
         stopGameTimer();
       } else if (gameTimer === 0) {
         stopGameTimer();
-        endRoom();
+        socket.emit("send_end_room", { room: roomCode, endRoom: true });
       } else if (gameTimerOn) {
         interval = setInterval(() => {
           decrementGameTimer();
@@ -158,7 +159,7 @@ const useTimers = (
 
       return () => clearInterval(interval);
     }
-  }, [isRoomEnded, endRoom, controlTimer, gameTimer, gameTimerOn]);
+  }, [roomCode, socket, isRoomEnded, controlTimer, gameTimer, gameTimerOn]);
 
   return {
     countdown,

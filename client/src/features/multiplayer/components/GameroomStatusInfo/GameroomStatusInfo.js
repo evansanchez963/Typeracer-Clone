@@ -5,10 +5,11 @@ import formatTime from "../../utils/formatTime";
 const GameroomStatusInfo = ({ roomStatus, clientStatus, timers }) => {
   const getStatusMsg = () => {
     if (!roomStatus.isRoomStarted) return <p>Waiting for players...</p>;
-    else if (!clientStatus.isClientStarted)
+    else if (!clientStatus.isClientStarted && timers.countdownOn)
       return <p>The race is about to start...</p>;
-    else if (roomStatus.isRoom) return <p>The race has ended!</p>;
-    else return <p>The race has started!</p>;
+    else if (clientStatus.isClientStarted && timers.gameTimerOn)
+      return <p>The race has started!</p>;
+    else if (roomStatus.isRoomEnded) return <p>The race has ended!</p>;
   };
 
   const getTimer = () => {

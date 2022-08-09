@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useCallback } from "react";
 
 const initialState = {
   isClientReady: false,
@@ -28,25 +28,29 @@ const reducer = (state, action) => {
   }
 };
 
-const useClientStatus = (isRoomStarted, isRoomEnded) => {
+const useClientStatus = (isRoomEnded) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isClientReady, isClientStarted, isClientEnded } = state;
 
   const readyClient = () => dispatch({ type: ACTIONS.READY_CLIENT });
-  const startClient = () => dispatch({ type: ACTIONS.START_GAME });
+  const startClient = useCallback(
+    () => dispatch({ type: ACTIONS.START_CLIENT }),
+    []
+  );
   const endClient = () => dispatch({ type: ACTIONS.END_CLIENT });
   const resetClient = () => dispatch({ type: ACTIONS.RESET_CLIENT });
 
+  // If room timer runs out or all clients finish typing, end client.
   useEffect(() => {
-    if (isRoomStarted) startClient();
-    else if (isRoomEnded) endClient();
-  }, [isRoomStarted, isRoomEnded]);
+    if (isRoomEnded) endClient();
+  }, [isRoomEnded]);
 
   return {
     isClientReady,
     isClientStarted,
     isClientEnded,
     readyClient,
+    startClient,
     endClient,
     resetClient,
   };

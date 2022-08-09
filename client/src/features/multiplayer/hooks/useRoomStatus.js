@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useCallback } from "react";
-import { useSocket } from "../../../context/SocketContext";
+import { useSocket, useRoomCode } from "../../../context/SocketContext";
 
 const initialState = {
   finishLine: [],
@@ -10,7 +10,7 @@ const initialState = {
 const ACTIONS = {
   CLIENT_FINISH: "client finish",
   START_ROOM: "start room",
-  FINISH_ROOM: "finish room",
+  END_ROOM: "end room",
   RESET_ROOM: "reset room",
 };
 
@@ -20,8 +20,8 @@ const reducer = (state, action) => {
       return { ...state, finishLine: [...state.finishLine, action.payload] };
     case ACTIONS.START_ROOM:
       return { ...state, isRoomStarted: true };
-    case ACTIONS.FINISH_ROOM:
-      return { ...state, isRoomFinished: true };
+    case ACTIONS.END_ROOM:
+      return { ...state, isRoomEnded: true };
     case ACTIONS.RESET_ROOM:
       return initialState;
     default:
@@ -29,33 +29,61 @@ const reducer = (state, action) => {
   }
 };
 
-const useRoomStatus = () => {
+const useRoomStatus = (userRoster) => {
   const socket = useSocket();
+  const roomCode = useRoomCode();
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { finishLine, isRoomStarted, isRoomEnded } = state;
 
+  const hostSocketId = Object.keys(userRoster)[0];
+  const rosterSize = Object.keys(userRoster).length;
+
   const clientFinish = (clientStats) =>
     dispatch({ type: ACTIONS.CLIENT_WON, payload: clientStats });
-  const startRoom = () => dispatch({ type: ACTIONS.START_ROOM });
+  const startRoom = useCallback(
+    () => dispatch({ type: ACTIONS.START_ROOM }),
+    []
+  );
   const endRoom = useCallback(() => dispatch({ type: ACTIONS.END_ROOM }), []);
   const resetRoom = () => dispatch({ type: ACTIONS.RESET_ROOM });
 
-  const startGameHandler = useCallback((data) => {
-    if (data.start) startRoom();
-  }, []);
+  const startRoomHandler = useCallback(
+    (data) => {
+      if (data.startRoom) startRoom();
+    },
+    [startRoom]
+  );
+
+  const endRoomHandler = useCallback(
+    (data) => {
+      if (data.endRoom) endRoom();
+    },
+    [endRoom]
+  );
+
+  // Set up socketio events for starting and ending room.
+  useEffect(() => {
+    socket.on("recieve_start_room", startRoomHandler);
+    socket.on("recieve_end_room", endRoomHandler);
+
+    return () => {
+      socket.off("recieve_start_room", startRoomHandler);
+      socket.off("recieve_end_room", endRoomHandler);
+    };
+  }, [socket, startRoomHandler, endRoomHandler]);
 
   // Start game when there are two clients in the same room.
   useEffect(() => {
-    socket.on("start_game", startGameHandler);
+    if (hostSocketId === socket.id && rosterSize === 2)
+      socket.emit("send_start_room", { room: roomCode, startRoom: true });
+  }, [socket, roomCode, hostSocketId, rosterSize, startRoom]);
 
-    return () => socket.off("start_game", startGameHandler);
-  }, [socket, startGameHandler]);
-
-  // When both clients finish typing, end game.
+  // When both clients finish typing (or one disconnected mid game), end game.
   useEffect(() => {
-    if (finishLine.length === 2) endRoom();
-  }, [finishLine, endRoom]);
+    if (hostSocketId === socket.id && finishLine.length === rosterSize)
+      socket.emit("send_end_room", { room: roomCode, endRoom: true });
+  }, [socket, roomCode, hostSocketId, finishLine, rosterSize, endRoom]);
 
   return {
     finishLine,

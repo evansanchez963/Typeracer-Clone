@@ -18,35 +18,30 @@ const GameRoom = () => {
   const socket = useSocket();
   const roomCode = useRoomCode();
 
-  const {
-    finishLine,
-    isRoomStarted,
-    isRoomEnded,
-    clientFinish,
-    endRoom,
-    resetRoom,
-  } = useRoomStatus();
+  const { finishLine, isRoomStarted, isRoomEnded, clientFinish } =
+    useRoomStatus(userRoster);
   const {
     isClientReady,
     isClientStarted,
     isClientEnded,
     readyClient,
+    startClient,
     endClient,
-    resetClient,
-  } = useClientStatus(isRoomStarted, isRoomEnded);
-  const { countdown, countdownOn, gameTimer, gameTimerOn, resetTimers } =
-    useTimers(userRoster, roomCode, isRoomStarted, isRoomEnded, endRoom);
-  const { isLoading, loadError, text, resetTextInfo } = useFetch(
+  } = useClientStatus(isRoomEnded);
+  const { countdown, countdownOn, gameTimer, gameTimerOn } = useTimers(
     userRoster,
-    roomCode
+    isRoomStarted,
+    isRoomEnded,
+    startClient,
+    endClient
   );
+  const { isLoading, loadError, text } = useFetch(userRoster, roomCode);
 
   const roomStatus = {
     finishLine,
     isRoomStarted,
     isRoomEnded,
     clientFinish,
-    endRoom,
   };
   const clientStatus = {
     isClientReady,
@@ -61,12 +56,14 @@ const GameRoom = () => {
     gameTimer,
     gameTimerOn,
   };
+  /*
   const restart = () => {
     resetRoom();
     resetClient();
     resetTimers();
     resetTextInfo();
   };
+  */
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};
