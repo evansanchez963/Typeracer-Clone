@@ -42,6 +42,8 @@ const PracticeYourself = () => {
     isEnded,
     startCountdown
   );
+
+  // Core game logic.
   const {
     currInput,
     inputValid,

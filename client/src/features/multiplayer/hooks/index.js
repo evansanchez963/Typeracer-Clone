@@ -4,6 +4,7 @@ import useTimers from "./useTimers";
 import useFetch from "./useFetch";
 import useInput from "./useInput";
 import useIdxInfo from "./useIdxInfo";
+import useTypeInfo from "./useTypeInfo";
 
 export {
   useRoomStatus,
@@ -12,4 +13,5 @@ export {
   useFetch,
   useInput,
   useIdxInfo,
+  useTypeInfo,
 };

@@ -11,6 +11,7 @@ import {
   useFetch,
   useInput,
   useIdxInfo,
+  useTypeInfo,
 } from "../../../features/multiplayer/hooks/index";
 import "./GameRoom.css";
 
@@ -38,6 +39,8 @@ const GameRoom = () => {
     endClient
   );
   const { isLoading, loadError, chars, words } = useFetch(userRoster);
+
+  // Core game logic.
   const { currInput, inputValid, setCurrInput, addChar, setInputValid } =
     useInput();
   const {
@@ -49,6 +52,7 @@ const GameRoom = () => {
     incWordIdx,
     resetWordIdx,
   } = useIdxInfo();
+  const { charsTyped, errors, incCharsTyped, incErrors } = useTypeInfo();
 
   const roomStatus = {
     finishLine,
