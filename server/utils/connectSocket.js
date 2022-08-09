@@ -1,7 +1,8 @@
 const joinRoomHandler = require("../socketHandlers/joinRoomHandler");
 const connectRoomHandler = require("../socketHandlers/connectRoomHandler");
-const sendTextHandler = require("../socketHandlers/sendTextHandler");
+const roomStateHandler = require("../socketHandlers/roomStateHandler");
 const sendTimerStateHandler = require("../socketHandlers/sendTimerStateHandler");
+const sendTextHandler = require("../socketHandlers/sendTextHandler");
 const leaveRoomHandler = require("../socketHandlers/leaveRoomHandler");
 const disconnectingHandler = require("../socketHandlers/disconnectingHandler");
 
@@ -10,8 +11,9 @@ const connectSocket = (socket, connectedClients, rooms) => {
 
   joinRoomHandler(socket, connectedClients, rooms);
   connectRoomHandler(socket, connectedClients);
-  sendTextHandler(socket);
+  roomStateHandler(socket);
   sendTimerStateHandler(socket);
+  sendTextHandler(socket);
   leaveRoomHandler(socket, connectedClients);
   disconnectingHandler(socket, connectedClients);
 };
