@@ -25,7 +25,7 @@ const GameRoom = () => {
   const socket = useSocket();
   const roomCode = useRoomCode();
 
-  const { finishLine, isRoomStarted, isRoomEnded, clientFinish } =
+  const { finishLine, isRoomStarted, isRoomEnded, clientFinish, resetRoom } =
     useRoomStatus(userRoster);
   const {
     isClientReady,
@@ -34,19 +34,22 @@ const GameRoom = () => {
     readyClient,
     startClient,
     endClient,
+    resetClient,
   } = useClientStatus(isRoomEnded);
-  const { countdown, countdownOn, gameTimer, gameTimerOn } = useTimers(
-    userRoster,
-    isRoomStarted,
-    isRoomEnded,
-    startClient,
-    endClient
-  );
-  const { isLoading, loadError, chars, words } = useFetch(userRoster);
+  const { countdown, countdownOn, gameTimer, gameTimerOn, resetTimers } =
+    useTimers(userRoster, isRoomStarted, isRoomEnded, startClient, endClient);
+  const { isLoading, loadError, chars, words, resetTextInfo } =
+    useFetch(userRoster);
 
   // Core game logic.
-  const { currInput, inputValid, setCurrInput, addChar, setInputValid } =
-    useInput();
+  const {
+    currInput,
+    inputValid,
+    setCurrInput,
+    addChar,
+    setInputValid,
+    resetInput,
+  } = useInput();
   const {
     currCharIdx,
     currWordIdx,
@@ -55,8 +58,10 @@ const GameRoom = () => {
     resetCharIdx,
     incWordIdx,
     resetWordIdx,
+    resetIdxInfo,
   } = useIdxInfo();
-  const { charsTyped, errors, incCharsTyped, incErrors } = useTypeInfo();
+  const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
+    useTypeInfo();
 
   const WPM = useCalcWPM(
     isClientStarted,
@@ -98,14 +103,42 @@ const GameRoom = () => {
     chars,
     words,
   };
-  /*
+  const inputInfo = {
+    currInput,
+    inputValid,
+    addChar,
+    setCurrInput,
+    setInputValid,
+  };
+  const idxInfo = {
+    currCharIdx,
+    currWordIdx,
+    incCharIdx,
+    decCharIdx,
+    resetCharIdx,
+    incWordIdx,
+    resetWordIdx,
+  };
+  const typeInfo = {
+    charsTyped,
+    errors,
+    incCharsTyped,
+    incErrors,
+  };
+  const userStats = {
+    finalWPM,
+    time,
+    accuracy,
+  };
   const restart = () => {
     resetRoom();
     resetClient();
     resetTimers();
     resetTextInfo();
+    resetInput();
+    resetIdxInfo();
+    resetTypeInfo();
   };
-  */
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};
