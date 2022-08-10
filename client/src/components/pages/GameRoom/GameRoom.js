@@ -153,11 +153,12 @@ const GameRoom = () => {
   const renderUsers = () => {
     return (
       <div className="user-list">
-        {Object.keys(userRoster).map((client) => {
+        {Object.keys(userRoster).map((client, index) => {
           return (
             <div key={client} className="user">
               {userRoster[client]} {socket.id === client ? "(you)" : ""}
               <UserProgressBar
+                recieveDataFrom={Object.keys(userRoster)[index]}
                 chars={textInfo.chars}
                 charsTyped={typeInfo.charsTyped}
                 WPM={WPM}

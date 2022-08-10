@@ -19,8 +19,9 @@ const useCalcWPM = (
   const [netWPM, setNetWPM] = useState(0);
 
   useEffect(() => {
-    setNetWPM(calcWPM(gameTimer, charsTyped, errors));
-  }, [gameTimer, charsTyped, errors]);
+    if (isClientStarted && !isClientEnded)
+      setNetWPM(calcWPM(gameTimer, charsTyped, errors));
+  }, [isClientStarted, isClientEnded, gameTimer, charsTyped, errors]);
 
   if (!isClientStarted && !isClientEnded) return 0;
   return netWPM;
