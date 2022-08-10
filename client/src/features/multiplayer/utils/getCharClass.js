@@ -2,15 +2,15 @@ const getCharClass = (
   char,
   charIdx,
   wordIdx,
-  gameStatus,
+  clientStatus,
   currInput,
   idxInfo
 ) => {
   if (charIdx === idxInfo.currCharIdx && wordIdx === idxInfo.currWordIdx) {
-    if (gameStatus.isStarted && !gameStatus.isEnded) {
-      if (char === currInput.split("")[charIdx]) return "singleplayer-correct";
+    if (clientStatus.isClientStarted && !clientStatus.isClientEnded) {
+      if (char === currInput.split("")[charIdx]) return "multiplayer-correct";
       else {
-        return "singleplayer-incorrect";
+        return "multiplayer-incorrect";
       }
     }
   }
@@ -19,16 +19,16 @@ const getCharClass = (
     charIdx === idxInfo.currCharIdx + 1 &&
     wordIdx === idxInfo.currWordIdx
   ) {
-    if (gameStatus.isStarted && !gameStatus.isEnded)
-      return "singleplayer-active-char";
+    if (clientStatus.isClientStarted && !clientStatus.isClientEnded)
+      return "multiplayer-active-char";
   }
   // Set past characters on current word as correct.
   else if (wordIdx === idxInfo.currWordIdx && charIdx < idxInfo.currCharIdx) {
-    return "singleplayer-correct";
+    return "multiplayer-correct";
   }
   // Set all past words as correct.
   else if (wordIdx < idxInfo.currWordIdx) {
-    return "singleplayer-correct";
+    return "multiplayer-correct";
   }
 
   return "";

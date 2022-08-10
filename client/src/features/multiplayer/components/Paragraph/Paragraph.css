@@ -4,24 +4,24 @@
   }
 }
 
-.singleplayer-active-word {
+.multiplayer-active-word {
   text-decoration: underline;
 }
 
-.singleplayer-active-char {
+.multiplayer-active-char {
   animation: cursor-blink 1s infinite;
   box-shadow: -1px 0 0 0 white;
 }
 
-.singleplayer-correct {
+.multiplayer-correct {
   color: green;
 }
 
-.singleplayer-incorrect {
+.multiplayer-incorrect {
   color: red;
 }
 
-.singleplayer-paragraph p {
+.multiplayer-paragraph p {
   font-size: large;
   margin-left: 0.5rem;
 }

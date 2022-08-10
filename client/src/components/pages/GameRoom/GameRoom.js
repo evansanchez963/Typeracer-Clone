@@ -3,6 +3,7 @@ import { useSocket, useRoomCode } from "../../../context/SocketContext";
 import {
   GameroomStatusInfo,
   UserProgressBar,
+  Paragraph,
 } from "../../../features/multiplayer/components/index";
 import {
   useRoomStatus,
@@ -186,7 +187,14 @@ const GameRoom = () => {
             ></GameroomStatusInfo>
             {renderUsers()}
 
-            <div className="multiplayer-typing-box"></div>
+            <div className="multiplayer-typing-box">
+              <Paragraph
+                clientStatus={clientStatus}
+                words={textInfo.words}
+                currInput={inputInfo.currInput}
+                idxInfo={idxInfo}
+              ></Paragraph>
+            </div>
           </div>
         </div>
       </section>
