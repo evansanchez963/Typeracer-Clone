@@ -9,10 +9,10 @@
   width: 5rem;
 }
 
-#progress-bar,
-#progress-bar::-webkit-progress-bar,
-#progress-bar::-webkit-progress-value,
-#progress-bar::-moz-progress-bar
+.progress-bar,
+.progress-bar::-webkit-progress-bar,
+.progress-bar::-webkit-progress-value,
+.progress-bar::-moz-progress-bar
  {
   border-radius: 0.5rem;
   flex: 1;

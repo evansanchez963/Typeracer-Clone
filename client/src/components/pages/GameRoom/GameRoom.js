@@ -157,7 +157,11 @@ const GameRoom = () => {
           return (
             <div key={client} className="user">
               {userRoster[client]} {socket.id === client ? "(you)" : ""}
-              <UserProgressBar></UserProgressBar>
+              <UserProgressBar
+                chars={textInfo.chars}
+                charsTyped={typeInfo.charsTyped}
+                WPM={WPM}
+              ></UserProgressBar>
             </div>
           );
         })}

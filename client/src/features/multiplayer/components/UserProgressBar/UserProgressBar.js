@@ -1,10 +1,14 @@
 import "./UserProgressBar.css";
 
-const UserProgressBar = () => {
+const UserProgressBar = ({ chars, charsTyped, WPM }) => {
   return (
     <div className="user-progress">
-      <progress className="user-progress-bar" max={100} value={50}></progress>
-      <p>100 WPM</p>
+      <progress
+        className="user-progress-bar"
+        max={chars.length - 1}
+        value={charsTyped}
+      ></progress>
+      <p>{WPM} WPM</p>
     </div>
   );
 };
