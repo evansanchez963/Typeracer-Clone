@@ -5,7 +5,7 @@ const initialState = {
   controlTimer: false,
   countdown: 7000,
   countdownOn: false,
-  gameTimer: 10000,
+  gameTimer: 60000,
   gameTimerOn: false,
 };
 

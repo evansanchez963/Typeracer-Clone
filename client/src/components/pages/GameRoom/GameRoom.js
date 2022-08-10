@@ -4,6 +4,7 @@ import {
   GameroomStatusInfo,
   UserProgressBar,
   Paragraph,
+  Input,
 } from "../../../features/multiplayer/components/index";
 import {
   useRoomStatus,
@@ -171,6 +172,11 @@ const GameRoom = () => {
     return () => socket.off("get_user_roster", updateJoinedUsers);
   }, [socket, roomCode]);
 
+  useEffect(() => {
+    if (clientStatus.isClientStarted && clientStatus.isClientEnded)
+      setCurrInput("");
+  }, [clientStatus.isClientStarted, clientStatus.isClientEnded, setCurrInput]);
+
   if (loadError) {
     return <div id="multiplayer-error-screen">Error: {loadError.message}</div>;
   } else if (isLoading) {
@@ -194,6 +200,13 @@ const GameRoom = () => {
                 currInput={inputInfo.currInput}
                 idxInfo={idxInfo}
               ></Paragraph>
+              <Input
+                clientStatus={clientStatus}
+                textInfo={textInfo}
+                inputInfo={inputInfo}
+                idxInfo={idxInfo}
+                typeInfo={typeInfo}
+              ></Input>
             </div>
           </div>
         </div>

@@ -2,14 +2,14 @@ import { useEffect, useRef } from "react";
 import handleKeyDown from "../../utils/handleKeyDown";
 import "./Input.css";
 
-const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
+const Input = ({ clientStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
   const typeInputRef = useRef(null);
 
   useEffect(() => {
-    if (gameStatus.isStarted || !gameStatus.isEnded) {
+    if (clientStatus.isClientStarted || !clientStatus.isClientEnded) {
       typeInputRef.current.focus();
     }
-  }, [gameStatus.isStarted, gameStatus.isEnded]);
+  }, [clientStatus.isClientStarted, clientStatus.isClientEnded]);
 
   return (
     <input
@@ -20,7 +20,7 @@ const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
         inputInfo.inputValid ? "default" : `${inputInfo.currInput.length}`
       }
       onKeyDown={(e) =>
-        handleKeyDown(e, gameStatus, textInfo, inputInfo, idxInfo, typeInfo)
+        handleKeyDown(e, clientStatus, textInfo, inputInfo, idxInfo, typeInfo)
       }
       onChange={(e) => {
         // If there is whitespace, do not concantenate it to currInput.
@@ -28,7 +28,7 @@ const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
       }}
       value={inputInfo.currInput}
       placeholder="Type in here when the race starts..."
-      disabled={!gameStatus.isStarted || gameStatus.isEnded}
+      disabled={!clientStatus.isClientStarted || clientStatus.isClientEnded}
       ref={typeInputRef}
     ></input>
   );
