@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { formatTime } from "../utils/index";
+import { formatTime } from "../../coreGameLogic/utils/index";
 
 const useTime = (isClientStarted, isClientEnded, gameTimer) => {
   const [time, setTime] = useState("");

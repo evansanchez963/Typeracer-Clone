@@ -11,13 +11,15 @@ import {
   useGameStatus,
   useFetch,
   useTimers,
-  useInput,
-  useIdxInfo,
-  useTypeInfo,
   useCalcWPM,
   useTime,
   useAccuracy,
 } from "../../../features/singleplayer/hooks/index";
+import {
+  useInput,
+  useIdxInfo,
+  useTypeInfo,
+} from "../../../features/coreGameLogic/hooks/index";
 import { useAuth } from "../../../context/AuthContext";
 import axios from "axios";
 import "./PracticeYourself.css";
@@ -63,6 +65,7 @@ const PracticeYourself = () => {
   } = useIdxInfo();
   const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
     useTypeInfo();
+
   const WPM = useCalcWPM(isStarted, isEnded, gameTimer, charsTyped, errors);
   const time = useTime(isStarted, isEnded, gameTimer);
   const accuracy = useAccuracy(isStarted, isEnded, charsTyped, errors);

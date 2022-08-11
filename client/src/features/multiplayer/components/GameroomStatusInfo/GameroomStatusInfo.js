@@ -1,6 +1,5 @@
 import "./GameroomStatusInfo.css";
-import "../../utils/formatTime";
-import formatTime from "../../utils/formatTime";
+import { formatTime } from "../../../coreGameLogic/utils/index";
 
 const GameroomStatusInfo = ({ roomStatus, clientStatus, timers }) => {
   const getStatusMsg = () => {

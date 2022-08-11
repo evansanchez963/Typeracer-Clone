@@ -1,4 +1,4 @@
-import formatTime from "../../utils/formatTime";
+import { formatTime } from "../../../coreGameLogic/utils/index";
 import "./GameStatusInfo.css";
 
 const GameStatusInfo = ({ gameStatus, timers }) => {

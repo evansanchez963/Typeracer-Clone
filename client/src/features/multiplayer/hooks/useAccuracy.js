@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAccuracy } from "../utils/index";
+import { getAccuracy } from "../../coreGameLogic/utils/index";
 
 const useAccuracy = (isClientStarted, isClientEnded, charsTyped, errors) => {
   const [accuracy, setAccuracy] = useState(0);

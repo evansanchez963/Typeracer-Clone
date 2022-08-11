@@ -11,14 +11,15 @@ import {
   useClientStatus,
   useTimers,
   useFetch,
-  useInput,
-  useIdxInfo,
-  useTypeInfo,
   useCalcWPM,
-  useFinalWPM,
   useTime,
   useAccuracy,
 } from "../../../features/multiplayer/hooks/index";
+import {
+  useInput,
+  useIdxInfo,
+  useTypeInfo,
+} from "../../../features/coreGameLogic/hooks/index";
 import "./GameRoom.css";
 
 const GameRoom = () => {
@@ -72,7 +73,6 @@ const GameRoom = () => {
     charsTyped,
     errors
   );
-  const finalWPM = useFinalWPM(isClientStarted, isClientEnded, WPM);
   const time = useTime(isClientStarted, isClientEnded, gameTimer);
   const accuracy = useAccuracy(
     isClientStarted,
@@ -128,7 +128,7 @@ const GameRoom = () => {
     incErrors,
   };
   const userStats = {
-    finalWPM,
+    WPM,
     time,
     accuracy,
   };
