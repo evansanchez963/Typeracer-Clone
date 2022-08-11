@@ -7,10 +7,16 @@ import "./Login.css";
 const Login = () => {
   const isLoggedIn = useAuth();
   const loginHandler = useLogin();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [userForm, setUserForm] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setUserForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   useEffect(() => {
     if (isLoggedIn) navigate("/");
@@ -19,7 +25,10 @@ const Login = () => {
   const loginFormHandler = async (e) => {
     e.preventDefault();
 
-    const userData = { username, password };
+    const userData = {
+      username: userForm.username,
+      password: userForm.password,
+    };
     const config = {
       header: {
         "Content-Type": "application/json",
@@ -52,9 +61,8 @@ const Login = () => {
               <input
                 type="text"
                 id="login-username"
-                name="login-username"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
+                name="username"
+                onChange={handleChange}
                 required
               ></input>
             </div>
@@ -64,9 +72,8 @@ const Login = () => {
               <input
                 type="password"
                 id="login-password"
-                name="login-password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                name="password"
+                onChange={handleChange}
                 required
               ></input>
             </div>
