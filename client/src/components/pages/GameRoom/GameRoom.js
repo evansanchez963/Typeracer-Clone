@@ -43,8 +43,6 @@ const GameRoom = () => {
     useTimers(userRoster, isRoomStarted, isRoomEnded, startClient, endClient);
   const { isLoading, loadError, chars, words, resetTextInfo } =
     useFetch(userRoster);
-
-  // Core game logic.
   const {
     currInput,
     inputValid,
@@ -65,7 +63,6 @@ const GameRoom = () => {
   } = useIdxInfo();
   const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
     useTypeInfo();
-
   const WPM = useCalcWPM(
     isClientStarted,
     isClientEnded,
@@ -192,6 +189,7 @@ const GameRoom = () => {
         <div className="multiplayer-wrapper">
           <div className="multiplayer-typing-section">
             <GameroomStatusInfo
+              socketId={socket.id}
               roomStatus={roomStatus}
               clientStatus={clientStatus}
               timers={timers}

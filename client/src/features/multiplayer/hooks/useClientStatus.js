@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useCallback } from "react";
+import { useSocket, useRoomCode } from "../../../context/SocketContext";
 
 const initialState = {
   isClientReady: false,
@@ -29,6 +30,9 @@ const reducer = (state, action) => {
 };
 
 const useClientStatus = (isRoomEnded) => {
+  const socket = useSocket();
+  const roomCode = useRoomCode();
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isClientReady, isClientStarted, isClientEnded } = state;
 
@@ -39,6 +43,12 @@ const useClientStatus = (isRoomEnded) => {
   );
   const endClient = () => dispatch({ type: ACTIONS.END_CLIENT });
   const resetClient = () => dispatch({ type: ACTIONS.RESET_CLIENT });
+
+  // If client is finished typing and room has not ended, send this info to others in room.
+  useEffect(() => {
+    if (!isRoomEnded && isClientEnded)
+      socket.emit("send_client_finish", { room: roomCode });
+  }, [isRoomEnded, socket, roomCode, isClientEnded]);
 
   // If room timer runs out or all clients finish typing, end client.
   useEffect(() => {

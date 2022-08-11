@@ -43,8 +43,6 @@ const PracticeYourself = () => {
     isEnded,
     startCountdown
   );
-
-  // Core game logic.
   const {
     currInput,
     inputValid,
@@ -65,7 +63,6 @@ const PracticeYourself = () => {
   } = useIdxInfo();
   const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
     useTypeInfo();
-
   const WPM = useCalcWPM(isStarted, isEnded, gameTimer, charsTyped, errors);
   const time = useTime(isStarted, isEnded, gameTimer);
   const accuracy = useAccuracy(isStarted, isEnded, charsTyped, errors);

@@ -39,8 +39,10 @@ const useRoomStatus = (userRoster) => {
   const hostSocketId = Object.keys(userRoster)[0];
   const rosterSize = Object.keys(userRoster).length;
 
-  const clientFinish = (clientStats) =>
-    dispatch({ type: ACTIONS.CLIENT_WON, payload: clientStats });
+  const clientFinish = useCallback(
+    (socketId) => dispatch({ type: ACTIONS.CLIENT_FINISH, payload: socketId }),
+    []
+  );
   const startRoom = useCallback(
     () => dispatch({ type: ACTIONS.START_ROOM }),
     []
@@ -62,16 +64,26 @@ const useRoomStatus = (userRoster) => {
     [endRoom]
   );
 
+  const updateFinishLine = useCallback(
+    (data) => {
+      console.log("Update finish line!");
+      clientFinish(data.socketId);
+    },
+    [clientFinish]
+  );
+
   // Set up socketio events for starting and ending room.
   useEffect(() => {
     socket.on("recieve_start_room", startRoomHandler);
     socket.on("recieve_end_room", endRoomHandler);
+    socket.on("recieve_client_finish", updateFinishLine);
 
     return () => {
       socket.off("recieve_start_room", startRoomHandler);
       socket.off("recieve_end_room", endRoomHandler);
+      socket.off("recieve_client_finish", updateFinishLine);
     };
-  }, [socket, startRoomHandler, endRoomHandler]);
+  }, [socket, startRoomHandler, endRoomHandler, updateFinishLine]);
 
   // Start game when there are two clients in the same room.
   useEffect(() => {
@@ -79,7 +91,7 @@ const useRoomStatus = (userRoster) => {
       socket.emit("send_start_room", { room: roomCode, startRoom: true });
   }, [socket, roomCode, hostSocketId, rosterSize, startRoom]);
 
-  // When both clients finish typing (or one disconnected mid game), end game.
+  // When both clients finish typing (or one disconnects mid game), end game.
   useEffect(() => {
     if (hostSocketId === socket.id && finishLine.length === rosterSize)
       socket.emit("send_end_room", { room: roomCode, endRoom: true });
