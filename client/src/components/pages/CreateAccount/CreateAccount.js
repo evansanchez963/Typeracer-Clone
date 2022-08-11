@@ -7,12 +7,21 @@ import "./CreateAccount.css";
 const CreateAccount = () => {
   const isLoggedIn = useAuth();
   const loginHandler = useLogin();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [createAccountForm, setCreateAccountForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setCreateAccountForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   useEffect(() => {
     if (isLoggedIn) navigate("/");
@@ -22,9 +31,9 @@ const CreateAccount = () => {
     e.preventDefault();
 
     const userData = {
-      email,
-      username,
-      password,
+      email: createAccountForm.email,
+      username: createAccountForm.username,
+      password: createAccountForm.password,
     };
     const config = {
       header: {
@@ -32,7 +41,7 @@ const CreateAccount = () => {
       },
     };
 
-    if (password !== confirmPassword)
+    if (createAccountForm.password !== createAccountForm.confirmPassword)
       return setError("Passwords do not match!");
 
     try {
@@ -64,9 +73,8 @@ const CreateAccount = () => {
               <input
                 type="text"
                 id="ca-username"
-                name="ca-username"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
+                name="username"
+                onChange={handleChange}
                 required
               ></input>
             </div>
@@ -76,9 +84,8 @@ const CreateAccount = () => {
               <input
                 type="email"
                 id="ca-email"
-                name="ca-email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                name="email"
+                onChange={handleChange}
                 required
               ></input>
             </div>
@@ -88,9 +95,8 @@ const CreateAccount = () => {
               <input
                 type="password"
                 id="ca-password"
-                name="ca-password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                name="password"
+                onChange={handleChange}
                 required
               ></input>
             </div>
@@ -100,9 +106,8 @@ const CreateAccount = () => {
               <input
                 type="password"
                 id="ca-confirm-password"
-                name="ca-confirm-password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                value={confirmPassword}
+                name="confirmPassword"
+                onChange={handleChange}
                 required
               ></input>
             </div>
