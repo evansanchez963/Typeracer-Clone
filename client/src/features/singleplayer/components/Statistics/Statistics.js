@@ -13,7 +13,7 @@ const Statistics = ({ userStats }) => {
         <SiSpeedtest size={30} />
         <div className="stat">
           <p>Speed:&nbsp;</p>
-          <p>{userStats.finalWPM} WPM</p>
+          <p>{userStats.WPM} WPM</p>
         </div>
       </div>
 

@@ -5,7 +5,6 @@ import useInput from "./useInput";
 import useIdxInfo from "./useIdxInfo";
 import useTypeInfo from "./useTypeInfo";
 import useCalcWPM from "./useCalcWPM";
-import useFinalWPM from "./useFinalWPM";
 import useTime from "./useTime";
 import useAccuracy from "./useAccuracy";
 
@@ -17,7 +16,6 @@ export {
   useIdxInfo,
   useTypeInfo,
   useCalcWPM,
-  useFinalWPM,
   useTime,
   useAccuracy,
 };

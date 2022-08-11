@@ -15,7 +15,6 @@ import {
   useIdxInfo,
   useTypeInfo,
   useCalcWPM,
-  useFinalWPM,
   useTime,
   useAccuracy,
 } from "../../../features/singleplayer/hooks/index";
@@ -64,9 +63,7 @@ const PracticeYourself = () => {
   } = useIdxInfo();
   const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
     useTypeInfo();
-
   const WPM = useCalcWPM(isStarted, isEnded, gameTimer, charsTyped, errors);
-  const finalWPM = useFinalWPM(isStarted, isEnded, WPM);
   const time = useTime(isStarted, isEnded, gameTimer);
   const accuracy = useAccuracy(isStarted, isEnded, charsTyped, errors);
 
@@ -111,7 +108,7 @@ const PracticeYourself = () => {
     incErrors,
   };
   const userStats = {
-    finalWPM,
+    WPM,
     time,
     accuracy,
   };
@@ -129,7 +126,7 @@ const PracticeYourself = () => {
       const userObject = localStorage.getItem("userData");
       const user = JSON.parse(userObject);
       const userData = {
-        WPM: finalWPM,
+        WPM: WPM,
         time: time,
         accuracy: accuracy,
       };
@@ -155,7 +152,7 @@ const PracticeYourself = () => {
     gameStatus.isStarted,
     gameStatus.isEnded,
     setCurrInput,
-    finalWPM,
+    WPM,
     time,
     accuracy,
   ]);
