@@ -6,6 +6,7 @@ import {
   Paragraph,
   Input,
 } from "../../../features/multiplayer/components/index";
+import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
   useRoomStatus,
   useClientStatus,
@@ -129,15 +130,6 @@ const GameRoom = () => {
     time,
     accuracy,
   };
-  const restart = () => {
-    resetRoom();
-    resetClient();
-    resetTimers();
-    resetTextInfo();
-    resetInput();
-    resetIdxInfo();
-    resetTypeInfo();
-  };
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};
@@ -146,6 +138,18 @@ const GameRoom = () => {
     }
     setUserRoster(userInfo);
   };
+
+  useEffect(() => {
+    socket.on("get_user_roster", updateJoinedUsers);
+    socket.emit("connect_to_room", { room: roomCode });
+
+    return () => socket.off("get_user_roster", updateJoinedUsers);
+  }, [socket, roomCode]);
+
+  useEffect(() => {
+    if (clientStatus.isClientStarted && clientStatus.isClientEnded)
+      setCurrInput("");
+  }, [clientStatus.isClientStarted, clientStatus.isClientEnded, setCurrInput]);
 
   const renderUsers = () => {
     return (
@@ -167,17 +171,21 @@ const GameRoom = () => {
     );
   };
 
-  useEffect(() => {
-    socket.on("get_user_roster", updateJoinedUsers);
-    socket.emit("connect_to_room", { room: roomCode });
+  const getStats = () => {
+    if (clientStatus.isClientEnded)
+      return <Statistics userStats={userStats}></Statistics>;
+    else return <></>;
+  };
 
-    return () => socket.off("get_user_roster", updateJoinedUsers);
-  }, [socket, roomCode]);
-
-  useEffect(() => {
-    if (clientStatus.isClientStarted && clientStatus.isClientEnded)
-      setCurrInput("");
-  }, [clientStatus.isClientStarted, clientStatus.isClientEnded, setCurrInput]);
+  const restart = () => {
+    resetRoom();
+    resetClient();
+    resetTimers();
+    resetTextInfo();
+    resetInput();
+    resetIdxInfo();
+    resetTypeInfo();
+  };
 
   if (loadError) {
     return <div id="multiplayer-error-screen">Error: {loadError.message}</div>;
@@ -212,6 +220,8 @@ const GameRoom = () => {
               ></Input>
             </div>
           </div>
+
+          {getStats()}
         </div>
       </section>
     );

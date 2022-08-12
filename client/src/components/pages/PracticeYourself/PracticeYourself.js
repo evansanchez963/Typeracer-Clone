@@ -5,8 +5,8 @@ import {
   Paragraph,
   Input,
   ButtonRow,
-  Statistics,
 } from "../../../features/singleplayer/components/index";
+import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
   useGameStatus,
   useFetch,
@@ -112,14 +112,6 @@ const PracticeYourself = () => {
     time,
     accuracy,
   };
-  const restart = () => {
-    restartGame();
-    resetTimers();
-    resetTextInfo();
-    resetInput();
-    resetIdxInfo();
-    resetTypeInfo();
-  };
 
   useEffect(() => {
     const pushUserStats = async () => {
@@ -160,6 +152,15 @@ const PracticeYourself = () => {
   const getStats = () => {
     if (gameStatus.isEnded) return <Statistics userStats={userStats} />;
     else return <></>;
+  };
+
+  const restart = () => {
+    restartGame();
+    resetTimers();
+    resetTextInfo();
+    resetInput();
+    resetIdxInfo();
+    resetTypeInfo();
   };
 
   if (loadError) {
