@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ButtonRow.css";
 
 const ButtonRow = ({ isClientEnded }) => {
   const [isWaiting, setIsWaiting] = useState(false);
+
+  useEffect(() => {
+    if (!isClientEnded) setIsWaiting(false);
+  }, [isClientEnded]);
 
   return (
     <div className="gameroom-btn-row">
