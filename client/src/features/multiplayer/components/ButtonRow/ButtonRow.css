@@ -1,25 +1,30 @@
-.practice-yourself-btn-row {
+.gameroom-btn-row {
   display: flex;
   justify-content: space-between;
 }
 
-.leave-practice {
+.leave-room {
   background-color: #ffb21c;
   color: white;
   padding: 0.8rem;
 }
 
-.leave-practice:hover {
+.leave-room:hover {
   cursor: pointer;
   filter: brightness(0.8);
 }
 
-.new-race {
+.restart-ready {
   background-color: #3cc1a3;
   padding: 0.8rem;
 }
 
-.new-race:hover {
+.restart-ready:hover {
   background-color: #40a82b;
   cursor: pointer;
+}
+
+.restart-waiting {
+  background-color: #696969;
+  padding: 0.8rem;
 }

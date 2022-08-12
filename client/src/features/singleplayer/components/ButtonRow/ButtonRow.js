@@ -5,10 +5,10 @@ const ButtonRow = ({ isEnded, restart }) => {
   return (
     <div className="practice-yourself-btn-row">
       <Link to="/">
-        <button id="leave-practice">Main menu (leave practice)</button>
+        <button className="leave-practice">Main menu (leave practice)</button>
       </Link>
       <button
-        id="new-race"
+        className="new-race"
         style={{ display: isEnded ? "block" : "none" }}
         onClick={restart}
       >

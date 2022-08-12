@@ -5,6 +5,7 @@ import {
   UserProgressBar,
   Paragraph,
   Input,
+  ButtonRow,
 } from "../../../features/multiplayer/components/index";
 import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
@@ -221,6 +222,7 @@ const GameRoom = () => {
             </div>
           </div>
 
+          <ButtonRow isClientEnded={clientStatus.isClientEnded}></ButtonRow>
           {getStats()}
         </div>
       </section>
