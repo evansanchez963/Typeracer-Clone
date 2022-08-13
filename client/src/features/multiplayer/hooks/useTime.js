@@ -6,7 +6,8 @@ const useTime = (isClientStarted, isClientEnded, gameTimer) => {
 
   useEffect(() => {
     if (!isClientStarted && !isClientEnded) setTime("");
-    else if (!isClientEnded) setTime(formatTime(60000 - gameTimer));
+    else if (isClientStarted && !isClientEnded)
+      setTime(formatTime(60000 - gameTimer));
   }, [isClientStarted, isClientEnded, gameTimer]);
 
   return time;

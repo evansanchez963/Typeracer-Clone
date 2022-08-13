@@ -66,7 +66,6 @@ const useRoomStatus = (userRoster) => {
 
   const updateFinishLine = useCallback(
     (data) => {
-      console.log("Update finish line!");
       clientFinish(data.socketId);
     },
     [clientFinish]

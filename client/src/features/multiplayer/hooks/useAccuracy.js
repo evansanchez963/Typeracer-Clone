@@ -6,7 +6,8 @@ const useAccuracy = (isClientStarted, isClientEnded, charsTyped, errors) => {
 
   useEffect(() => {
     if (!isClientStarted && !isClientEnded) setAccuracy(0);
-    else if (isClientEnded) setAccuracy(getAccuracy(charsTyped, errors));
+    else if (isClientStarted && !isClientEnded)
+      setAccuracy(getAccuracy(charsTyped, errors));
   }, [isClientStarted, isClientEnded, charsTyped, errors]);
 
   return accuracy;

@@ -137,7 +137,7 @@ const PracticeYourself = () => {
     };
 
     if (gameStatus.isStarted && gameStatus.isEnded) setCurrInput("");
-    if (gameStatus.isStarted && gameStatus.isEnded && isLoggedIn && time !== "")
+    if (gameStatus.isStarted && gameStatus.isEnded && isLoggedIn)
       pushUserStats();
   }, [
     isLoggedIn,

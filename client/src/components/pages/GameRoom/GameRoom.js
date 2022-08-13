@@ -22,9 +22,12 @@ import {
   useIdxInfo,
   useTypeInfo,
 } from "../../../features/coreGameLogic/hooks/index";
+import { useAuth } from "../../../context/AuthContext";
+import axios from "axios";
 import "./GameRoom.css";
 
 const GameRoom = () => {
+  const isLoggedIn = useAuth();
   const [userRoster, setUserRoster] = useState({});
 
   const socket = useSocket();
@@ -140,6 +143,7 @@ const GameRoom = () => {
     setUserRoster(userInfo);
   };
 
+  // Every time user joins room, display users connected to that room.
   useEffect(() => {
     socket.on("get_user_roster", updateJoinedUsers);
     socket.emit("connect_to_room", { room: roomCode });
@@ -147,6 +151,47 @@ const GameRoom = () => {
     return () => socket.off("get_user_roster", updateJoinedUsers);
   }, [socket, roomCode]);
 
+  // When client finishes typing, check if they are logged in and push stats to their account.
+  useEffect(() => {
+    const pushUserStats = async () => {
+      console.log("Push user data!");
+      const userObject = localStorage.getItem("userData");
+      const user = JSON.parse(userObject);
+      const userData = {
+        WPM: WPM,
+        time: time,
+        accuracy: accuracy,
+      };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      try {
+        await axios.put(`/api/user/${user.userId}/session`, userData, config);
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    if (
+      clientStatus.isClientStarted &&
+      clientStatus.isClientEnded &&
+      isLoggedIn
+    )
+      pushUserStats();
+  }, [
+    isLoggedIn,
+    clientStatus.isClientStarted,
+    clientStatus.isClientEnded,
+    WPM,
+    time,
+    accuracy,
+  ]);
+
+  // Empty input when game has not started or has already ended.
   useEffect(() => {
     if (clientStatus.isClientStarted && clientStatus.isClientEnded)
       setCurrInput("");
