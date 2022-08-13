@@ -32,7 +32,13 @@ const reducer = (state, action) => {
     case ACTIONS.SET_WORDS:
       return { ...state, words: action.payload };
     case ACTIONS.RESET_INFO:
-      return initialState;
+      return {
+        ...state,
+        isLoading: true,
+        loadError: null,
+        chars: [],
+        words: [],
+      };
     default:
       return state;
   }
@@ -53,7 +59,10 @@ const useFetch = (userRoster) => {
     dispatch({ type: ACTIONS.SET_CHARS, payload: chars });
   const setWords = (words) =>
     dispatch({ type: ACTIONS.SET_WORDS, payload: words });
-  const resetTextInfo = () => dispatch({ type: ACTIONS.RESET_INFO });
+  const resetTextInfo = useCallback(
+    () => dispatch({ type: ACTIONS.RESET_INFO }),
+    []
+  );
 
   // If this socket id of the first on userRoster, then this client fetches the text data.
   useEffect(() => {

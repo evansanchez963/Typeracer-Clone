@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useCallback } from "react";
 
 const initialState = {
   charsTyped: 0,
@@ -30,7 +30,10 @@ const useTypeInfo = () => {
 
   const incCharsTyped = () => dispatch({ type: ACTIONS.INC_CHARS_TYPED });
   const incErrors = () => dispatch({ type: ACTIONS.INC_ERRORS });
-  const resetTypeInfo = () => dispatch({ type: ACTIONS.RESET_TYPE_INFO });
+  const resetTypeInfo = useCallback(
+    () => dispatch({ type: ACTIONS.RESET_TYPE_INFO }),
+    []
+  );
 
   return { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo };
 };

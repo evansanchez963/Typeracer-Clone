@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useCallback } from "react";
 
 const initialState = {
   currCharIdx: -1,
@@ -42,7 +42,10 @@ const useIdxInfo = () => {
   const resetCharIdx = () => dispatch({ type: ACTIONS.RESET_CHAR_IDX });
   const incWordIdx = () => dispatch({ type: ACTIONS.INC_WORD_IDX });
   const resetWordIdx = () => dispatch({ type: ACTIONS.RESET_WORD_IDX });
-  const resetIdxInfo = () => dispatch({ type: ACTIONS.RESET_IDX_INFO });
+  const resetIdxInfo = useCallback(
+    () => dispatch({ type: ACTIONS.RESET_IDX_INFO }),
+    []
+  );
 
   return {
     currCharIdx,

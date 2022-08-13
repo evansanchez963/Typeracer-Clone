@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSocket, useRoomCode } from "../../../context/SocketContext";
 import {
   GameroomStatusInfo,
@@ -33,13 +33,11 @@ const GameRoom = () => {
   const socket = useSocket();
   const roomCode = useRoomCode();
 
-  const { finishLine, isRoomStarted, isRoomEnded, clientFinish, resetRoom } =
+  const { finishLine, readyToRestart, isRoomStarted, isRoomEnded, resetRoom } =
     useRoomStatus(userRoster);
   const {
-    isClientReady,
     isClientStarted,
     isClientEnded,
-    readyClient,
     startClient,
     endClient,
     resetClient,
@@ -88,13 +86,10 @@ const GameRoom = () => {
     finishLine,
     isRoomStarted,
     isRoomEnded,
-    clientFinish,
   };
   const clientStatus = {
-    isClientReady,
     isClientStarted,
     isClientEnded,
-    readyClient,
     endClient,
   };
   const timers = {
@@ -154,7 +149,6 @@ const GameRoom = () => {
   // When client finishes typing, check if they are logged in and push stats to their account.
   useEffect(() => {
     const pushUserStats = async () => {
-      console.log("Push user data!");
       const userObject = localStorage.getItem("userData");
       const user = JSON.parse(userObject);
       const userData = {
@@ -197,6 +191,34 @@ const GameRoom = () => {
       setCurrInput("");
   }, [clientStatus.isClientStarted, clientStatus.isClientEnded, setCurrInput]);
 
+  const restart = useCallback(() => {
+    resetRoom();
+    resetClient();
+    resetTimers();
+    resetTextInfo();
+    resetInput();
+    resetIdxInfo();
+    resetTypeInfo();
+  }, [
+    resetRoom,
+    resetClient,
+    resetTimers,
+    resetTextInfo,
+    resetInput,
+    resetIdxInfo,
+    resetTypeInfo,
+  ]);
+
+  // When both clients are finished typing and want to reset the game, reset game.
+  useEffect(() => {
+    if (
+      isRoomStarted &&
+      isRoomEnded &&
+      readyToRestart.length === Object.keys(userRoster).length
+    )
+      restart();
+  }, [userRoster, isRoomStarted, isRoomEnded, readyToRestart, restart]);
+
   const renderUsers = () => {
     return (
       <div className="user-list">
@@ -221,16 +243,6 @@ const GameRoom = () => {
     if (clientStatus.isClientEnded)
       return <Statistics userStats={userStats}></Statistics>;
     else return <></>;
-  };
-
-  const restart = () => {
-    resetRoom();
-    resetClient();
-    resetTimers();
-    resetTextInfo();
-    resetInput();
-    resetIdxInfo();
-    resetTypeInfo();
   };
 
   if (loadError) {

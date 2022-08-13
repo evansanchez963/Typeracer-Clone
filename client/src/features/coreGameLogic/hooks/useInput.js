@@ -39,7 +39,10 @@ const useInput = () => {
   const addChar = (char) => dispatch({ type: ACTIONS.ADD_CHAR, payload: char });
   const setInputValid = (bool) =>
     dispatch({ type: ACTIONS.SET_INPUT_VALID, payload: bool });
-  const resetInput = () => dispatch({ type: ACTIONS.RESET_INPUT });
+  const resetInput = useCallback(
+    () => dispatch({ type: ACTIONS.RESET_INPUT }),
+    []
+  );
 
   return {
     currInput,

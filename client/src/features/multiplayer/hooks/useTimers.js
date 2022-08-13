@@ -46,7 +46,13 @@ const reducer = (state, action) => {
         gameTimerOn: action.payload.gameTimerOn,
       };
     case ACTIONS.RESTART_TIMERS:
-      return initialState;
+      return {
+        ...state,
+        countdown: 7000,
+        countdownOn: false,
+        gameTimer: 60000,
+        gameTimerOn: false,
+      };
     default:
       return state;
   }
@@ -73,7 +79,10 @@ const useTimers = (userRoster, isRoomStarted, isRoomEnded, startClient) => {
     dispatch({ type: ACTIONS.DECREMENT_GAME_TIMER });
   const setTimerState = (timerState) =>
     dispatch({ type: ACTIONS.SET_TIMER_STATE, payload: timerState });
-  const resetTimers = () => dispatch({ type: ACTIONS.RESTART_TIMERS });
+  const resetTimers = useCallback(
+    () => dispatch({ type: ACTIONS.RESTART_TIMERS }),
+    []
+  );
 
   const recieveTimerHandler = useCallback((data) => {
     setTimerState(data.timerState);
