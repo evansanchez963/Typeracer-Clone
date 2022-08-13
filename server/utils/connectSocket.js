@@ -5,6 +5,7 @@ const sendTimerStateHandler = require("../socketHandlers/sendTimerStateHandler")
 const sendTextHandler = require("../socketHandlers/sendTextHandler");
 const sendProgressHandler = require("../socketHandlers/sendProgressHandler");
 const sendClientFinishHandler = require("../socketHandlers/sendClientFinishHandler");
+const readyClientHandler = require("../socketHandlers/readyClientHandler");
 const leaveRoomHandler = require("../socketHandlers/leaveRoomHandler");
 const disconnectingHandler = require("../socketHandlers/disconnectingHandler");
 
@@ -18,6 +19,7 @@ const connectSocket = (socket, connectedClients, rooms) => {
   sendTextHandler(socket);
   sendProgressHandler(socket);
   sendClientFinishHandler(socket);
+  readyClientHandler(socket);
   leaveRoomHandler(socket, connectedClients);
   disconnectingHandler(socket, connectedClients);
 };
