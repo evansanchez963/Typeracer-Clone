@@ -1,16 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navbar, Footer } from "./components/userInterface/index";
 import {
   About,
-  Footer,
   Homepage,
-  Navbar,
   PracticeYourself,
   PlayOnline,
   CreateAccount,
   Login,
   UserProfile,
   GameRoom,
-} from "./components/index";
+} from "./components/pages/index";
 import { ContextProvider } from "./context/index";
 import "./App.css";
 

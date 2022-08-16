@@ -5,8 +5,8 @@ import {
   useUserId,
   useUsername,
   useLogout,
-} from "../../context/AuthContext";
-import { logo } from "../../images/index";
+} from "../../../context/AuthContext";
+import { logo } from "../../../images/index";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { GoGear } from "react-icons/go";
 import { MdExitToApp } from "react-icons/md";
