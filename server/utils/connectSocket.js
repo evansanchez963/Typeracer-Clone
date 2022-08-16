@@ -1,27 +1,13 @@
-const joinRoomHandler = require("../socketHandlers/joinRoomHandler");
-const connectRoomHandler = require("../socketHandlers/connectRoomHandler");
 const roomStateHandler = require("../socketHandlers/roomStateHandler");
-const sendTimerStateHandler = require("../socketHandlers/sendTimerStateHandler");
-const sendTextHandler = require("../socketHandlers/sendTextHandler");
-const sendProgressHandler = require("../socketHandlers/sendProgressHandler");
-const sendClientFinishHandler = require("../socketHandlers/sendClientFinishHandler");
-const readyClientHandler = require("../socketHandlers/readyClientHandler");
-const leaveRoomHandler = require("../socketHandlers/leaveRoomHandler");
-const disconnectingHandler = require("../socketHandlers/disconnectingHandler");
+const gameStateHandler = require("../socketHandlers/gameStateHandler");
+const clientStateHandler = require("../socketHandlers/clientStateHandler");
 
 const connectSocket = (socket, connectedClients, rooms) => {
   console.log(`User ${socket.id} connected`);
 
-  joinRoomHandler(socket, connectedClients, rooms);
-  connectRoomHandler(socket, connectedClients);
-  roomStateHandler(socket);
-  sendTimerStateHandler(socket);
-  sendTextHandler(socket);
-  sendProgressHandler(socket);
-  sendClientFinishHandler(socket);
-  readyClientHandler(socket);
-  leaveRoomHandler(socket, connectedClients);
-  disconnectingHandler(socket, connectedClients);
+  roomStateHandler(socket, connectedClients, rooms);
+  gameStateHandler(socket);
+  clientStateHandler(socket);
 };
 
 module.exports = connectSocket;
