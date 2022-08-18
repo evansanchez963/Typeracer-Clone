@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const TypingSession = require("../models/TypingSession");
 const errorResponse = require("../utils/errorResponse");
-const { mongoose } = require("mongoose");
 
 // Get user's username and email.
 exports.getUserInfo = async (req, res, next) => {
