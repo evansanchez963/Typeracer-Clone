@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import axios from "axios";
+import getTextData from "../../../services/gameServices";
 
 const initialState = {
   isLoading: true,
@@ -38,18 +38,19 @@ const useFetch = (isStarted, isEnded, startCountdown) => {
   const { isLoading, loadError, chars, words } = state;
 
   const loaded = () => dispatch({ type: ACTIONS.LOADED });
+  const setChars = (chars) =>
+    dispatch({ type: ACTIONS.SET_CHARS, payload: chars });
+  const setWords = (words) =>
+    dispatch({ type: ACTIONS.SET_WORDS, payload: words });
   const resetTextInfo = () => dispatch({ type: ACTIONS.RESET_INFO });
 
   // Get data from metaphorsum API and turn on countdown timer.
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(
-          "http://metaphorpsum.com/paragraphs/1/1"
-        );
-        const text = response.data;
-        dispatch({ type: ACTIONS.SET_CHARS, payload: text.split("") });
-        dispatch({ type: ACTIONS.SET_WORDS, payload: text.split(" ") });
+        const text = await getTextData();
+        setChars(text.split(""));
+        setWords(text.split(" "));
         loaded();
         startCountdown();
       } catch (err) {

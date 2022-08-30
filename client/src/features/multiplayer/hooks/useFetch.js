@@ -1,6 +1,6 @@
 import { useReducer, useEffect, useCallback } from "react";
 import { useSocket, useRoomCode } from "../../../context/SocketContext";
-import axios from "axios";
+import getTextData from "../../../services/gameServices";
 
 const initialState = {
   isFetchData: false,
@@ -73,11 +73,9 @@ const useFetch = (userRoster) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(
-          "http://metaphorpsum.com/paragraphs/1/1"
-        );
-        setChars(response.data.split(""));
-        setWords(response.data.split(" "));
+        const text = await getTextData();
+        setChars(text.split(""));
+        setWords(text.split(" "));
         loaded();
       } catch (err) {
         dispatch({ type: ACTIONS.SET_LOAD_ERROR, payload: err });
