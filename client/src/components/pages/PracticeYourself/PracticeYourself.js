@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   GameStatusInfo,
   ProgressBar,
@@ -21,7 +21,7 @@ import {
   useTypeInfo,
 } from "../../../features/coreGameLogic/hooks/index";
 import { useAuth } from "../../../context/AuthContext";
-import axios from "axios";
+import { saveUserStats } from "../../../services/userServices";
 import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
@@ -107,30 +107,18 @@ const PracticeYourself = () => {
     incCharsTyped,
     incErrors,
   };
-  const userStats = {
-    WPM,
-    time,
-    accuracy,
-  };
+  const userStats = useMemo(() => {
+    return {
+      WPM,
+      time,
+      accuracy,
+    };
+  }, [WPM, time, accuracy]);
 
   useEffect(() => {
     const pushUserStats = async () => {
-      const userObject = localStorage.getItem("userData");
-      const user = JSON.parse(userObject);
-      const userData = {
-        WPM: WPM,
-        time: time,
-        accuracy: accuracy,
-      };
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
       try {
-        await axios.put(`/api/user/${user.userId}/session`, userData, config);
+        await saveUserStats(userStats);
       } catch (err) {
         alert(err.message);
       }
@@ -144,9 +132,7 @@ const PracticeYourself = () => {
     gameStatus.isStarted,
     gameStatus.isEnded,
     setCurrInput,
-    WPM,
-    time,
-    accuracy,
+    userStats,
   ]);
 
   const getStats = () => {

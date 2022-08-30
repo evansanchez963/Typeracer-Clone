@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSocket, useRoomCode } from "../../../context/SocketContext";
 import {
   GameroomStatusInfo,
@@ -23,7 +23,7 @@ import {
   useTypeInfo,
 } from "../../../features/coreGameLogic/hooks/index";
 import { useAuth } from "../../../context/AuthContext";
-import axios from "axios";
+import { saveUserStats } from "../../../services/userServices";
 import "./GameRoom.css";
 
 const GameRoom = () => {
@@ -124,11 +124,13 @@ const GameRoom = () => {
     incCharsTyped,
     incErrors,
   };
-  const userStats = {
-    WPM,
-    time,
-    accuracy,
-  };
+  const userStats = useMemo(() => {
+    return {
+      WPM,
+      time,
+      accuracy,
+    };
+  }, [WPM, time, accuracy]);
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};
@@ -149,22 +151,8 @@ const GameRoom = () => {
   // When client finishes typing, check if they are logged in and push stats to their account.
   useEffect(() => {
     const pushUserStats = async () => {
-      const userObject = localStorage.getItem("userData");
-      const user = JSON.parse(userObject);
-      const userData = {
-        WPM: WPM,
-        time: time,
-        accuracy: accuracy,
-      };
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
       try {
-        await axios.put(`/api/user/${user.userId}/session`, userData, config);
+        await saveUserStats(userStats);
       } catch (err) {
         alert(err.message);
       }
@@ -180,9 +168,7 @@ const GameRoom = () => {
     isLoggedIn,
     clientStatus.isClientStarted,
     clientStatus.isClientEnded,
-    WPM,
-    time,
-    accuracy,
+    userStats,
   ]);
 
   // Empty input when game has not started or has already ended.
