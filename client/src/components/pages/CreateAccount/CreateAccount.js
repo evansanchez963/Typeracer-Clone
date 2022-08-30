@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth, useLogin } from "../../../context/AuthContext";
-import axios from "axios";
+import { createNewAccount } from "../../../services/authServices";
 import "./CreateAccount.css";
 
 const CreateAccount = () => {
@@ -30,26 +30,11 @@ const CreateAccount = () => {
   const createAccountHandler = async (e) => {
     e.preventDefault();
 
-    const userData = {
-      email: createAccountForm.email,
-      username: createAccountForm.username,
-      password: createAccountForm.password,
-    };
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
-
     if (createAccountForm.password !== createAccountForm.confirmPassword)
       return setError("Passwords do not match!");
 
     try {
-      const { data } = await axios.post(
-        "/api/auth/createaccount",
-        userData,
-        config
-      );
+      const data = await createNewAccount(createAccountForm);
 
       // If successful, log in user.
       loginHandler(data.token, data.id);

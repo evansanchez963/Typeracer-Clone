@@ -1,21 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth, useLogin } from "../../../context/AuthContext";
-import axios from "axios";
+import { loginUser } from "../../../services/authServices";
 import "./Login.css";
 
 const Login = () => {
   const isLoggedIn = useAuth();
   const loginHandler = useLogin();
   const navigate = useNavigate();
-  const [userForm, setUserForm] = useState({
+  const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
   });
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setUserForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setLoginForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   useEffect(() => {
@@ -25,18 +25,8 @@ const Login = () => {
   const loginFormHandler = async (e) => {
     e.preventDefault();
 
-    const userData = {
-      username: userForm.username,
-      password: userForm.password,
-    };
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
-
     try {
-      const { data } = await axios.post("/api/auth/login", userData, config);
+      const data = await loginUser(loginForm);
 
       // If successful, log in user.
       loginHandler(data.token, data.id);
