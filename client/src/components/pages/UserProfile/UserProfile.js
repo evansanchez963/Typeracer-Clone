@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserInfo, UserStats, DangerZone } from "./index";
 import { useAuth } from "../../../context/AuthContext";
-import axios from "axios";
+import { getUserInfo, getUserStats } from "../../../services/userServices";
 import "./UserProfile.css";
 
 const UserProfile = () => {
@@ -16,17 +16,8 @@ const UserProfile = () => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const userObject = localStorage.getItem("userData");
-      const user = JSON.parse(userObject);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
       try {
-        const { data } = await axios.get(`/api/user/${user.userId}`, config);
+        const data = await getUserInfo();
 
         setUsername(data.username);
         setEmail(data.email);
@@ -38,20 +29,8 @@ const UserProfile = () => {
     };
 
     const fetchUserStats = async () => {
-      const userObject = localStorage.getItem("userData");
-      const user = JSON.parse(userObject);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
       try {
-        const { data } = await axios.get(
-          `/api/user/${user.userId}/stats`,
-          config
-        );
+        const data = await getUserStats();
 
         setAvgWPM(data.avgWPM);
         setHighestWPM(data.highestWPM);
