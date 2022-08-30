@@ -43,4 +43,36 @@ const getUserStats = async () => {
   return data;
 };
 
-export { saveUserStats, getUserInfo, getUserStats };
+const deleteUserProgress = async () => {
+  const userObject = localStorage.getItem("userData");
+  const user = JSON.parse(userObject);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
+
+  await axios.post(`/api/user/${user.userId}/restart`, { arr: [] }, config);
+};
+
+const deleteAccount = async () => {
+  const userObject = localStorage.getItem("userData");
+  const user = JSON.parse(userObject);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
+
+  await axios.delete(`/api/user/${user.userId}/delete`, config);
+};
+
+export {
+  saveUserStats,
+  getUserInfo,
+  getUserStats,
+  deleteUserProgress,
+  deleteAccount,
+};

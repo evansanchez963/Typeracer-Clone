@@ -1,20 +1,14 @@
 import { useLogout } from "../../../../context/AuthContext";
-import axios from "axios";
+import {
+  deleteUserProgress,
+  deleteAccount,
+} from "../../../../services/userServices";
 import "./DangerZone.css";
 
 const deleteProgressHandler = async (resetUserStats) => {
   if (window.confirm("Are you sure you want to delete your progress?")) {
-    const userObject = localStorage.getItem("userData");
-    const user = JSON.parse(userObject);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-
     try {
-      await axios.post(`/api/user/${user.userId}/restart`, { arr: [] }, config);
+      await deleteUserProgress();
       resetUserStats();
     } catch (err) {
       alert(err.message);
@@ -24,17 +18,8 @@ const deleteProgressHandler = async (resetUserStats) => {
 
 const deleteAccountHandler = async (logoutHandler) => {
   if (window.confirm("Are you sure you want to delete your account?")) {
-    const userObject = localStorage.getItem("userData");
-    const user = JSON.parse(userObject);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-
     try {
-      await axios.delete(`/api/user/${user.userId}/delete`, config);
+      await deleteAccount();
       logoutHandler();
     } catch (err) {
       alert(err.message);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { getUserInfo } from "../services/userServices";
 
 const AuthContext = React.createContext();
 const UserIdContext = React.createContext();
@@ -48,17 +48,8 @@ const AuthProvider = ({ children }) => {
   // Get username from userId.
   useEffect(() => {
     const getUsername = async () => {
-      const userObject = localStorage.getItem("userData");
-      const user = JSON.parse(userObject);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
       try {
-        const { data } = await axios.get(`/api/user/${user.userId}`, config);
+        const data = await getUserInfo();
         setUsername(data.username);
       } catch {
         setUsername("Error");
