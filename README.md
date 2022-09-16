@@ -22,4 +22,4 @@ This project is still a work in progress.  Here are a list of features I would l
 3. The ability for users to change their passwords via email
 4. A toggleable day/night theme for the UI
 5. More user feedback to be shown after a typing session such as words typed incorrectly, correctly typed characters over all characters typed, etc.
-6. More data shown in user profile such as data visualizations to show user typing progress over time
+6. More data shown in user profile such as data visualizations to show a user's typing progress over time
