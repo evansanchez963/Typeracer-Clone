@@ -32,7 +32,8 @@ const connectedClients = {}; // Keeps track of clients connected to a room.
 const rooms = io.sockets.adapter.rooms; // Keeps track of all existing rooms on the server.
 io.on("connection", (socket) => connectSocket(socket, connectedClients, rooms));
 
-server.listen(process.env.PORT || 5000);
+const port = process.env.PORT || 5000;
+server.listen(port, () => console.log(`Server running on port ${port}`));
 
 process.on("unhandledRejection", (err) => {
   console.log(`Logged Error: ${err}`);
