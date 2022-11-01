@@ -4,7 +4,7 @@ module.exports = (app) => {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "https://typeracer-clone-frontend.onrender.com",
+      target: "https://typeracer-clone-backend.onrender.com",
       changeOrigin: true,
     })
   );
