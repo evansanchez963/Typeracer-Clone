@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const TypingSession = require("../models/TypingSession");
+const User = require("../models/user");
+const TypingSession = require("../models/typingSession");
 const errorResponse = require("../utils/errorResponse");
 
 // Get user's username and email.

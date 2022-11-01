@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const TypingSessionSchema = new Schema({
+const typingSessionSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -25,4 +25,4 @@ const TypingSessionSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Typing Session", TypingSessionSchema);
+module.exports = mongoose.model("Typing Session", typingSessionSchema);

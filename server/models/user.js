@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
   email: {
     type: String,
     required: [true, "Please provide a username."],
@@ -31,4 +31,4 @@ const UserSchema = new Schema({
   resetPasswordExpire: Date,
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", userSchema);
