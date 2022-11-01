@@ -31,5 +31,4 @@ const UserSchema = new Schema({
   resetPasswordExpire: Date,
 });
 
-// Export model
 module.exports = mongoose.model("User", UserSchema);

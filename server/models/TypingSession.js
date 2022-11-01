@@ -25,5 +25,4 @@ const TypingSessionSchema = new Schema({
   },
 });
 
-// Export model
 module.exports = mongoose.model("Typing Session", TypingSessionSchema);
