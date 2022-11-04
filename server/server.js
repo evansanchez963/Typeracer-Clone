@@ -7,10 +7,14 @@ const errorHandler = require("./middleware/error");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
-  cors: { origin: "https://typeracer-clone-frontend.onrender.com" },
+  cors: { origin: "http://localhost:3000" },
   methods: ["GET", "POST", "PUT", "DELETE"],
 });
 const connectSocket = require("./utils/connectSocket");
+
+// Links to test:
+// http://localhost:3000
+// https://typeracer-clone-frontend.onrender.com
 
 // Connect to database.
 connectDB();
@@ -19,7 +23,7 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://typeracer-clone-frontend.onrender.com",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );

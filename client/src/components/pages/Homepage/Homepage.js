@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { startLine, typing } from "../../../images/index";
+import { startLine, typing } from "../../../assets/index";
 import "./Homepage.css";
 
 const Homepage = () => {
