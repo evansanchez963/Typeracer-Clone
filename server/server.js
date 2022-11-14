@@ -7,7 +7,7 @@ const errorHandler = require("./middleware/error");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
-  cors: { origin: "https://typeracer-clone-frontend.onrender.com" },
+  cors: { origin: "http://localhost:3000" },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   optionsSuccessStatus: 200,
@@ -25,7 +25,7 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://typeracer-clone-frontend.onrender.com",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     optionsSuccessStatus: 200,

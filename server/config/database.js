@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const connectDB = () => {
-  console.log("Connecting to database...");
   mongoose.connect(
     process.env.ATLAS_URI,
     {
