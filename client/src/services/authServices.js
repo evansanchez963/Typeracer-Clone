@@ -39,9 +39,6 @@ const loginUser = async (loginForm) => {
     userData,
     config
   );
-  console.log(data);
-  console.log(data.token);
-  console.log(data.id);
 
   return data;
 };
