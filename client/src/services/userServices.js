@@ -10,7 +10,11 @@ const saveUserStats = async (userStats) => {
     },
   };
 
-  await axios.put(`/api/user/${user.userId}/session`, userStats, config);
+  await axios.put(
+    `http://localhost:5000/api/user/${user.userId}/session`,
+    userStats,
+    config
+  );
 };
 
 const getUserInfo = async () => {
@@ -23,7 +27,10 @@ const getUserInfo = async () => {
     },
   };
 
-  const { data } = await axios.get(`/api/user/${user.userId}`, config);
+  const { data } = await axios.get(
+    `http://localhost:5000/api/user/${user.userId}`,
+    config
+  );
 
   return data;
 };
@@ -38,7 +45,10 @@ const getUserStats = async () => {
     },
   };
 
-  const { data } = await axios.get(`/api/user/${user.userId}/stats`, config);
+  const { data } = await axios.get(
+    `http://localhost:5000/api/user/${user.userId}/stats`,
+    config
+  );
 
   return data;
 };
@@ -53,7 +63,11 @@ const deleteUserProgress = async () => {
     },
   };
 
-  await axios.post(`/api/user/${user.userId}/restart`, { arr: [] }, config);
+  await axios.post(
+    `http://localhost:5000/api/user/${user.userId}/restart`,
+    { arr: [] },
+    config
+  );
 };
 
 const deleteAccount = async () => {
@@ -66,7 +80,10 @@ const deleteAccount = async () => {
     },
   };
 
-  await axios.delete(`/api/user/${user.userId}/delete`, config);
+  await axios.delete(
+    `http://localhost:5000/api/user/${user.userId}/delete`,
+    config
+  );
 };
 
 export {
