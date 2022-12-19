@@ -1,8 +1,11 @@
 import axios from "axios";
 
 const getTextData = async () => {
-  const response = await axios.get("http://metaphorpsum.com/paragraphs/1/1");
-  const text = response.data;
+  const { data } = await axios.get(
+    "http://localhost:5000/api/game/get-random-paragraph"
+  );
+  const text = data.text;
+
   return text;
 };
 

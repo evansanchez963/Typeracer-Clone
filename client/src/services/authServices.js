@@ -13,7 +13,7 @@ const createNewAccount = async (createAccountForm) => {
   };
 
   const { data } = await axios.post(
-    "http://localhost:5000/api/auth/createaccount",
+    "http://localhost:5000/api/auth/create-account",
     userData,
     config
   );
@@ -26,22 +26,17 @@ const loginUser = async (loginForm) => {
     username: loginForm.username,
     password: loginForm.password,
   };
-  console.log(userData);
   const config = {
     header: {
       "Content-Type": "application/json",
     },
   };
-  console.log(config);
 
   const { data } = await axios.post(
     "http://localhost:5000/api/auth/login",
     userData,
     config
   );
-  console.log(data);
-  console.log(data.token);
-  console.log(data.id);
 
   return data;
 };
