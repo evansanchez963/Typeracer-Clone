@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const errorResponse = require("../utils/errorResponse");
@@ -32,7 +32,6 @@ exports.createAccount = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  console.log("Logging in!");
   const { username, password } = req.body;
 
   if (!username || !password)

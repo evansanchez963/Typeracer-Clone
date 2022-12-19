@@ -14,10 +14,6 @@ const io = require("socket.io")(server, {
 });
 const connectSocket = require("./utils/connectSocket");
 
-// Links to test:
-// http://localhost:3000
-// https://typeracer-clone-frontend.onrender.com
-
 // Connect to database.
 connectDB();
 
@@ -32,6 +28,7 @@ app.use(
   })
 );
 app.use("/api/auth", require("./routes/authRouter"));
+app.use("/api/game", require("./routes/gameRouter"));
 app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
 
