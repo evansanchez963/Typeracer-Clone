@@ -13,7 +13,7 @@ const createNewAccount = async (createAccountForm) => {
   };
 
   const { data } = await axios.post(
-    "http://localhost:5000/api/auth/createaccount",
+    "https://typeracer-clone-backend.onrender.com/api/auth/createaccount",
     userData,
     config
   );
@@ -35,7 +35,7 @@ const loginUser = async (loginForm) => {
   console.log(config);
 
   const { data } = await axios.post(
-    "http://localhost:5000/api/auth/login",
+    "https://typeracer-clone-backend.onrender.com/api/auth/login",
     userData,
     config
   );
