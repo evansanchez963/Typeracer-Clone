@@ -13,7 +13,7 @@ const createNewAccount = async (createAccountForm) => {
   };
 
   const { data } = await axios.post(
-    "https://typeracer-clone-backend.onrender.com/api/auth/createaccount",
+    "https://typeracer-clone-backend.onrender.com/api/auth/create-account",
     userData,
     config
   );
