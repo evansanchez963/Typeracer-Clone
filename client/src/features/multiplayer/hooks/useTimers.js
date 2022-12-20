@@ -5,7 +5,7 @@ const initialState = {
   controlTimer: false,
   countdown: 7000,
   countdownOn: false,
-  gameTimer: 60000,
+  gameTimer: 90000,
   gameTimerOn: false,
 };
 
@@ -50,7 +50,7 @@ const reducer = (state, action) => {
         ...state,
         countdown: 7000,
         countdownOn: false,
-        gameTimer: 60000,
+        gameTimer: 90000,
         gameTimerOn: false,
       };
     default:
