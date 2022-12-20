@@ -6,7 +6,7 @@ const errorResponse = require("../utils/errorResponse");
 exports.getUserInfo = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) return next(errorResponse("This user does not exist!", 400));
+    if (!user) return next(errorResponse("This user does not exist!", 404));
 
     return res.status(200).json({
       success: true,
@@ -22,7 +22,7 @@ exports.getUserInfo = async (req, res, next) => {
 exports.getUserStats = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) return next(errorResponse("This user does not exist!", 400));
+    if (!user) return next(errorResponse("This user does not exist!", 404));
 
     const getAvgWPM = async () => {
       if (!user.typing_sessions.length) return 0;
@@ -77,7 +77,7 @@ exports.updateUserSessions = async (req, res, next) => {
 
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) return next(errorResponse("This user does not exist!", 400));
+    if (!user) return next(errorResponse("This user does not exist!", 404));
 
     const typingSession = await TypingSession.create({
       user: user,

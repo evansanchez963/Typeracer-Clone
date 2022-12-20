@@ -5,7 +5,7 @@ exports.getRandomParagraph = async (req, res, next) => {
   try {
     const paragraph = await Paragraph.aggregate([{ $sample: { size: 1 } }]);
     if (!paragraph)
-      return next(errorResponse("Could not find a paragraph.", 400));
+      return next(errorResponse("Could not find a paragraph.", 404));
 
     return res.status(200).json({
       success: true,
