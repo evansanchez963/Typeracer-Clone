@@ -1,4 +1,4 @@
-const Paragraph = require("../models/paragraph");
+const Paragraph = require("../models/Paragraph");
 const errorResponse = require("../utils/errorResponse");
 
 exports.getRandomParagraph = async (req, res, next) => {
