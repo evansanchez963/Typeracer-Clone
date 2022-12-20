@@ -27,7 +27,6 @@ const Login = () => {
 
     try {
       const data = await loginUser(loginForm);
-
       // If successful, log in user.
       loginHandler(data.token, data.id);
       navigate("/");

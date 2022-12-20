@@ -26,13 +26,11 @@ const loginUser = async (loginForm) => {
     username: loginForm.username,
     password: loginForm.password,
   };
-  console.log(userData);
   const config = {
     header: {
       "Content-Type": "application/json",
     },
   };
-  console.log(config);
 
   const { data } = await axios.post(
     "https://typeracer-clone-backend.onrender.com/api/auth/login",

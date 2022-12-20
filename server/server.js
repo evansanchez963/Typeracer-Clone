@@ -28,6 +28,7 @@ app.use(
   })
 );
 app.use("/api/auth", require("./routes/authRouter"));
+app.use("/api/game", require("./routes/gameRouter"));
 app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
 
