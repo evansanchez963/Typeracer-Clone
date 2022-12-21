@@ -1,7 +1,7 @@
 # Live Demo: https://typeracer-clone-frontend.onrender.com/
 
 # About This Project
-This project is a clone of the website play.typeracer.com created with MongoDB, Express, React, and Node.  I built this as a way to teach myself a stack and because I love typing games.  
+This project is a clone of the website [play.typeracer.com](https://play.typeracer.com/) created with MongoDB, Express, React, and Node.  I built this as a way to teach myself a stack and because I love typing games.  
 
 ## Front End
 - Styled with vanilla CSS (flexbox and grid) to create a responsive UI for desktop and mobile devices
