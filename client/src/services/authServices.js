@@ -13,7 +13,7 @@ const createNewAccount = async (createAccountForm) => {
   };
 
   const { data } = await axios.post(
-    "https://typeracer-clone-backend.onrender.com/api/auth/create-account",
+    "https://typeracer-clone-backend.vercel.app/api/auth/create-account",
     userData,
     config
   );
@@ -33,7 +33,7 @@ const loginUser = async (loginForm) => {
   };
 
   const { data } = await axios.post(
-    "https://typeracer-clone-backend.onrender.com/api/auth/login",
+    "https://typeracer-clone-backend.vercel.app/api/auth/login",
     userData,
     config
   );
