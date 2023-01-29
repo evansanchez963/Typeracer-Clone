@@ -7,7 +7,7 @@ const errorHandler = require("./middleware/error");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
-  cors: { origin: process.env.FRONTEND_URL },
+  cors: { origin: "https://typeracer-clone.vercel.app" },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   optionsSuccessStatus: 200,
@@ -21,7 +21,7 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "https://typeracer-clone.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     optionsSuccessStatus: 200,
