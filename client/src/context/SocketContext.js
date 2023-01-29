@@ -3,7 +3,7 @@ import { useAuth, useUsername } from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 
-const socket = io("https://typeracer-clone-backend.vercel.app");
+const socket = io("https://typeracer-clone-backend.vercel.app/");
 const SocketContext = React.createContext();
 const RoomCodeContext = React.createContext();
 const JoinRoomContext = React.createContext();
