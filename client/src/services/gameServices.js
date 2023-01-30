@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getTextData = async () => {
   const { data } = await axios.get(
-    "https://typeracer-clone-backend.vercel.app/api/game/random-paragraph"
+    "https://typeracer-clone-production.up.railway.app/api/game/random-paragraph"
   );
   const text = data.text;
 
