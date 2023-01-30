@@ -1,7 +1,7 @@
-# Live Demo: https://typeracer-clone-frontend.onrender.com/
+# Live Demo: https://typeracer-clone.vercel.app/
 
 # About This Project
-This project is a clone of the website [play.typeracer.com](https://play.typeracer.com/) created with MongoDB, Express, React, and Node.  I built this as a way to teach myself a stack and because I love typing games.  
+This project is a clone of the website [play.typeracer.com](https://play.typeracer.com/) created with MongoDB, Express, React, and Node. I built this as a way to teach myself a stack and because I love typing games. The front end is hosted on Vercel and the back end is hosted on Railway.
 
 ## Front End
 - Styled with vanilla CSS (flexbox and grid) to create a responsive UI for desktop and mobile devices
@@ -25,3 +25,6 @@ This project is still a work in progress.  Here are a list of features I would l
 4. A toggleable day/night theme for the UI
 5. More user feedback to be shown after a typing session such as words typed incorrectly, correctly typed characters over all characters typed, etc.
 6. More data shown in user profile such as data visualizations to show a user's typing progress over time
+
+## Known Bugs
+- The typing input does not work on mobile devices.
