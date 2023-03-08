@@ -3,7 +3,7 @@ import { useAuth, useUsername } from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 
-const socket = io("https://typeracer-clone-production.up.railway.app");
+const socket = io("https://typeracer-clone-backend.onrender.com");
 const SocketContext = React.createContext();
 const RoomCodeContext = React.createContext();
 const JoinRoomContext = React.createContext();

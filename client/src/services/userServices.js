@@ -11,7 +11,7 @@ const saveUserStats = async (userStats) => {
   };
 
   await axios.put(
-    `https://typeracer-clone-production.up.railway.app/api/user/${user.userId}/session`,
+    `https://typeracer-clone-backend.onrender.com/api/user/${user.userId}/session`,
     userStats,
     config
   );
@@ -28,7 +28,7 @@ const getUserInfo = async () => {
   };
 
   const { data } = await axios.get(
-    `https://typeracer-clone-production.up.railway.app/api/user/${user.userId}`,
+    `https://typeracer-clone-backend.onrender.com/api/user/${user.userId}`,
     config
   );
 
@@ -46,7 +46,7 @@ const getUserStats = async () => {
   };
 
   const { data } = await axios.get(
-    `https://typeracer-clone-production.up.railway.app/api/user/${user.userId}/stats`,
+    `https://typeracer-clone-backend.onrender.com/api/user/${user.userId}/stats`,
     config
   );
 
@@ -64,7 +64,7 @@ const deleteUserProgress = async () => {
   };
 
   await axios.post(
-    `https://typeracer-clone-production.up.railway.app/api/user/${user.userId}/restart`,
+    `https://typeracer-clone-backend.onrender.com/api/user/${user.userId}/restart`,
     { arr: [] },
     config
   );
@@ -81,7 +81,7 @@ const deleteAccount = async () => {
   };
 
   await axios.delete(
-    `https://typeracer-clone-production.up.railway.app/api/user/${user.userId}/delete`,
+    `https://typeracer-clone-backend.onrender.com/api/user/${user.userId}/delete`,
     config
   );
 };
