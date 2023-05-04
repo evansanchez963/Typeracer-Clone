@@ -7,7 +7,7 @@ const errorHandler = require("./middleware/error");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
-  cors: { origin: "http://localhost:3000" },
+  cors: { origin: "http://localhost:5173" },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   optionsSuccessStatus: 200,
@@ -21,7 +21,7 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     optionsSuccessStatus: 200,
