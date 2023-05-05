@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { UserInfo, UserStats, DangerZone } from "./index";
 import { useAuth } from "../../../context/AuthContext";
 import { getUserInfo, getUserStats } from "../../../services/userServices";
@@ -12,7 +12,6 @@ const UserProfile = () => {
   const [avgWPM, setAvgWPM] = useState(0);
   const [highestWPM, setHighestWPM] = useState(0);
   const [raceCount, setRaceCount] = useState(0);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -43,12 +42,11 @@ const UserProfile = () => {
       }
     };
 
-    if (!isLoggedIn) navigate("/");
-    else if (isLoggedIn) {
+    if (isLoggedIn) {
       fetchUserInfo();
       fetchUserStats();
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn]);
 
   const resetUserStats = () => {
     setAvgWPM(0);
@@ -56,6 +54,9 @@ const UserProfile = () => {
     setRaceCount(0);
   };
 
+  if (!isLoggedIn) {
+    return <Navigate to="/" />;
+  }
   return (
     <section id="user-profile">
       <UserInfo
