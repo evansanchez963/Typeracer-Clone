@@ -1,12 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { createNewAccount } from "../../../services/authServices";
 import "./CreateAccount.css";
 
 const CreateAccount = () => {
   const { isLoggedIn, handleLogin } = useAuth();
-  const navigate = useNavigate();
   const [createAccountForm, setCreateAccountForm] = useState({
     username: "",
     email: "",
@@ -21,10 +20,6 @@ const CreateAccount = () => {
       [e.target.name]: e.target.value,
     }));
   };
-
-  useEffect(() => {
-    if (isLoggedIn) navigate("/");
-  }, [isLoggedIn, navigate]);
 
   const createAccountHandler = async (e) => {
     e.preventDefault();
@@ -43,6 +38,9 @@ const CreateAccount = () => {
     }
   };
 
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
   return (
     <section id="create-account">
       <div className="ca-form-container">
