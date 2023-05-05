@@ -1,5 +1,5 @@
 import { useReducer, useEffect, useCallback } from "react";
-import { useSocket, useRoomCode } from "../../../context/SocketContext";
+import { useSocket } from "../../../context/SocketContext";
 import getTextData from "../../../services/gameServices";
 
 const initialState = {
@@ -45,8 +45,7 @@ const reducer = (state, action) => {
 };
 
 const useFetch = (userRoster) => {
-  const socket = useSocket();
-  const roomCode = useRoomCode();
+  const { socket, joinedRoomCode } = useSocket();
 
   const hostSocketId = Object.keys(userRoster)[0];
 
@@ -103,14 +102,14 @@ const useFetch = (userRoster) => {
       hostSocketId === socket.id
     )
       socket.emit("send_text_data", {
-        room: roomCode,
+        room: joinedRoomCode,
         chars: chars,
         words: words,
       });
 
     return () => socket.off("recieve_text_data", recieveDataHandler);
   }, [
-    roomCode,
+    joinedRoomCode,
     userRoster,
     hostSocketId,
     chars,

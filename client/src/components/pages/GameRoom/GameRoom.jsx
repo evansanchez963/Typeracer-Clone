@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { useSocket, useRoomCode } from "../../../context/SocketContext";
+import { useSocket } from "../../../context/SocketContext";
 import {
   GameroomStatusInfo,
   UserProgressBar,
@@ -28,10 +28,8 @@ import "./GameRoom.css";
 
 const GameRoom = () => {
   const { isLoggedIn } = useAuth();
+  const { socket, joinedRoomCode } = useSocket();
   const [userRoster, setUserRoster] = useState({});
-
-  const socket = useSocket();
-  const roomCode = useRoomCode();
 
   const { finishLine, readyToRestart, isRoomStarted, isRoomEnded, resetRoom } =
     useRoomStatus(userRoster);
@@ -143,10 +141,10 @@ const GameRoom = () => {
   // Every time user joins room, display users connected to that room.
   useEffect(() => {
     socket.on("get_user_roster", updateJoinedUsers);
-    socket.emit("connect_to_room", { room: roomCode });
+    socket.emit("connect_to_room", { room: joinedRoomCode });
 
     return () => socket.off("get_user_roster", updateJoinedUsers);
-  }, [socket, roomCode]);
+  }, [socket, joinedRoomCode]);
 
   // When client finishes typing, check if they are logged in and push stats to their account.
   useEffect(() => {

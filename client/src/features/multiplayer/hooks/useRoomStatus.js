@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useCallback } from "react";
-import { useSocket, useRoomCode } from "../../../context/SocketContext";
+import { useSocket } from "../../../context/SocketContext";
 
 const initialState = {
   finishLine: [],
@@ -37,8 +37,7 @@ const reducer = (state, action) => {
 };
 
 const useRoomStatus = (userRoster) => {
-  const socket = useSocket();
-  const roomCode = useRoomCode();
+  const { socket, joinedRoomCode } = useSocket();
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { finishLine, readyToRestart, isRoomStarted, isRoomEnded } = state;
@@ -119,14 +118,21 @@ const useRoomStatus = (userRoster) => {
       hostSocketId === socket.id &&
       rosterSize === 2
     )
-      socket.emit("send_start_room", { room: roomCode, startRoom: true });
-  }, [socket, roomCode, readyToRestart, hostSocketId, rosterSize, startRoom]);
+      socket.emit("send_start_room", { room: joinedRoomCode, startRoom: true });
+  }, [
+    socket,
+    joinedRoomCode,
+    readyToRestart,
+    hostSocketId,
+    rosterSize,
+    startRoom,
+  ]);
 
   // When both clients finish typing (or one disconnects mid game), end game.
   useEffect(() => {
     if (hostSocketId === socket.id && finishLine.length === rosterSize)
-      socket.emit("send_end_room", { room: roomCode, endRoom: true });
-  }, [socket, roomCode, hostSocketId, finishLine, rosterSize, endRoom]);
+      socket.emit("send_end_room", { room: joinedRoomCode, endRoom: true });
+  }, [socket, joinedRoomCode, hostSocketId, finishLine, rosterSize, endRoom]);
 
   return {
     finishLine,

@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSocket, useRoomCode } from "../../../../context/SocketContext";
+import { useSocket } from "../../../../context/SocketContext";
 import "./ButtonRow.css";
 
 const ButtonRow = ({ isClientEnded }) => {
-  const socket = useSocket();
-  const roomCode = useRoomCode();
+  const { socket, joinedRoomCode } = useSocket();
 
   const [isWaiting, setIsWaiting] = useState(false);
 
@@ -23,7 +22,7 @@ const ButtonRow = ({ isClientEnded }) => {
         style={{ display: isClientEnded ? "block" : "none" }}
         onClick={() => {
           setIsWaiting(true);
-          socket.emit("send_client_ready", { room: roomCode });
+          socket.emit("send_client_ready", { room: joinedRoomCode });
         }}
       >
         {isWaiting ? "Waiting..." : "Restart?"}

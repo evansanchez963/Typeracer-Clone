@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useCallback } from "react";
-import { useSocket, useRoomCode } from "../../../context/SocketContext";
+import { useSocket } from "../../../context/SocketContext";
 
 const initialState = {
   controlTimer: false,
@@ -59,8 +59,7 @@ const reducer = (state, action) => {
 };
 
 const useTimers = (userRoster, isRoomStarted, isRoomEnded, startClient) => {
-  const socket = useSocket();
-  const roomCode = useRoomCode();
+  const { socket, joinedRoomCode } = useSocket();
 
   const hostSocketId = Object.keys(userRoster)[0];
 
@@ -108,12 +107,12 @@ const useTimers = (userRoster, isRoomStarted, isRoomEnded, startClient) => {
     if (controlTimer) {
       const timerState = { countdown, countdownOn, gameTimer, gameTimerOn };
       socket.emit("send_timer_state", {
-        room: roomCode,
+        room: joinedRoomCode,
         timerState: timerState,
       });
     }
   }, [
-    roomCode,
+    joinedRoomCode,
     socket,
     controlTimer,
     countdown,
@@ -156,7 +155,7 @@ const useTimers = (userRoster, isRoomStarted, isRoomEnded, startClient) => {
         stopGameTimer();
       } else if (gameTimer === 0) {
         stopGameTimer();
-        socket.emit("send_end_room", { room: roomCode, endRoom: true });
+        socket.emit("send_end_room", { room: joinedRoomCode, endRoom: true });
       } else if (gameTimerOn) {
         interval = setInterval(() => {
           decrementGameTimer();
@@ -167,7 +166,14 @@ const useTimers = (userRoster, isRoomStarted, isRoomEnded, startClient) => {
 
       return () => clearInterval(interval);
     }
-  }, [roomCode, socket, isRoomEnded, controlTimer, gameTimer, gameTimerOn]);
+  }, [
+    joinedRoomCode,
+    socket,
+    isRoomEnded,
+    controlTimer,
+    gameTimer,
+    gameTimerOn,
+  ]);
 
   return {
     countdown,

@@ -1,23 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import { useAuth } from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:5000");
-const SocketContext = React.createContext();
-const RoomCodeContext = React.createContext();
-const JoinRoomContext = React.createContext();
+const SocketContext = createContext();
 
 const useSocket = () => {
   return useContext(SocketContext);
-};
-
-const useRoomCode = () => {
-  return useContext(RoomCodeContext);
-};
-
-const useJoinRoom = () => {
-  return useContext(JoinRoomContext);
 };
 
 const SocketProvider = ({ children }) => {
@@ -26,7 +16,7 @@ const SocketProvider = ({ children }) => {
   const location = useLocation();
 
   // User can either join a room or not be allowed to because it is full.
-  const joinRoomHandler = async (data) => {
+  const handleJoinRoom = async (data) => {
     return new Promise((resolve, reject) => {
       socket.emit("join_room", data);
       socket.on("join_room_success", () => {
@@ -37,7 +27,7 @@ const SocketProvider = ({ children }) => {
     });
   };
 
-  const leaveRoomHandler = (data) => {
+  const handleLeaveRoom = (data) => {
     socket.emit("leave_room", data);
     setJoinedRoomCode("");
   };
@@ -48,7 +38,7 @@ const SocketProvider = ({ children }) => {
       location.pathname !== `/gameroom/${joinedRoomCode}` &&
       joinedRoomCode !== ""
     ) {
-      leaveRoomHandler({
+      handleLeaveRoom({
         room: joinedRoomCode,
         user: isLoggedIn ? username : "Guest",
       });
@@ -56,14 +46,10 @@ const SocketProvider = ({ children }) => {
   }, [joinedRoomCode, isLoggedIn, username, location]);
 
   return (
-    <SocketContext.Provider value={socket}>
-      <RoomCodeContext.Provider value={joinedRoomCode}>
-        <JoinRoomContext.Provider value={joinRoomHandler}>
-          {children}
-        </JoinRoomContext.Provider>
-      </RoomCodeContext.Provider>
+    <SocketContext.Provider value={{ socket, joinedRoomCode, handleJoinRoom }}>
+      {children}
     </SocketContext.Provider>
   );
 };
 
-export { useSocket, useRoomCode, useJoinRoom, SocketProvider };
+export { useSocket, SocketProvider };

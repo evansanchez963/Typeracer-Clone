@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
-import { useJoinRoom } from "../../../context/SocketContext";
+import { useSocket } from "../../../context/SocketContext";
 import "./PlayOnline.css";
 
 const PlayOnline = () => {
   const navigate = useNavigate();
   const { isLoggedIn, username } = useAuth();
-  const joinRoomHandler = useJoinRoom();
+  const { handleJoinRoom } = useSocket();
   const [roomCode, setRoomCode] = useState("");
   const [error, setError] = useState("");
 
@@ -18,7 +18,7 @@ const PlayOnline = () => {
     }
 
     try {
-      const joined = await joinRoomHandler({
+      const joined = await handleJoinRoom({
         room: roomCode,
         user: isLoggedIn ? username : "Guest",
       });

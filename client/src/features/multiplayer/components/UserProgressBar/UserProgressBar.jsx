@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { useSocket, useRoomCode } from "../../../../context/SocketContext";
+import { useSocket } from "../../../../context/SocketContext";
 import "./UserProgressBar.css";
 
 const UserProgressBar = ({ recieveDataFrom, chars, charsTyped, WPM }) => {
-  const socket = useSocket();
-  const roomCode = useRoomCode();
+  const { socket, joinedRoomCode } = useSocket();
 
   const [userCharsTyped, setUserCharsTyped] = useState(0);
   const [userWPM, setUserWPM] = useState(0);
@@ -18,12 +17,12 @@ const UserProgressBar = ({ recieveDataFrom, chars, charsTyped, WPM }) => {
   useEffect(() => {
     if (recieveDataFrom === socket.id) {
       socket.emit("send_progress_data", {
-        room: roomCode,
+        room: joinedRoomCode,
         charsTyped: charsTyped,
         WPM: WPM,
       });
     }
-  }, [recieveDataFrom, socket, roomCode, charsTyped, WPM]);
+  }, [recieveDataFrom, socket, joinedRoomCode, charsTyped, WPM]);
 
   // Display other users progress in order of roster.
   useEffect(() => {
