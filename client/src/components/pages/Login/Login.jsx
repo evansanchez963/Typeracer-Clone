@@ -1,12 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { loginUser } from "../../../services/authServices";
 import "./Login.css";
 
 const Login = () => {
   const { isLoggedIn, handleLogin } = useAuth();
-  const navigate = useNavigate();
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
@@ -17,24 +16,20 @@ const Login = () => {
     setLoginForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  useEffect(() => {
-    if (isLoggedIn) navigate("/");
-  }, [isLoggedIn, navigate]);
-
   const loginFormHandler = async (e) => {
     e.preventDefault();
 
     try {
       const data = await loginUser(loginForm);
-      // If successful, log in user.
       handleLogin(data.token, data.id);
-      navigate("/");
     } catch (err) {
-      // Display error in form.
       setError(err.response.data.error);
     }
   };
 
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
   return (
     <section id="login">
       <div className="login-form-container">
