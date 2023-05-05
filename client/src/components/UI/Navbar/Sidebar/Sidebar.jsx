@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
-import { useAuth, useUserId, useLogout } from "../../../../context/AuthContext";
+import { useAuth } from "../../../../context/AuthContext";
 import { IoClose } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import "./Sidebar.css";
 
 const Sidebar = ({ sidebarActive, toggleSidebar }) => {
-  const isLoggedIn = useAuth();
-  const userId = useUserId();
-  const logoutHandler = useLogout();
+  const { isLoggedIn, userId, handleLogout } = useAuth();
 
   return (
     <div id="sidebar" className={sidebarActive ? "is-active" : ""}>
@@ -57,7 +55,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar }) => {
             className="sidebar-icon-link"
             style={{ display: isLoggedIn ? "block" : "none" }}
             onClick={() => {
-              logoutHandler();
+              handleLogout();
               toggleSidebar();
             }}
           >

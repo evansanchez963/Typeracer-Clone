@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  useAuth,
-  useUserId,
-  useUsername,
-  useLogout,
-} from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { logo } from "../../../assets/index";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { GoGear } from "react-icons/go";
@@ -15,10 +10,7 @@ import Sidebar from "./Sidebar/Sidebar";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const isLoggedIn = useAuth();
-  const userId = useUserId();
-  const logoutHandler = useLogout();
-  const username = useUsername();
+  const { isLoggedIn, userId, username, handleLogout } = useAuth();
   const [sidebarActive, setSidebarActive] = useState(false);
   const navigate = useNavigate();
 
@@ -82,7 +74,7 @@ const Navbar = () => {
               size={20}
               onClick={() => navigate(`/user/${userId}`)}
             ></GoGear>
-            <MdExitToApp size={20} onClick={logoutHandler} />
+            <MdExitToApp size={20} onClick={handleLogout} />
           </div>
         </div>
       </div>

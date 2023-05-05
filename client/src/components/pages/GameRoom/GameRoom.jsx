@@ -27,7 +27,7 @@ import { saveUserStats } from "../../../services/userServices";
 import "./GameRoom.css";
 
 const GameRoom = () => {
-  const isLoggedIn = useAuth();
+  const { isLoggedIn } = useAuth();
   const [userRoster, setUserRoster] = useState({});
 
   const socket = useSocket();

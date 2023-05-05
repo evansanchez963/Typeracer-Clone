@@ -6,7 +6,7 @@ import { getUserInfo, getUserStats } from "../../../services/userServices";
 import "./UserProfile.css";
 
 const UserProfile = () => {
-  const isLoggedIn = useAuth();
+  const { isLoggedIn } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [avgWPM, setAvgWPM] = useState(0);

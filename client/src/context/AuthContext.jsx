@@ -1,32 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../services/userServices";
 
-const AuthContext = React.createContext();
-const UserIdContext = React.createContext();
-const UsernameContext = React.createContext();
-const LoginContext = React.createContext();
-const LogoutContext = React.createContext();
+const AuthContext = createContext();
 
-// Custom hooks to be used in other parts of the application.
 const useAuth = () => {
   return useContext(AuthContext);
-};
-
-const useUserId = () => {
-  return useContext(UserIdContext);
-};
-
-const useUsername = () => {
-  return useContext(UsernameContext);
-};
-
-const useLogin = () => {
-  return useContext(LoginContext);
-};
-
-const useLogout = () => {
-  return useContext(LogoutContext);
 };
 
 const AuthProvider = ({ children }) => {
@@ -59,7 +38,7 @@ const AuthProvider = ({ children }) => {
     if (isLoggedIn) getUsername();
   }, [isLoggedIn]);
 
-  const loginHandler = (token, userId) => {
+  const handleLogin = (token, userId) => {
     const userObject = {
       userId: userId,
       token: token,
@@ -69,7 +48,7 @@ const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
   };
 
-  const logoutHandler = () => {
+  const handleLogout = () => {
     localStorage.removeItem("userData");
     setUserId("");
     setUsername("");
@@ -78,18 +57,12 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={isLoggedIn}>
-      <UserIdContext.Provider value={userId}>
-        <UsernameContext.Provider value={username}>
-          <LoginContext.Provider value={loginHandler}>
-            <LogoutContext.Provider value={logoutHandler}>
-              {children}
-            </LogoutContext.Provider>
-          </LoginContext.Provider>
-        </UsernameContext.Provider>
-      </UserIdContext.Provider>
+    <AuthContext.Provider
+      value={{ isLoggedIn, userId, username, handleLogin, handleLogout }}
+    >
+      {children}
     </AuthContext.Provider>
   );
 };
 
-export { useAuth, useUserId, useUsername, useLogin, useLogout, AuthProvider };
+export { useAuth, AuthProvider };

@@ -1,12 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth, useLogin } from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { createNewAccount } from "../../../services/authServices";
 import "./CreateAccount.css";
 
 const CreateAccount = () => {
-  const isLoggedIn = useAuth();
-  const loginHandler = useLogin();
+  const { isLoggedIn, handleLogin } = useAuth();
   const navigate = useNavigate();
   const [createAccountForm, setCreateAccountForm] = useState({
     username: "",
@@ -37,7 +36,7 @@ const CreateAccount = () => {
       const data = await createNewAccount(createAccountForm);
 
       // If successful, log in user.
-      loginHandler(data.token, data.id);
+      handleLogin(data.token, data.id);
     } catch (err) {
       // Display error in form.
       setError(err.response.data.error);

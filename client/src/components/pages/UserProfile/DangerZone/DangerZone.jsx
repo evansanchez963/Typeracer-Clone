@@ -1,4 +1,5 @@
-import { useLogout } from "../../../../context/AuthContext";
+import { useContext } from "react";
+import { useAuth } from "../../../../context/AuthContext";
 import {
   deleteUserProgress,
   deleteAccount,
@@ -28,7 +29,7 @@ const deleteAccountHandler = async (logoutHandler) => {
 };
 
 const DangerZone = ({ resetUserStats }) => {
-  const logoutHandler = useLogout();
+  const { handleLogout } = useAuth();
 
   return (
     <div className="danger-zone-container">
@@ -41,7 +42,7 @@ const DangerZone = ({ resetUserStats }) => {
       </button>
       <button
         className="danger-option"
-        onClick={() => deleteAccountHandler(logoutHandler)}
+        onClick={() => deleteAccountHandler(handleLogout)}
       >
         Delete Account
       </button>

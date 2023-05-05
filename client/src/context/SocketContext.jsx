@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useAuth, useUsername } from "./AuthContext";
+import { useAuth } from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 
@@ -22,8 +22,7 @@ const useJoinRoom = () => {
 
 const SocketProvider = ({ children }) => {
   const [joinedRoomCode, setJoinedRoomCode] = useState("");
-  const isLoggedIn = useAuth();
-  const username = useUsername();
+  const { isLoggedIn, username } = useAuth();
   const location = useLocation();
 
   // User can either join a room or not be allowed to because it is full.

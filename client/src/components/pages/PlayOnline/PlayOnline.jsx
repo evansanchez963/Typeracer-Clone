@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth, useUsername } from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { useJoinRoom } from "../../../context/SocketContext";
 import "./PlayOnline.css";
 
 const PlayOnline = () => {
   const navigate = useNavigate();
-  const isLoggedIn = useAuth();
+  const { isLoggedIn, username } = useAuth();
   const joinRoomHandler = useJoinRoom();
-  const username = useUsername();
   const [roomCode, setRoomCode] = useState("");
   const [error, setError] = useState("");
 

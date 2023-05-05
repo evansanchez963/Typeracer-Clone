@@ -25,7 +25,7 @@ import { saveUserStats } from "../../../services/userServices";
 import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
-  const isLoggedIn = useAuth();
+  const { isLoggedIn } = useAuth();
 
   // Data from custom hooks.
   const { isStarted, isEnded, startGame, endGame, restartGame } =

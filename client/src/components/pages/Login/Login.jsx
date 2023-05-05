@@ -1,12 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth, useLogin } from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { loginUser } from "../../../services/authServices";
 import "./Login.css";
 
 const Login = () => {
-  const isLoggedIn = useAuth();
-  const loginHandler = useLogin();
+  const { isLoggedIn, handleLogin } = useAuth();
   const navigate = useNavigate();
   const [loginForm, setLoginForm] = useState({
     username: "",
@@ -28,7 +27,7 @@ const Login = () => {
     try {
       const data = await loginUser(loginForm);
       // If successful, log in user.
-      loginHandler(data.token, data.id);
+      handleLogin(data.token, data.id);
       navigate("/");
     } catch (err) {
       // Display error in form.
