@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../services/userServices";
 
 const AuthContext = createContext();
@@ -12,7 +11,6 @@ const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
-  const navigate = useNavigate();
 
   // Check if a user was last logged in by checking local storage.
   useEffect(() => {
@@ -53,7 +51,6 @@ const AuthProvider = ({ children }) => {
     setUserId("");
     setUsername("");
     setIsLoggedIn(false);
-    navigate("/");
   };
 
   return (
