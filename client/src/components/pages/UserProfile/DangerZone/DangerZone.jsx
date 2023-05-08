@@ -1,48 +1,30 @@
-import { useContext } from "react";
 import { useAuth } from "../../../../context/AuthContext";
-import {
-  deleteUserProgress,
-  deleteAccount,
-} from "../../../../services/userServices";
+import { deleteAccount } from "../../../../services/userServices";
 import "./DangerZone.css";
 
-const deleteProgressHandler = async (resetUserStats) => {
-  if (window.confirm("Are you sure you want to delete your progress?")) {
-    try {
-      await deleteUserProgress();
-      resetUserStats();
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-};
-
-const deleteAccountHandler = async (logoutHandler) => {
+const handleDeleteAccount = async (handleLogout) => {
   if (window.confirm("Are you sure you want to delete your account?")) {
     try {
       await deleteAccount();
-      logoutHandler();
+      handleLogout();
     } catch (err) {
       alert(err.message);
     }
   }
 };
 
-const DangerZone = ({ resetUserStats }) => {
+const DangerZone = ({ onResetProgress }) => {
   const { handleLogout } = useAuth();
 
   return (
     <div className="danger-zone-container">
       <h1>Danger Zone</h1>
-      <button
-        className="danger-option"
-        onClick={() => deleteProgressHandler(resetUserStats)}
-      >
+      <button className="danger-option" onClick={onResetProgress}>
         Delete Progress
       </button>
       <button
         className="danger-option"
-        onClick={() => deleteAccountHandler(handleLogout)}
+        onClick={() => handleDeleteAccount(handleLogout)}
       >
         Delete Account
       </button>

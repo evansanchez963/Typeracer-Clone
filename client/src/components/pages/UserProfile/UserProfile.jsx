@@ -2,57 +2,72 @@ import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { UserInfo, UserStats, DangerZone } from "./index";
 import { useAuth } from "../../../context/AuthContext";
-import { getUserInfo, getUserStats } from "../../../services/userServices";
+import {
+  getUserInfo,
+  getUserStats,
+  deleteUserProgress,
+} from "../../../services/userServices";
 import "./UserProfile.css";
 
 const UserProfile = () => {
   const { isLoggedIn } = useAuth();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [avgWPM, setAvgWPM] = useState(0);
-  const [highestWPM, setHighestWPM] = useState(0);
-  const [raceCount, setRaceCount] = useState(0);
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    email: "",
+  });
+  const [userStats, setUserStats] = useState({
+    avgWPM: 0,
+    highestWPM: 0,
+    raceCount: 0,
+  });
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
+  const loadUserInfo = async () => {
+    try {
+      const data = await getUserInfo();
+
+      setUserInfo({ username: data.username, email: data.email });
+    } catch (err) {
+      setUserInfo({ username: "Error", email: "Error" });
+      alert(err);
+    }
+  };
+
+  const loadUserStats = async () => {
+    try {
+      const data = await getUserStats();
+
+      setUserStats({
+        avgWPM: data.avgWPM,
+        highestWPM: data.highestWPM,
+        raceCount: data.raceCount,
+      });
+    } catch (err) {
+      setUserStats({
+        avgWPM: "Error",
+        highestWPM: "Error",
+        raceCount: "Error",
+      });
+      alert(err.message);
+    }
+  };
+
+  const resetUserProgress = async () => {
+    if (window.confirm("Are you sure you want to delete your progress?")) {
       try {
-        const data = await getUserInfo();
-
-        setUsername(data.username);
-        setEmail(data.email);
+        await deleteUserProgress();
+        await loadUserStats();
       } catch (err) {
-        setUsername("Error");
-        setEmail("Error");
-        alert(err);
-      }
-    };
-
-    const fetchUserStats = async () => {
-      try {
-        const data = await getUserStats();
-
-        setAvgWPM(data.avgWPM);
-        setHighestWPM(data.highestWPM);
-        setRaceCount(data.raceCount);
-      } catch (err) {
-        setAvgWPM("Error");
-        setHighestWPM("Error");
-        setRaceCount("Error");
         alert(err.message);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     if (isLoggedIn) {
-      fetchUserInfo();
-      fetchUserStats();
+      loadUserInfo();
+      loadUserStats();
     }
   }, [isLoggedIn]);
-
-  const resetUserStats = () => {
-    setAvgWPM(0);
-    setHighestWPM(0);
-    setRaceCount(0);
-  };
 
   if (!isLoggedIn) {
     return <Navigate to="/" />;
@@ -60,17 +75,16 @@ const UserProfile = () => {
   return (
     <section id="user-profile">
       <UserInfo
-        username={username}
-        setUsername={setUsername}
-        email={email}
-        setEmail={setEmail}
+        username={userInfo.username}
+        email={userInfo.email}
+        onChange={setUserInfo}
       />
       <UserStats
-        avgWPM={avgWPM}
-        highestWPM={highestWPM}
-        raceCount={raceCount}
+        avgWPM={userStats.avgWPM}
+        highestWPM={userStats.highestWPM}
+        raceCount={userStats.raceCount}
       />
-      <DangerZone resetUserStats={resetUserStats} />
+      <DangerZone onResetProgress={resetUserProgress} />
     </section>
   );
 };

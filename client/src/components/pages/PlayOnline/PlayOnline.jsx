@@ -11,7 +11,7 @@ const PlayOnline = () => {
   const [roomCode, setRoomCode] = useState("");
   const [error, setError] = useState("");
 
-  const joinButtonHandler = async () => {
+  const handleJoin = async () => {
     if (roomCode === "") {
       setError("Room code must not be empty!");
       return;
@@ -40,7 +40,7 @@ const PlayOnline = () => {
             onChange={(e) => setRoomCode(e.target.value)}
           ></input>
         </div>
-        <button onClick={joinButtonHandler}>Join Game</button>
+        <button onClick={handleJoin}>Join Game</button>
       </div>
     </section>
   );

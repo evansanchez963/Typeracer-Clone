@@ -30,10 +30,8 @@ const CreateAccount = () => {
     try {
       const data = await createNewAccount(createAccountForm);
 
-      // If successful, log in user.
       handleLogin(data.token, data.id);
     } catch (err) {
-      // Display error in form.
       setError(err.response.data.error);
     }
   };

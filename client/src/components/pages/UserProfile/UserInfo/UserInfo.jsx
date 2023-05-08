@@ -1,11 +1,11 @@
 import "./UserInfo.css";
 
-const UserInfo = ({ username, setUsername, email, setEmail }) => {
-  const changeInfoHandler = (e) => {
+const UserInfo = ({ username, email, onChange }) => {
+  const handleChangeInfo = (e) => {
     e.preventDefault();
   };
 
-  const changePasswordHandler = (e) => {
+  const handleChangePassword = (e) => {
     e.preventDefault();
   };
 
@@ -16,14 +16,14 @@ const UserInfo = ({ username, setUsername, email, setEmail }) => {
       <div className="user-personal-info">
         <h2>1. Personal Information (update info here)</h2>
         <hr></hr>
-        <form id="user-info-form" onSubmit={changeInfoHandler}>
+        <form id="user-info-form" onSubmit={handleChangeInfo}>
           <div className="user-info-input">
             <label htmlFor="user-info-username">Username:</label>
             <input
               type="text"
               id="user-info-username"
               name="user-info-username"
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={onChange}
               value={username}
               disabled
             ></input>
@@ -34,7 +34,7 @@ const UserInfo = ({ username, setUsername, email, setEmail }) => {
               type="text"
               id="user-info-email"
               name="user-info-email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={onChange}
               value={email}
               disabled
             ></input>
@@ -46,7 +46,7 @@ const UserInfo = ({ username, setUsername, email, setEmail }) => {
       <div className="user-change-password">
         <h2>2. Change Password (optional)</h2>
         <hr></hr>
-        <form id="user-password-form" onSubmit={changePasswordHandler}>
+        <form id="user-password-form" onSubmit={handleChangePassword}>
           <div className="user-password-input">
             <label htmlFor="user-password">Password:</label>
             <input
