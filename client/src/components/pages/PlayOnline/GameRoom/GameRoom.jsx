@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { useSocket } from "../../../context/SocketContext";
+import { useSocket } from "../../../../context/SocketContext";
 import {
   GameroomStatusInfo,
   UserProgressBar,
   Paragraph,
   Input,
   ButtonRow,
-} from "../../../features/multiplayer/components/index";
-import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
+} from "../../../../features/multiplayer/components/index";
+import Statistics from "../../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
   useRoomStatus,
   useClientStatus,
@@ -16,19 +16,19 @@ import {
   useCalcWPM,
   useTime,
   useAccuracy,
-} from "../../../features/multiplayer/hooks/index";
+} from "../../../../features/multiplayer/hooks/index";
 import {
   useInput,
   useIdxInfo,
   useTypeInfo,
-} from "../../../features/coreGameLogic/hooks/index";
-import { useAuth } from "../../../context/AuthContext";
-import { saveUserStats } from "../../../services/userServices";
+} from "../../../../features/coreGameLogic/hooks/index";
+import { useAuth } from "../../../../context/AuthContext";
+import { saveUserStats } from "../../../../services/userServices";
 import "./GameRoom.css";
 
-const GameRoom = () => {
-  const { isLoggedIn } = useAuth();
-  const { socket, joinedRoomCode } = useSocket();
+const GameRoom = ({ roomCode }) => {
+  const { isLoggedIn, username } = useAuth();
+  const { socket, handleJoinRoom, handleLeaveRoom } = useSocket();
   const [userRoster, setUserRoster] = useState({});
 
   const { finishLine, readyToRestart, isRoomStarted, isRoomEnded, resetRoom } =
@@ -138,13 +138,23 @@ const GameRoom = () => {
     setUserRoster(userInfo);
   };
 
+  useEffect(() => {
+    handleJoinRoom({ room: roomCode, user: isLoggedIn ? username : "Guest" });
+
+    return () =>
+      handleLeaveRoom({
+        room: roomCode,
+        user: isLoggedIn ? username : "Guest",
+      });
+  }, []);
+
   // Every time user joins room, display users connected to that room.
   useEffect(() => {
     socket.on("get_user_roster", updateJoinedUsers);
-    socket.emit("connect_to_room", { room: joinedRoomCode });
+    socket.emit("connect_to_room", { room: roomCode });
 
     return () => socket.off("get_user_roster", updateJoinedUsers);
-  }, [socket, joinedRoomCode]);
+  }, [socket, roomCode]);
 
   // When client finishes typing, check if they are logged in and push stats to their account.
   useEffect(() => {

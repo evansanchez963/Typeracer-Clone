@@ -8,7 +8,6 @@ import {
   CreateAccount,
   Login,
   UserProfile,
-  GameRoom,
 } from "./components/pages/index";
 import { ContextProvider } from "./context/index";
 import "./App.css";
@@ -36,11 +35,6 @@ const App = () => {
             ></Route>
             <Route exact path="/login" element={<Login />}></Route>
             <Route exact path="/user/:userId" element={<UserProfile />}></Route>
-            <Route
-              exact
-              path="/gameroom/:roomId"
-              element={<GameRoom />}
-            ></Route>
           </Routes>
           <div id="col-2"></div>
           <Footer />

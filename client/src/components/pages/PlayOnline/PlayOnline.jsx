@@ -1,33 +1,23 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
-import { useSocket } from "../../../context/SocketContext";
+import GameRoom from "./GameRoom/GameRoom";
 import "./PlayOnline.css";
 
 const PlayOnline = () => {
-  const navigate = useNavigate();
-  const { isLoggedIn, username } = useAuth();
-  const { handleJoinRoom } = useSocket();
+  const [isInRoom, setIsInRoom] = useState(false);
   const [roomCode, setRoomCode] = useState("");
   const [error, setError] = useState("");
 
-  const handleJoin = async () => {
+  const handleJoin = () => {
     if (roomCode === "") {
-      setError("Room code must not be empty!");
-      return;
-    }
-
-    try {
-      const joined = await handleJoinRoom({
-        room: roomCode,
-        user: isLoggedIn ? username : "Guest",
-      });
-      if (joined) navigate(`/gameroom/${roomCode}`);
-    } catch (err) {
-      setError(err);
+      setError("The room code must not be empty!");
+    } else {
+      setIsInRoom(true);
     }
   };
 
+  if (isInRoom) {
+    return <GameRoom roomCode={roomCode} />;
+  }
   return (
     <section id="play-online">
       <div className="online-options">

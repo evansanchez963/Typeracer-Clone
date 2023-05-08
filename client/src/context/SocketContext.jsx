@@ -1,6 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
-import { useAuth } from "./AuthContext";
-import { useLocation } from "react-router-dom";
+import { useState, createContext, useContext } from "react";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:5000");
@@ -12,8 +10,6 @@ const useSocket = () => {
 
 const SocketProvider = ({ children }) => {
   const [joinedRoomCode, setJoinedRoomCode] = useState("");
-  const { isLoggedIn, username } = useAuth();
-  const location = useLocation();
 
   // User can either join a room or not be allowed to because it is full.
   const handleJoinRoom = async (data) => {
@@ -32,21 +28,10 @@ const SocketProvider = ({ children }) => {
     setJoinedRoomCode("");
   };
 
-  // When user leaves gameroom page disconnect them from the room they were last in.
-  useEffect(() => {
-    if (
-      location.pathname !== `/gameroom/${joinedRoomCode}` &&
-      joinedRoomCode !== ""
-    ) {
-      handleLeaveRoom({
-        room: joinedRoomCode,
-        user: isLoggedIn ? username : "Guest",
-      });
-    }
-  }, [joinedRoomCode, isLoggedIn, username, location]);
-
   return (
-    <SocketContext.Provider value={{ socket, joinedRoomCode, handleJoinRoom }}>
+    <SocketContext.Provider
+      value={{ socket, joinedRoomCode, handleJoinRoom, handleLeaveRoom }}
+    >
       {children}
     </SocketContext.Provider>
   );
