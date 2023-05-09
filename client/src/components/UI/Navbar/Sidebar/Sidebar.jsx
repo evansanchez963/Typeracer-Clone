@@ -5,12 +5,12 @@ import { FaUserCircle } from "react-icons/fa";
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import "./Sidebar.css";
 
-const Sidebar = ({ sidebarActive, toggleSidebar }) => {
+const Sidebar = ({ sidebarActive, onToggleSidebar }) => {
   const { isLoggedIn, userId, handleLogout } = useAuth();
 
   return (
     <div id="sidebar" className={sidebarActive ? "is-active" : ""}>
-      <IoClose id="sidebar-close-btn" onClick={toggleSidebar} size={30} />
+      <IoClose id="sidebar-close-btn" onClick={onToggleSidebar} size={30} />
 
       <div className="sidebar-icon-container">
         <FaUserCircle
@@ -29,7 +29,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar }) => {
             to="/create-account"
             className="sidebar-icon-link"
             style={{ display: isLoggedIn ? "none" : "block" }}
-            onClick={toggleSidebar}
+            onClick={onToggleSidebar}
           >
             Create Account
           </Link>
@@ -37,7 +37,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar }) => {
             to={`user/${userId}`}
             className="sidebar-icon-link"
             style={{ display: isLoggedIn ? "block" : "none" }}
-            onClick={toggleSidebar}
+            onClick={onToggleSidebar}
           >
             Account Settings
           </Link>
@@ -46,7 +46,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar }) => {
             to="/login"
             className="sidebar-icon-link"
             style={{ display: isLoggedIn ? "none" : "block" }}
-            onClick={toggleSidebar}
+            onClick={onToggleSidebar}
           >
             Sign In
           </Link>
@@ -56,7 +56,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar }) => {
             style={{ display: isLoggedIn ? "block" : "none" }}
             onClick={() => {
               handleLogout();
-              toggleSidebar();
+              onToggleSidebar();
             }}
           >
             Log Out
@@ -66,7 +66,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar }) => {
 
       <div className="sidebar-link-container">
         <Link to="/">
-          <div className="sidebar-link" onClick={toggleSidebar}>
+          <div className="sidebar-link" onClick={onToggleSidebar}>
             <p>Home</p>
             <hr></hr>
           </div>
@@ -84,7 +84,7 @@ const Sidebar = ({ sidebarActive, toggleSidebar }) => {
         </div>
 
         <Link to="/about">
-          <div className="sidebar-link" onClick={toggleSidebar}>
+          <div className="sidebar-link" onClick={onToggleSidebar}>
             <p>About</p>
           </div>
         </Link>

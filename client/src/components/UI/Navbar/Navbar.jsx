@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const toggleSidebar = () => setSidebarActive((prev) => !prev);
 
-  // Close sidebar when not needed anymore.
+  // Close sidebar when its not needed anymore
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1000) setSidebarActive(false);
@@ -80,7 +80,7 @@ const Navbar = () => {
       </div>
 
       <GoThreeBars id="hamburger-menu" size={30} onClick={toggleSidebar} />
-      <Sidebar sidebarActive={sidebarActive} toggleSidebar={toggleSidebar} />
+      <Sidebar sidebarActive={sidebarActive} onToggleSidebar={toggleSidebar} />
     </nav>
   );
 };
