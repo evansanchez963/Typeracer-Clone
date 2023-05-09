@@ -24,15 +24,8 @@ import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
   const { isLoggedIn } = useAuth();
-  const { gameStatusState, dispatchGameStatus } = useGameStatus();
-  const {
-    currInput,
-    inputValid,
-    setCurrInput,
-    addChar,
-    setInputValid,
-    resetInput,
-  } = useInput();
+  const { gameStatusState, gameStatusDispatch } = useGameStatus();
+  const { inputState, inputDispatch } = useInput();
   const {
     currCharIdx,
     currWordIdx,
@@ -131,9 +124,13 @@ const PracticeYourself = () => {
     resetTypeInfo();
   };
 
-  if (loadError) {
-    return <div id="singleplayer-error-screen">Error: {loadError.message}</div>;
-  } else if (isLoading) {
+  if (gameStatusState.loadError) {
+    return (
+      <div id="singleplayer-error-screen">
+        Error: {gameStatusState.loadError.message}
+      </div>
+    );
+  } else if (gameStatusState.isLoading) {
     return <div id="singleplayer-loading-screen">Loading...</div>;
   } else {
     return (

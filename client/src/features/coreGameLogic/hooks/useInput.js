@@ -5,23 +5,15 @@ const initialState = {
   inputValid: true,
 };
 
-const ACTIONS = {
-  SET_CURR_INPUT: "set curr input",
-  ADD_CHAR: "add char",
-  SET_INPUT_VALID: "set input valid",
-  RESET_INPUT: "reset input",
-};
-
 const reducer = (state, action) => {
   switch (action.type) {
-    case ACTIONS.SET_CURR_INPUT:
+    case "set_input":
       return { ...state, currInput: action.payload };
-    case ACTIONS.ADD_CHAR: {
+    case "add_character":
       return { ...state, currInput: state.currInput + action.payload };
-    }
-    case ACTIONS.SET_INPUT_VALID:
+    case "set_valid":
       return { ...state, inputValid: action.payload };
-    case ACTIONS.RESET_INPUT:
+    case "reset_input":
       return initialState;
     default:
       return state;
@@ -29,28 +21,11 @@ const reducer = (state, action) => {
 };
 
 const useInput = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { currInput, inputValid } = state;
-
-  const setCurrInput = useCallback(
-    (input) => dispatch({ type: ACTIONS.SET_CURR_INPUT, payload: input }),
-    []
-  );
-  const addChar = (char) => dispatch({ type: ACTIONS.ADD_CHAR, payload: char });
-  const setInputValid = (bool) =>
-    dispatch({ type: ACTIONS.SET_INPUT_VALID, payload: bool });
-  const resetInput = useCallback(
-    () => dispatch({ type: ACTIONS.RESET_INPUT }),
-    []
-  );
+  const [inputState, inputDispatch] = useReducer(reducer, initialState);
 
   return {
-    currInput,
-    inputValid,
-    setCurrInput,
-    addChar,
-    setInputValid,
-    resetInput,
+    inputState,
+    inputDispatch,
   };
 };
 

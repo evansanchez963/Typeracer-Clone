@@ -40,25 +40,27 @@ const reducer = (state, action) => {
 };
 
 const useGameStatus = () => {
-  const [gameStatusState, dispatchGameStatus] = useReducer(
+  const [gameStatusState, gameStatusDispatch] = useReducer(
     reducer,
     initialState
   );
 
   const countdownOn =
-    !gameStatusState.isLoading && gameStatusState.countdown > 0;
+    !gameStatusState.isLoading &&
+    gameStatusState.loadError === null &&
+    gameStatusState.countdown > 0;
   const gameTimerOn = !countdownOn && gameStatusState.gameTimer > 0;
 
   useEffect(() => {
     const startGame = async () => {
       try {
         const text = await getTextData();
-        dispatchGameStatus({ type: "get_characters", payload: text.split("") });
-        dispatchGameStatus({ type: "get_words", payload: text.split(" ") });
-        dispatchGameStatus({ type: "page_loaded" });
+        gameStatusDispatch({ type: "get_characters", payload: text.split("") });
+        gameStatusDispatch({ type: "get_words", payload: text.split(" ") });
+        gameStatusDispatch({ type: "page_loaded" });
       } catch (err) {
-        dispatchGameStatus({ type: "load_error", payload: err });
-        dispatchGameStatus({ type: "page_loaded" });
+        gameStatusDispatch({ type: "load_error", payload: err });
+        gameStatusDispatch({ type: "page_loaded" });
       }
     };
 
@@ -71,11 +73,11 @@ const useGameStatus = () => {
 
     if (countdownOn) {
       interval = setInterval(() => {
-        dispatchGameStatus({ type: "decrement_countdown" });
+        gameStatusDispatch({ type: "decrement_countdown" });
       }, 1000);
     } else {
       clearInterval(interval);
-      dispatchGameStatus({ type: "start_game" });
+      gameStatusDispatch({ type: "start_game" });
     }
 
     return () => clearInterval(interval);
@@ -88,17 +90,17 @@ const useGameStatus = () => {
 
     if (gameTimerOn) {
       interval = setInterval(() => {
-        dispatchGameStatus({ type: "decrement_game_timer" });
+        gameStatusDispatch({ type: "decrement_game_timer" });
       }, 1000);
     } else {
       clearInterval(interval);
-      dispatchGameStatus({ type: "end_game" });
+      gameStatusDispatch({ type: "end_game" });
     }
 
     return () => clearInterval(interval);
   }, [gameTimerOn]);
 
-  return { gameStatusState, dispatchGameStatus };
+  return { gameStatusState, gameStatusDispatch };
 };
 
 export default useGameStatus;
