@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useCallback } from "react";
 import {
   GameStatusInfo,
   ProgressBar,
@@ -6,10 +5,7 @@ import {
   Input,
   ButtonRow,
 } from "../../../features/singleplayer/components/index";
-import {
-  useGameStatus,
-  useAccuracy,
-} from "../../../features/singleplayer/hooks/index";
+import { useGameStatus } from "../../../features/singleplayer/hooks/index";
 import {
   getNetWPM,
   getTime,
@@ -22,7 +18,6 @@ import {
 } from "../../../features/coreGameLogic/hooks/index";
 import { getAccuracy } from "../../../features/coreGameLogic/utils/index";
 import { useAuth } from "../../../context/AuthContext";
-import { saveUserStats } from "../../../services/userServices";
 import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
@@ -31,52 +26,18 @@ const PracticeYourself = () => {
   const { inputState, inputDispatch } = useInput();
   const { idxInfoState, idxInfoDispatch } = useIdxInfo();
   const { typeInfoState, typeInfoDispatch } = useTypeInfo();
-  const WPM = useMemo(
-    () =>
-      getNetWPM(
-        gameStatusState.gameStatus,
-        gameStatusState.gameTimer,
-        typeInfoState.charsTyped,
-        typeInfoState.errors
-      ),
-    [
-      gameStatusState.gameStatus,
-      gameStatusState.gameTimer,
-      typeInfoState.charsTyped,
-      typeInfoState.errors,
-    ]
+  const WPM = getNetWPM(
+    gameStatusState.gameStatus,
+    gameStatusState.gameTimer,
+    typeInfoState.charsTyped,
+    typeInfoState.errors
   );
-  const time = useMemo(
-    () => getTime(gameStatusState.gameStatus, gameStatusState.gameTimer),
-    [gameStatusState.gameStatus, gameStatusState.gameTimer]
-  );
-  const accuracy = useMemo(
-    () => getAccuracy(typeInfoState.charsTyped, typeInfoState.errors),
-    [typeInfoState.charsTyped, typeInfoState.errors]
-  );
-
-  const userStats = useMemo(() => {
-    return {
-      WPM,
-      time,
-      accuracy,
-    };
-  }, [WPM, time, accuracy]);
-
-  useEffect(() => {
-    const pushUserStats = async () => {
-      try {
-        await saveUserStats(userStats);
-      } catch (err) {
-        alert(err.message);
-      }
-    };
-
-    if (isLoggedIn && gameStatusState.gameStatus === "ended") pushUserStats();
-  }, [isLoggedIn, gameStatusState.gameStatus, userStats]);
+  const time = getTime(gameStatusState.gameStatus, gameStatusState.gameTimer);
+  const accuracy = getAccuracy(typeInfoState.charsTyped, typeInfoState.errors);
 
   const getStats = () => {
-    if (gameStatus.isEnded) return <Statistics userStats={userStats} />;
+    if (gameStatusState === "ended")
+      return <Statistics WPM={WPM} time={time} accuracy={accuracy} />;
     else return <></>;
   };
 

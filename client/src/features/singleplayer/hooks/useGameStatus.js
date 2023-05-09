@@ -83,8 +83,7 @@ const useGameStatus = () => {
     return () => clearInterval(interval);
   }, [countdownOn]);
 
-  // Start game timer when countdown is over and stop
-  // when it has reached 0
+  // Start game timer when countdown is over and stop when it has reached 0
   useEffect(() => {
     let interval = null;
 
