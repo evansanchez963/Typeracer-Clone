@@ -5,19 +5,13 @@ const initialState = {
   errors: 0,
 };
 
-const ACTIONS = {
-  INC_CHARS_TYPED: "increment characaters typed",
-  INC_ERRORS: "increment errors",
-  RESET_TYPE_INFO: "reset type info",
-};
-
 const reducer = (state, action) => {
   switch (action.type) {
-    case ACTIONS.INC_CHARS_TYPED:
+    case "increment_characters_typed":
       return { ...state, charsTyped: state.charsTyped + 1 };
-    case ACTIONS.INC_ERRORS:
+    case "increment_errors":
       return { ...state, errors: state.errors + 1 };
-    case ACTIONS.RESET_TYPE_INFO:
+    case "reset_type_info":
       return initialState;
     default:
       return state;
@@ -25,17 +19,9 @@ const reducer = (state, action) => {
 };
 
 const useTypeInfo = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { charsTyped, errors } = state;
+  const [typeInfoState, typeInfoDispatch] = useReducer(reducer, initialState);
 
-  const incCharsTyped = () => dispatch({ type: ACTIONS.INC_CHARS_TYPED });
-  const incErrors = () => dispatch({ type: ACTIONS.INC_ERRORS });
-  const resetTypeInfo = useCallback(
-    () => dispatch({ type: ACTIONS.RESET_TYPE_INFO }),
-    []
-  );
-
-  return { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo };
+  return { typeInfoState, typeInfoDispatch };
 };
 
 export default useTypeInfo;

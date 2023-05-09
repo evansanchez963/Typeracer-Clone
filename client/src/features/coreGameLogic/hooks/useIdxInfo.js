@@ -1,32 +1,23 @@
-import { useReducer, useCallback } from "react";
+import { useReducer } from "react";
 
 const initialState = {
   currCharIdx: -1,
   currWordIdx: 0,
 };
 
-const ACTIONS = {
-  INC_CHAR_IDX: "increment char index",
-  DEC_CHAR_IDX: "decrement char index",
-  RESET_CHAR_IDX: "reset char index",
-  INC_WORD_IDX: "increment word index",
-  RESET_WORD_IDX: "reset word index",
-  RESET_IDX_INFO: "reset index info",
-};
-
 const reducer = (state, action) => {
   switch (action.type) {
-    case ACTIONS.INC_CHAR_IDX:
+    case "increment_character_index":
       return { ...state, currCharIdx: state.currCharIdx + 1 };
-    case ACTIONS.DEC_CHAR_IDX:
+    case "decrement_character_index":
       return { ...state, currCharIdx: state.currCharIdx - 1 };
-    case ACTIONS.RESET_CHAR_IDX:
+    case "reset_character_index":
       return { ...state, currCharIdx: -1 };
-    case ACTIONS.INC_WORD_IDX:
+    case "increment_word_index":
       return { ...state, currWordIdx: state.currWordIdx + 1 };
-    case ACTIONS.RESET_WORD_IDX:
+    case "reset_word_index":
       return { ...state, currWordIdx: 0 };
-    case ACTIONS.RESET_IDX_INFO:
+    case "reset_index_info":
       return initialState;
     default:
       return state;
@@ -34,28 +25,11 @@ const reducer = (state, action) => {
 };
 
 const useIdxInfo = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { currCharIdx, currWordIdx } = state;
-
-  const incCharIdx = () => dispatch({ type: ACTIONS.INC_CHAR_IDX });
-  const decCharIdx = () => dispatch({ type: ACTIONS.DEC_CHAR_IDX });
-  const resetCharIdx = () => dispatch({ type: ACTIONS.RESET_CHAR_IDX });
-  const incWordIdx = () => dispatch({ type: ACTIONS.INC_WORD_IDX });
-  const resetWordIdx = () => dispatch({ type: ACTIONS.RESET_WORD_IDX });
-  const resetIdxInfo = useCallback(
-    () => dispatch({ type: ACTIONS.RESET_IDX_INFO }),
-    []
-  );
+  const [idxInfoState, idxInfoDispatch] = useReducer(reducer, initialState);
 
   return {
-    currCharIdx,
-    currWordIdx,
-    incCharIdx,
-    decCharIdx,
-    resetCharIdx,
-    incWordIdx,
-    resetWordIdx,
-    resetIdxInfo,
+    idxInfoState,
+    idxInfoDispatch,
   };
 };
 

@@ -26,18 +26,8 @@ const PracticeYourself = () => {
   const { isLoggedIn } = useAuth();
   const { gameStatusState, gameStatusDispatch } = useGameStatus();
   const { inputState, inputDispatch } = useInput();
-  const {
-    currCharIdx,
-    currWordIdx,
-    incCharIdx,
-    decCharIdx,
-    resetCharIdx,
-    incWordIdx,
-    resetWordIdx,
-    resetIdxInfo,
-  } = useIdxInfo();
-  const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
-    useTypeInfo();
+  const { idxInfoState, idxInfoDispatch } = useIdxInfo();
+  const { typeInfoState, typeInfoDispatch } = useTypeInfo();
   const WPM = useCalcWPM(isStarted, isEnded, gameTimer, charsTyped, errors);
   const time = useTime(isStarted, isEnded, gameTimer);
   const accuracy = useAccuracy(isStarted, isEnded, charsTyped, errors);
