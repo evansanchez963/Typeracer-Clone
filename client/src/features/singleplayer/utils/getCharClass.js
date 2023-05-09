@@ -1,14 +1,14 @@
 const getCharClass = (paragraphInfo, gameStatus, currInput, idxInfoState) => {
+  if (gameStatus !== "started") return "";
+
   if (
     paragraphInfo.charIdx === idxInfoState.currCharIdx &&
     paragraphInfo.wordIdx === idxInfoState.currWordIdx
   ) {
-    if (gameStatus === "started") {
-      if (paragraphInfo.char === currInput.split("")[paragraphInfo.charIdx])
-        return "singleplayer-correct";
-      else {
-        return "singleplayer-incorrect";
-      }
+    if (paragraphInfo.char === currInput.split("")[paragraphInfo.charIdx])
+      return "singleplayer-correct";
+    else {
+      return "singleplayer-incorrect";
     }
   }
   // Put blinking cursor on active character
@@ -16,7 +16,7 @@ const getCharClass = (paragraphInfo, gameStatus, currInput, idxInfoState) => {
     paragraphInfo.charIdx === idxInfoState.currCharIdx + 1 &&
     paragraphInfo.wordIdx === idxInfoState.currWordIdx
   ) {
-    if (gameStatus === "started") return "singleplayer-active-char";
+    return "singleplayer-active-char";
   }
   // Set past characters on current word as correct
   else if (
@@ -25,7 +25,7 @@ const getCharClass = (paragraphInfo, gameStatus, currInput, idxInfoState) => {
   ) {
     return "singleplayer-correct";
   }
-  // Set all past characters as correct
+  // Set all past words as correct
   else if (paragraphInfo.wordIdx < idxInfoState.currWordIdx) {
     return "singleplayer-correct";
   }
