@@ -9,8 +9,6 @@ import {
 import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
   useGameStatus,
-  useFetch,
-  useTimers,
   useCalcWPM,
   useTime,
   useAccuracy,
@@ -26,14 +24,7 @@ import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
   const { isLoggedIn } = useAuth();
-
-  // Data from custom hooks.
   const { gameStatusState, dispatchGameStatus } = useGameStatus();
-  const { isLoading, loadError, chars, words, resetTextInfo } = useFetch(
-    isStarted,
-    isEnded,
-    startCountdown
-  );
   const {
     currInput,
     inputValid,
