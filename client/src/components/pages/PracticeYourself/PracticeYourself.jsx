@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import {
   GameStatusInfo,
   ProgressBar,
@@ -6,18 +6,21 @@ import {
   Input,
   ButtonRow,
 } from "../../../features/singleplayer/components/index";
-import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
   useGameStatus,
-  useCalcWPM,
-  useTime,
   useAccuracy,
 } from "../../../features/singleplayer/hooks/index";
+import {
+  getNetWPM,
+  getTime,
+} from "../../../features/singleplayer/utils/getNetWPM";
+import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
   useInput,
   useIdxInfo,
   useTypeInfo,
 } from "../../../features/coreGameLogic/hooks/index";
+import { getAccuracy } from "../../../features/coreGameLogic/utils/index";
 import { useAuth } from "../../../context/AuthContext";
 import { saveUserStats } from "../../../services/userServices";
 import "./PracticeYourself.css";
@@ -28,50 +31,30 @@ const PracticeYourself = () => {
   const { inputState, inputDispatch } = useInput();
   const { idxInfoState, idxInfoDispatch } = useIdxInfo();
   const { typeInfoState, typeInfoDispatch } = useTypeInfo();
-  const WPM = useCalcWPM(isStarted, isEnded, gameTimer, charsTyped, errors);
-  const time = useTime(isStarted, isEnded, gameTimer);
-  const accuracy = useAccuracy(isStarted, isEnded, charsTyped, errors);
+  const WPM = useMemo(
+    () =>
+      getNetWPM(
+        gameStatusState.gameStatus,
+        gameStatusState.gameTimer,
+        typeInfoState.charsTyped,
+        typeInfoState.errors
+      ),
+    [
+      gameStatusState.gameStatus,
+      gameStatusState.gameTimer,
+      typeInfoState.charsTyped,
+      typeInfoState.errors,
+    ]
+  );
+  const time = useMemo(
+    () => getTime(gameStatusState.gameStatus, gameStatusState.gameTimer),
+    [gameStatusState.gameStatus, gameStatusState.gameTimer]
+  );
+  const accuracy = useMemo(
+    () => getAccuracy(typeInfoState.charsTyped, typeInfoState.errors),
+    [typeInfoState.charsTyped, typeInfoState.errors]
+  );
 
-  // Organize the data into objects.
-  const gameStatus = {
-    isStarted,
-    isEnded,
-    startGame,
-    endGame,
-  };
-  const timers = {
-    countdown,
-    countdownOn,
-    gameTimer,
-    gameTimerOn,
-    startCountdown,
-  };
-  const textInfo = {
-    chars,
-    words,
-  };
-  const inputInfo = {
-    currInput,
-    inputValid,
-    addChar,
-    setCurrInput,
-    setInputValid,
-  };
-  const idxInfo = {
-    currCharIdx,
-    currWordIdx,
-    incCharIdx,
-    decCharIdx,
-    resetCharIdx,
-    incWordIdx,
-    resetWordIdx,
-  };
-  const typeInfo = {
-    charsTyped,
-    errors,
-    incCharsTyped,
-    incErrors,
-  };
   const userStats = useMemo(() => {
     return {
       WPM,
@@ -89,16 +72,8 @@ const PracticeYourself = () => {
       }
     };
 
-    if (gameStatus.isStarted && gameStatus.isEnded) setCurrInput("");
-    if (gameStatus.isStarted && gameStatus.isEnded && isLoggedIn)
-      pushUserStats();
-  }, [
-    isLoggedIn,
-    gameStatus.isStarted,
-    gameStatus.isEnded,
-    setCurrInput,
-    userStats,
-  ]);
+    if (isLoggedIn && gameStatusState.gameStatus === "ended") pushUserStats();
+  }, [isLoggedIn, gameStatusState.gameStatus, userStats]);
 
   const getStats = () => {
     if (gameStatus.isEnded) return <Statistics userStats={userStats} />;
