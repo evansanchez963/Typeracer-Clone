@@ -28,16 +28,7 @@ const PracticeYourself = () => {
   const { isLoggedIn } = useAuth();
 
   // Data from custom hooks.
-  const { isStarted, isEnded, startGame, endGame, restartGame } =
-    useGameStatus();
-  const {
-    countdown,
-    countdownOn,
-    gameTimer,
-    gameTimerOn,
-    startCountdown,
-    resetTimers,
-  } = useTimers(isEnded, startGame, endGame);
+  const { gameStatusState, dispatchGameStatus } = useGameStatus();
   const { isLoading, loadError, chars, words, resetTextInfo } = useFetch(
     isStarted,
     isEnded,
