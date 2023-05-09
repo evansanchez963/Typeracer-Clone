@@ -6,11 +6,8 @@ import {
   ButtonRow,
 } from "../../../features/singleplayer/components/index";
 import { useGameStatus } from "../../../features/singleplayer/hooks/index";
-import {
-  getNetWPM,
-  getTime,
-} from "../../../features/singleplayer/utils/getNetWPM";
-import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
+import { getNetWPM, getTime } from "../../../features/singleplayer/utils/index";
+import Statistics from "../../../features/coreGameLogic/components/Statistics";
 import {
   useInput,
   useIdxInfo,
@@ -33,17 +30,17 @@ const PracticeYourself = () => {
   const time = getTime(gameStatusState.gameStatus, gameStatusState.gameTimer);
   const accuracy = getAccuracy(typeInfoState.charsTyped, typeInfoState.errors);
 
-  const getStats = () => {
-    if (gameStatusState === "ended")
-      return <Statistics WPM={WPM} time={time} accuracy={accuracy} />;
-    else return <></>;
-  };
-
   const restart = () => {
     gameStatusDispatch({ type: "restart_game" });
     inputDispatch({ type: "reset_input" });
     idxInfoDispatch({ type: "reset_idx_info" });
     typeInfoDispatch({ type: "reset_type_info" });
+  };
+
+  const getStats = () => {
+    if (gameStatusState === "ended")
+      return <Statistics WPM={WPM} time={time} accuracy={accuracy} />;
+    else return <></>;
   };
 
   if (gameStatusState.loadError) {
@@ -67,17 +64,17 @@ const PracticeYourself = () => {
               gameTimer={gameStatusState.gameTimer}
             />
             <ProgressBar
-              chars={textInfo.chars}
-              charsTyped={typeInfo.charsTyped}
+              chars={gameStatusState.chars}
+              charsTyped={typeInfoState.charsTyped}
               WPM={WPM}
             />
 
             <div className="singleplayer-typing-box">
               <Paragraph
-                gameStatus={gameStatus}
-                words={textInfo.words}
-                currInput={inputInfo.currInput}
-                idxInfo={idxInfo}
+                gameStatus={gameStatusState.gameStatus}
+                words={gameStatusState.words}
+                currInput={inputState.currInput}
+                idxInfoState={idxInfoState}
               />
               <Input
                 gameStatus={gameStatus}
@@ -89,7 +86,10 @@ const PracticeYourself = () => {
             </div>
           </div>
 
-          <ButtonRow isEnded={gameStatus.isEnded} restart={restart} />
+          <ButtonRow
+            gameStatus={gameStatusState.gameStatus}
+            restart={restart}
+          />
           {getStats()}
         </div>
       </section>

@@ -1,23 +1,20 @@
-import getCharClass from "../../utils/getCharClass";
-import getWordClass from "../../utils/getWordClass";
+import { getCharClass, getWordClass } from "../../utils/getCharClass";
 import "./Paragraph.css";
 
-const Paragraph = ({ gameStatus, words, currInput, idxInfo }) => {
+const Paragraph = ({ gameStatus, words, currInput, idxInfoState }) => {
   return (
     <p className="singleplayer-paragraph">
       {words.map((word, wordIdx) => (
-        <span key={word + wordIdx}>
-          <span className={getWordClass(wordIdx, gameStatus, idxInfo)}>
+        <span key={wordIdx}>
+          <span className={getWordClass(wordIdx, gameStatus, idxInfoState)}>
             {word.split("").map((char, charIdx) => (
               <span
-                key={char + charIdx}
+                key={charIdx}
                 className={getCharClass(
-                  char,
-                  charIdx,
-                  wordIdx,
+                  { char, charIdx, wordIdx },
                   gameStatus,
                   currInput,
-                  idxInfo
+                  idxInfoState
                 )}
               >
                 {char}

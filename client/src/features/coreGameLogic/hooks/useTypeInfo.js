@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from "react";
+import { useReducer } from "react";
 
 const initialState = {
   charsTyped: 0,
