@@ -1,16 +1,17 @@
 import { formatTime } from "../../../coreGameLogic/utils/index";
 import "./GameStatusInfo.css";
 
-const GameStatusInfo = ({ gameStatus, timers }) => {
+const GameStatusInfo = ({ gameStatus, countdownTimer, gameTimer }) => {
   const getStatusMsg = () => {
-    if (!gameStatus.isStarted) return <p>The race is about to start...</p>;
-    else if (gameStatus.isEnded) return <p>The race has ended!</p>;
+    if (gameStatus === "not_started")
+      return <p>The race is about to start...</p>;
+    else if (gameStatus === "ended") return <p>The race has ended!</p>;
     else return <p>The race has started!</p>;
   };
 
   const getTimer = () => {
-    if (timers.countdownOn) return <p>{formatTime(timers.countdown)}</p>;
-    else if (timers.gameTimerOn) return <p>{formatTime(timers.gameTimer)}</p>;
+    if (countdownTimer > 0) return <p>{formatTime(countdownTimer)}</p>;
+    else if (gameTimer > 0) return <p>{formatTime(gameTimer)}</p>;
     else return <p>00:00</p>;
   };
 

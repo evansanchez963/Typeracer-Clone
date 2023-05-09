@@ -17,11 +17,9 @@ import {
   useTypeInfo,
 } from "../../../features/coreGameLogic/hooks/index";
 import { getAccuracy } from "../../../features/coreGameLogic/utils/index";
-import { useAuth } from "../../../context/AuthContext";
 import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
-  const { isLoggedIn } = useAuth();
   const { gameStatusState, gameStatusDispatch } = useGameStatus();
   const { inputState, inputDispatch } = useInput();
   const { idxInfoState, idxInfoDispatch } = useIdxInfo();
@@ -42,12 +40,10 @@ const PracticeYourself = () => {
   };
 
   const restart = () => {
-    restartGame();
-    resetTimers();
-    resetTextInfo();
-    resetInput();
-    resetIdxInfo();
-    resetTypeInfo();
+    gameStatusDispatch({ type: "restart_game" });
+    inputDispatch({ type: "reset_input" });
+    idxInfoDispatch({ type: "reset_idx_info" });
+    typeInfoDispatch({ type: "reset_type_info" });
   };
 
   if (gameStatusState.loadError) {
@@ -65,7 +61,11 @@ const PracticeYourself = () => {
           <h1>Practice Racetrack</h1>
 
           <div className="singleplayer-typing-section">
-            <GameStatusInfo gameStatus={gameStatus} timers={timers} />
+            <GameStatusInfo
+              gameStatus={gameStatusState.gameStatus}
+              countdown={gameStatusState.countdown}
+              gameTimer={gameStatusState.gameTimer}
+            />
             <ProgressBar
               chars={textInfo.chars}
               charsTyped={typeInfo.charsTyped}
