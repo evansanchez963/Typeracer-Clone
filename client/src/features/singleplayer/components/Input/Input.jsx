@@ -1,34 +1,26 @@
 import { useEffect, useRef } from "react";
-import handleKeyDown from "../../utils/handleKeyDown";
 import "./Input.css";
 
-const Input = ({ gameStatus, textInfo, inputInfo, idxInfo, typeInfo }) => {
+const Input = ({ gameStatus, onKeyDown, onChange, currInput, inputValid }) => {
   const typeInputRef = useRef(null);
 
   useEffect(() => {
-    if (gameStatus.isStarted || !gameStatus.isEnded) {
+    if (gameStatus === "started") {
       typeInputRef.current.focus();
     }
-  }, [gameStatus.isStarted, gameStatus.isEnded]);
+  }, [gameStatus]);
 
   return (
     <input
       className="singleplayer-typing-input"
       type="text"
-      style={{ backgroundColor: inputInfo.inputValid ? "#222222" : "#d08383" }}
-      maxLength={
-        inputInfo.inputValid ? "default" : `${inputInfo.currInput.length}`
-      }
-      onKeyDown={(e) =>
-        handleKeyDown(e, gameStatus, textInfo, inputInfo, idxInfo, typeInfo)
-      }
-      onChange={(e) => {
-        // If there is whitespace, do not concantenate it to currInput.
-        if (!/\s/.test(e.target.value)) inputInfo.setCurrInput(e.target.value);
-      }}
-      value={inputInfo.currInput}
+      style={{ backgroundColor: inputValid ? "#222222" : "#d08383" }}
+      maxLength={inputValid ? "default" : `${currInput.length}`}
+      onKeyDown={onKeyDown}
+      onChange={onChange}
+      value={gameStatus === "started" ? currInput : ""}
       placeholder="Type in here when the race starts..."
-      disabled={!gameStatus.isStarted || gameStatus.isEnded}
+      disabled={gameStatus === "started"}
       ref={typeInputRef}
     ></input>
   );

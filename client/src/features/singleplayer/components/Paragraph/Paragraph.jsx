@@ -1,4 +1,4 @@
-import { getCharClass, getWordClass } from "../../utils/getCharClass";
+import { getCharClass, getWordClass } from "../../utils/index";
 import "./Paragraph.css";
 
 const Paragraph = ({ gameStatus, words, currInput, idxInfoState }) => {
