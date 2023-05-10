@@ -116,12 +116,6 @@ const PracticeYourself = () => {
     typeInfoDispatch({ type: "reset_type_info" });
   };
 
-  const getStats = () => {
-    if (gameStatusState === "ended")
-      return <Statistics WPM={WPM} time={time} accuracy={accuracy} />;
-    else return <></>;
-  };
-
   if (gameStatusState.loadError) {
     return (
       <div id="singleplayer-error-screen">
@@ -169,7 +163,9 @@ const PracticeYourself = () => {
             gameStatus={gameStatusState.gameStatus}
             restart={restart}
           />
-          {getStats()}
+          {gameStatusState.gameStatus === "ended" && (
+            <Statistics WPM={WPM} time={time} accuracy={accuracy} />
+          )}
         </div>
       </section>
     );

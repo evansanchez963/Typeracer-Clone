@@ -49,7 +49,10 @@ const useGameStatus = () => {
     !gameStatusState.isLoading &&
     gameStatusState.loadError === null &&
     gameStatusState.countdown > 0;
-  const gameTimerOn = !countdownOn && gameStatusState.gameTimer > 0;
+  const gameTimerOn =
+    gameStatusState.gameStatus === "started" &&
+    !countdownOn &&
+    gameStatusState.gameTimer > 0;
 
   useEffect(() => {
     const startGame = async () => {
@@ -91,13 +94,15 @@ const useGameStatus = () => {
       interval = setInterval(() => {
         gameStatusDispatch({ type: "decrement_game_timer" });
       }, 1000);
+    } else if (gameStatusState.gameStatus === "ended") {
+      clearInterval(interval);
     } else if (gameStatusState.gameTimer <= 0) {
       clearInterval(interval);
       gameStatusDispatch({ type: "end_game" });
     }
 
     return () => clearInterval(interval);
-  }, [gameStatusState.gameTimer, gameTimerOn]);
+  }, [gameStatusState.gameStatus, gameStatusState.gameTimer, gameTimerOn]);
 
   return { gameStatusState, gameStatusDispatch };
 };

@@ -20,7 +20,7 @@ const Input = ({ gameStatus, onKeyDown, onChange, currInput, inputValid }) => {
       onChange={onChange}
       value={gameStatus === "started" ? currInput : ""}
       placeholder="Type in here when the race starts..."
-      disabled={gameStatus === "started"}
+      disabled={gameStatus !== "started"}
       ref={typeInputRef}
     ></input>
   );

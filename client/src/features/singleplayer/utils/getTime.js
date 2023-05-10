@@ -8,9 +8,11 @@ const formatTime = (time) => {
 };
 
 const getTime = (gameStatus, gameTimer) => {
-  if (gameStatus === "not_started") return "";
-  else if (gameStatus === "started")
+  if (gameStatus === "not_started" || gameStatus === "started") return "";
+  else if (gameStatus === "ended")
     return formatTime(ONE_MINUTE_THIRTY_SECONDS - gameTimer);
+
+  return "";
 };
 
 export default getTime;
