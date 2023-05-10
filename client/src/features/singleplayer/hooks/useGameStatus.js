@@ -75,13 +75,13 @@ const useGameStatus = () => {
       interval = setInterval(() => {
         gameStatusDispatch({ type: "decrement_countdown" });
       }, 1000);
-    } else {
+    } else if (gameStatusState.countdown <= 0) {
       clearInterval(interval);
       gameStatusDispatch({ type: "start_game" });
     }
 
     return () => clearInterval(interval);
-  }, [countdownOn]);
+  }, [gameStatusState.countdown, countdownOn]);
 
   // Start game timer when countdown is over and stop when it has reached 0
   useEffect(() => {
@@ -91,13 +91,13 @@ const useGameStatus = () => {
       interval = setInterval(() => {
         gameStatusDispatch({ type: "decrement_game_timer" });
       }, 1000);
-    } else {
+    } else if (gameStatusState.gameTimer <= 0) {
       clearInterval(interval);
       gameStatusDispatch({ type: "end_game" });
     }
 
     return () => clearInterval(interval);
-  }, [gameTimerOn]);
+  }, [gameStatusState.gameTimer, gameTimerOn]);
 
   return { gameStatusState, gameStatusDispatch };
 };
