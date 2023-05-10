@@ -11,7 +11,9 @@ const GameStatusInfo = ({ gameStatus, countdown, gameTimer }) => {
 
   const getTimer = () => {
     if (countdown > 0) return <p>{formatTime(countdown)}</p>;
-    else if (gameTimer > 0) return <p>{formatTime(gameTimer)}</p>;
+    else if (gameTimer > 0 && gameStatus !== "ended")
+      return <p>{formatTime(gameTimer)}</p>;
+    else if (gameStatus === "ended") return <></>;
     else return <p>00:00</p>;
   };
 

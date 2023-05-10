@@ -5,7 +5,7 @@ import {
   Input,
   ButtonRow,
 } from "../../../features/singleplayer/components/index";
-import { useGameStatus } from "../../../features/singleplayer/hooks/index";
+import useGameStatus from "../../../features/singleplayer/hooks/useGameStatus";
 import { getNetWPM, getTime } from "../../../features/singleplayer/utils/index";
 import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
@@ -31,7 +31,7 @@ const PracticeYourself = () => {
   const accuracy = getAccuracy(typeInfoState.charsTyped, typeInfoState.errors);
 
   const handleSpace = () => {
-    // Word in input matches current word index
+    // Word in input matches the word at current word index
     if (
       inputState.currInput === gameStatusState.words[idxInfoState.currWordIdx]
     ) {
@@ -40,7 +40,7 @@ const PracticeYourself = () => {
       idxInfoDispatch({ type: "increment_word_index" });
       typeInfoDispatch({ type: "increment_characters_typed" });
     }
-    // If the word is incorrect...
+    // Word in input does not match the word at current word index
     else {
       if (inputState.inputValid) {
         inputDispatch({ type: "add_character", payload: " " });
@@ -142,21 +142,23 @@ const PracticeYourself = () => {
               WPM={WPM}
             />
 
-            <div className="singleplayer-typing-box">
-              <Paragraph
-                gameStatus={gameStatusState.gameStatus}
-                words={gameStatusState.words}
-                currInput={inputState.currInput}
-                idxInfoState={idxInfoState}
-              />
-              <Input
-                gameStatus={gameStatusState.gameStatus}
-                onKeyDown={onKeyDown}
-                onChange={onInputChange}
-                currInput={inputState.currInput}
-                inputValid={inputState.inputValid}
-              />
-            </div>
+            {gameStatusState.gameStatus !== "ended" && (
+              <div className="singleplayer-typing-box">
+                <Paragraph
+                  gameStatus={gameStatusState.gameStatus}
+                  words={gameStatusState.words}
+                  currInput={inputState.currInput}
+                  idxInfoState={idxInfoState}
+                />
+                <Input
+                  gameStatus={gameStatusState.gameStatus}
+                  onKeyDown={onKeyDown}
+                  onChange={onInputChange}
+                  currInput={inputState.currInput}
+                  inputValid={inputState.inputValid}
+                />
+              </div>
+            )}
           </div>
 
           <ButtonRow
