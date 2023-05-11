@@ -110,9 +110,10 @@ const PracticeYourself = () => {
   };
 
   const restart = () => {
+    console.log("Restart game!");
     gameStatusDispatch({ type: "restart_game" });
     inputDispatch({ type: "reset_input" });
-    idxInfoDispatch({ type: "reset_idx_info" });
+    idxInfoDispatch({ type: "reset_index_info" });
     typeInfoDispatch({ type: "reset_type_info" });
   };
 
@@ -161,12 +162,11 @@ const PracticeYourself = () => {
             )}
           </div>
 
-          <ButtonRow
-            gameStatus={gameStatusState.gameStatus}
-            restart={restart}
-          />
           {gameStatusState.gameStatus === "ended" && (
-            <Statistics WPM={WPM} time={time} accuracy={accuracy} />
+            <>
+              <ButtonRow restart={restart} />
+              <Statistics WPM={WPM} time={time} accuracy={accuracy} />
+            </>
           )}
         </div>
       </section>
