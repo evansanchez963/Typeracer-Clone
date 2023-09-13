@@ -1,146 +1,95 @@
-import { useEffect, useReducer, useCallback } from "react";
+import { useEffect, useReducer } from "react";
 import { useSocket } from "../../../context/SocketContext";
 
 const initialState = {
-  finishLine: [],
-  readyToRestart: [],
-  isRoomStarted: false,
-  isRoomEnded: false,
-};
-
-const ACTIONS = {
-  CLIENT_FINISH: "client finish",
-  CLIENT_READY: "client ready",
-  START_ROOM: "start room",
-  END_ROOM: "end room",
-  RESET_ROOM: "reset room",
+  roomStatus: "not_started",
+  finishedClients: [],
+  clientsReadyToRestart: [],
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case ACTIONS.CLIENT_FINISH:
-      return { ...state, finishLine: [...state.finishLine, action.payload] };
-    case ACTIONS.CLIENT_READY:
+    case "start_room":
+      return { ...state, roomStatus: "started" };
+    case "end_room":
+      return { ...state, roomStatus: "ended" };
+    case "add_finished_client":
       return {
         ...state,
-        readyToRestart: [...state.readyToRestart, action.payload],
+        finishedClients: [...state.finishedClients, action.payload],
       };
-    case ACTIONS.START_ROOM:
-      return { ...state, isRoomStarted: true };
-    case ACTIONS.END_ROOM:
-      return { ...state, isRoomEnded: true };
-    case ACTIONS.RESET_ROOM:
+    case "add_ready_restart_client":
+      return {
+        ...state,
+        clientsReadyToRestart: [...state.clientsReadyToRestart, action.payload],
+      };
+    case "reset_room":
       return initialState;
     default:
-      return state;
+      throw Error("Unknown action: " + action.type);
   }
 };
 
 const useRoomStatus = (userRoster) => {
   const { socket, joinedRoomCode } = useSocket();
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { finishLine, readyToRestart, isRoomStarted, isRoomEnded } = state;
-
+  const [roomStatusState, roomStatusDispatch] = useReducer(
+    reducer,
+    initialState
+  );
   const hostSocketId = Object.keys(userRoster)[0];
   const rosterSize = Object.keys(userRoster).length;
 
-  const clientFinish = useCallback(
-    (socketId) => dispatch({ type: ACTIONS.CLIENT_FINISH, payload: socketId }),
-    []
-  );
-  const clientReady = useCallback((socketId) => {
-    dispatch({ type: ACTIONS.CLIENT_READY, payload: socketId });
-  }, []);
-  const startRoom = useCallback(
-    () => dispatch({ type: ACTIONS.START_ROOM }),
-    []
-  );
-  const endRoom = useCallback(() => dispatch({ type: ACTIONS.END_ROOM }), []);
-  const resetRoom = useCallback(
-    () => dispatch({ type: ACTIONS.RESET_ROOM }),
-    []
-  );
+  const startRoomHandler = (data) => {
+    if (data.startRoom) roomStatusDispatch({ type: "start_room" });
+  };
+  const endRoomHandler = (data) => {
+    if (data.endRoom) roomStatusDispatch({ type: "end_room" });
+  };
+  const addFinishedHandler = (socketId) => {
+    roomStatusDispatch({ type: "add_finished_client", payload: socketId });
+  };
+  const addReadyHandler = (socketId) => {
+    roomStatusDispatch({ type: "add_ready_restart_client", payload: socketId });
+  };
 
-  const startRoomHandler = useCallback(
-    (data) => {
-      if (data.startRoom) startRoom();
-    },
-    [startRoom]
-  );
-
-  const endRoomHandler = useCallback(
-    (data) => {
-      if (data.endRoom) endRoom();
-    },
-    [endRoom]
-  );
-
-  const updateFinishLine = useCallback(
-    (data) => {
-      clientFinish(data.socketId);
-    },
-    [clientFinish]
-  );
-
-  const readyClientHandler = useCallback(
-    (data) => {
-      clientReady(data.socketId);
-    },
-    [clientReady]
-  );
-
-  // Set up socketio events for starting and ending room.
+  // Set up socketio events for starting and ending room
   useEffect(() => {
     socket.on("recieve_start_room", startRoomHandler);
     socket.on("recieve_end_room", endRoomHandler);
-    socket.on("recieve_client_finish", updateFinishLine);
-    socket.on("recieve_client_ready", readyClientHandler);
+    socket.on("recieve_client_finish", addFinishedHandler);
+    socket.on("recieve_client_ready", addReadyHandler);
 
     return () => {
       socket.off("recieve_start_room", startRoomHandler);
       socket.off("recieve_end_room", endRoomHandler);
-      socket.off("recieve_client_finish", updateFinishLine);
-      socket.off("recieve_client_ready", readyClientHandler);
+      socket.off("recieve_client_finish", addFinishedHandler);
+      socket.off("recieve_client_ready", addReadyHandler);
     };
-  }, [
-    socket,
-    startRoomHandler,
-    endRoomHandler,
-    updateFinishLine,
-    readyClientHandler,
-  ]);
+  }, [socket]);
 
-  // Start game when there are two clients in the same room.
+  // Start game when there are two clients in the same room
+  const { clientsReadyToRestart } = roomStatusState;
+  const shouldStartRoom =
+    clientsReadyToRestart.length === 0 &&
+    hostSocketId === socket.id &&
+    rosterSize === 2;
   useEffect(() => {
-    if (
-      readyToRestart.length === 0 &&
-      hostSocketId === socket.id &&
-      rosterSize === 2
-    )
+    if (shouldStartRoom)
       socket.emit("send_start_room", { room: joinedRoomCode, startRoom: true });
-  }, [
-    socket,
-    joinedRoomCode,
-    readyToRestart,
-    hostSocketId,
-    rosterSize,
-    startRoom,
-  ]);
+  }, [socket, shouldStartRoom, joinedRoomCode]);
 
-  // When both clients finish typing (or one disconnects mid game), end game.
+  // When both clients finish typing (or one disconnects mid game), end game
+  const { finishedClients } = roomStatusState;
+  const shouldEndRoom =
+    hostSocketId === socket.id && finishedClients.length === rosterSize;
   useEffect(() => {
-    if (hostSocketId === socket.id && finishLine.length === rosterSize)
+    if (shouldEndRoom)
       socket.emit("send_end_room", { room: joinedRoomCode, endRoom: true });
-  }, [socket, joinedRoomCode, hostSocketId, finishLine, rosterSize, endRoom]);
+  }, [socket, shouldEndRoom, joinedRoomCode]);
 
   return {
-    finishLine,
-    readyToRestart,
-    isRoomStarted,
-    isRoomEnded,
-    endRoom,
-    resetRoom,
+    roomStatusState,
+    roomStatusDispatch,
   };
 };
 

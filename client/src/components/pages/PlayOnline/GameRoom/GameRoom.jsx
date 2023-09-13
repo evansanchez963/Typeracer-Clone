@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useSocket } from "../../../../context/SocketContext";
 import {
   GameroomStatusInfo,
@@ -31,8 +31,7 @@ const GameRoom = ({ roomCode }) => {
   const { socket, handleJoinRoom, handleLeaveRoom } = useSocket();
   const [userRoster, setUserRoster] = useState({});
 
-  const { finishLine, readyToRestart, isRoomStarted, isRoomEnded, resetRoom } =
-    useRoomStatus(userRoster);
+  const { roomStatusState, roomStatusDispatch } = useRoomStatus(userRoster);
   const {
     isClientStarted,
     isClientEnded,
@@ -79,49 +78,6 @@ const GameRoom = ({ roomCode }) => {
     errors
   );
 
-  // Organize the data into objects.
-  const roomStatus = {
-    finishLine,
-    isRoomStarted,
-    isRoomEnded,
-  };
-  const clientStatus = {
-    isClientStarted,
-    isClientEnded,
-    endClient,
-  };
-  const timers = {
-    countdown,
-    countdownOn,
-    gameTimer,
-    gameTimerOn,
-  };
-  const textInfo = {
-    chars,
-    words,
-  };
-  const inputInfo = {
-    currInput,
-    inputValid,
-    addChar,
-    setCurrInput,
-    setInputValid,
-  };
-  const idxInfo = {
-    currCharIdx,
-    currWordIdx,
-    incCharIdx,
-    decCharIdx,
-    resetCharIdx,
-    incWordIdx,
-    resetWordIdx,
-  };
-  const typeInfo = {
-    charsTyped,
-    errors,
-    incCharsTyped,
-    incErrors,
-  };
   const userStats = useMemo(() => {
     return {
       WPM,
