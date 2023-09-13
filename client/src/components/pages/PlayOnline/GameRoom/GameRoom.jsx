@@ -27,18 +27,13 @@ import { saveUserStats } from "../../../../services/userServices";
 import "./GameRoom.css";
 
 const GameRoom = ({ roomCode }) => {
+  const [userRoster, setUserRoster] = useState({});
   const { isLoggedIn, username } = useAuth();
   const { socket, handleJoinRoom, handleLeaveRoom } = useSocket();
-  const [userRoster, setUserRoster] = useState({});
-
   const { roomStatusState, roomStatusDispatch } = useRoomStatus(userRoster);
-  const {
-    isClientStarted,
-    isClientEnded,
-    startClient,
-    endClient,
-    resetClient,
-  } = useClientStatus(isRoomEnded);
+  const { isRoomEnded } = roomStatusState;
+  const { clientStatusState, clientStatusDispatch } =
+    useClientStatus(isRoomEnded);
   const { countdown, countdownOn, gameTimer, gameTimerOn, resetTimers } =
     useTimers(userRoster, isRoomStarted, isRoomEnded, startClient, endClient);
   const { isLoading, loadError, chars, words, resetTextInfo } =
