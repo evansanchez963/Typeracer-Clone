@@ -99,24 +99,6 @@ const useGameStatus = (userRoster, isRoomStarted, isRoomEnded) => {
     }
   }, [joinedRoomCode, socket, isClientHost, countdown, gameTimer]);
 
-  // Players who are not the host recieve timer and fetch data from host
-  const recieveTimerHandler = (data) => {
-    gameStatusDispatch({ type: "set_timer_state", payload: data.timerState });
-  };
-  const recieveDataHandler = (data) => {
-    gameStatusDispatch({ type: "set_chars", payload: data.chars });
-    gameStatusDispatch({ type: "set_words", payload: data.words });
-    gameStatusDispatch({ type: "page_loaded" });
-  };
-  useEffect(() => {
-    socket.on("recieve_timer_state", recieveTimerHandler);
-    socket.on("recieve_text_data", recieveDataHandler);
-    return () => {
-      socket.off("recieve_timer_state", recieveTimerHandler);
-      socket.off("recieve_text_data", recieveDataHandler);
-    };
-  }, [socket]);
-
   // Countdown from 4 when two players join the room
   useEffect(() => {
     if (isClientHost) {
@@ -153,6 +135,24 @@ const useGameStatus = (userRoster, isRoomStarted, isRoomEnded) => {
       return () => clearInterval(interval);
     }
   }, [joinedRoomCode, socket, isClientHost, gameTimer, gameTimerOn]);
+
+  // Players who are not the host recieve timer and fetch data from host
+  const recieveTimerHandler = (data) => {
+    gameStatusDispatch({ type: "set_timer_state", payload: data.timerState });
+  };
+  const recieveDataHandler = (data) => {
+    gameStatusDispatch({ type: "set_chars", payload: data.chars });
+    gameStatusDispatch({ type: "set_words", payload: data.words });
+    gameStatusDispatch({ type: "page_loaded" });
+  };
+  useEffect(() => {
+    socket.on("recieve_timer_state", recieveTimerHandler);
+    socket.on("recieve_text_data", recieveDataHandler);
+    return () => {
+      socket.off("recieve_timer_state", recieveTimerHandler);
+      socket.off("recieve_text_data", recieveDataHandler);
+    };
+  }, [socket]);
 
   return { gameStatusState, gameStatusDispatch };
 };
