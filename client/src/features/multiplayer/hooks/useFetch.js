@@ -63,12 +63,12 @@ const useFetch = (userRoster) => {
     []
   );
 
-  // If this socket id of the first on userRoster, then this client fetches the text data.
+  // If this socket id is the first on userRoster, then this client fetches the text data
   useEffect(() => {
     if (Object.keys(userRoster)[0] === socket.id) setFetchData();
   }, [userRoster, socket]);
 
-  // If this page has not loaded for the first client in userRoster, then fetch data.
+  // If this page has not loaded for the first client in userRoster, then fetch data
   useEffect(() => {
     const getData = async () => {
       try {
@@ -91,7 +91,7 @@ const useFetch = (userRoster) => {
     loaded();
   }, []);
 
-  // The first client in userRoster sends text info to other clients in room.
+  // The first client in userRoster sends text info to other clients in room
   useEffect(() => {
     socket.on("recieve_text_data", recieveDataHandler);
 

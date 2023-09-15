@@ -11,11 +11,7 @@ import Statistics from "../../../../features/coreGameLogic/components/Statistics
 import {
   useRoomStatus,
   useClientStatus,
-  useTimers,
-  useFetch,
-  useCalcWPM,
-  useTime,
-  useAccuracy,
+  useGameStatus,
 } from "../../../../features/multiplayer/hooks/index";
 import {
   useInput,
@@ -31,42 +27,31 @@ const GameRoom = ({ roomCode }) => {
   const { isLoggedIn, username } = useAuth();
   const { socket, handleJoinRoom, handleLeaveRoom } = useSocket();
   const { roomStatusState, roomStatusDispatch } = useRoomStatus(userRoster);
-  const { isRoomEnded } = roomStatusState;
-  const { clientStatusState, clientStatusDispatch } =
-    useClientStatus(isRoomEnded);
-  const { countdown, countdownOn, gameTimer, gameTimerOn, resetTimers } =
-    useTimers(userRoster, isRoomStarted, isRoomEnded, startClient, endClient);
-  const { isLoading, loadError, chars, words, resetTextInfo } =
-    useFetch(userRoster);
-  const {
-    currInput,
-    inputValid,
-    setCurrInput,
-    addChar,
-    setInputValid,
-    resetInput,
-  } = useInput();
-  const {
-    currCharIdx,
-    currWordIdx,
-    incCharIdx,
-    decCharIdx,
-    resetCharIdx,
-    incWordIdx,
-    resetWordIdx,
-    resetIdxInfo,
-  } = useIdxInfo();
-  const { charsTyped, errors, incCharsTyped, incErrors, resetTypeInfo } =
-    useTypeInfo();
-  const WPM = useCalcWPM(
+  const { isRoomStarted, isRoomEnded } = roomStatusState;
+
+  const { gameStatus, gameStatusDispatch } = useGameStatus(
+    userRoster,
+    isRoomStarted,
+    isRoomEnded
+  );
+
+  const { clientStatusState, clientStatusDispatch } = useClientStatus(
+    isRoomEnded,
+    countdown
+  );
+
+  const { inputState, inputDispatch } = useInput();
+  const { idxInfoState, idxInfoDispatch } = useIdxInfo();
+  const { typeInfoState, typeInfoDispatch } = useTypeInfo();
+  const WPM = getNetWPM(
     isClientStarted,
     isClientEnded,
     gameTimer,
     charsTyped,
     errors
   );
-  const time = useTime(isClientStarted, isClientEnded, gameTimer);
-  const accuracy = useAccuracy(
+  const time = getTime(isClientStarted, isClientEnded, gameTimer);
+  const accuracy = getAccuracy(
     isClientStarted,
     isClientEnded,
     charsTyped,

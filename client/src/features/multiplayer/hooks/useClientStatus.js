@@ -18,12 +18,17 @@ const reducer = (state, action) => {
   }
 };
 
-const useClientStatus = (isRoomEnded) => {
+const useClientStatus = (isRoomEnded, countdown) => {
   const { socket, joinedRoomCode } = useSocket();
   const [clientStatusState, clientStatusDispatch] = useReducer(
     reducer,
     initialState
   );
+
+  // When the countdown timer reaches 0, client status is set to started
+  useEffect(() => {
+    if (countdown < 0) clientStatusDispatch({ type: "start_client" });
+  }, [countdown]);
 
   // If client is finished typing and room has not ended, send this info to others in the room
   const { clientStatus } = clientStatusState;
