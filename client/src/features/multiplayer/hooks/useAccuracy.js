@@ -1,3 +1,4 @@
+/*
 import { useState, useEffect } from "react";
 import { getAccuracy } from "../../coreGameLogic/utils/index";
 
@@ -14,3 +15,4 @@ const useAccuracy = (isClientStarted, isClientEnded, charsTyped, errors) => {
 };
 
 export default useAccuracy;
+*/

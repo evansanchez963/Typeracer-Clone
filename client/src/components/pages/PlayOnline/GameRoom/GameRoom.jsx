@@ -20,51 +20,36 @@ import {
 } from "../../../../features/coreGameLogic/hooks/index";
 import { useAuth } from "../../../../context/AuthContext";
 import { saveUserStats } from "../../../../services/userServices";
+import { getAccuracy } from "../../../features/coreGameLogic/utils/index";
 import "./GameRoom.css";
 
 const GameRoom = ({ roomCode }) => {
+  // Multiplayer state and custom hooks
   const [userRoster, setUserRoster] = useState({});
   const { isLoggedIn, username } = useAuth();
   const { socket, handleJoinRoom, handleLeaveRoom } = useSocket();
   const { roomStatusState, roomStatusDispatch } = useRoomStatus(userRoster);
   const { isRoomStarted, isRoomEnded } = roomStatusState;
-
-  const { gameStatus, gameStatusDispatch } = useGameStatus(
+  const { gameStatusState, gameStatusDispatch } = useGameStatus(
     userRoster,
     isRoomStarted,
     isRoomEnded
   );
-
+  const { countdown } = gameStatusState;
   const { clientStatusState, clientStatusDispatch } = useClientStatus(
     isRoomEnded,
     countdown
   );
 
+  // Core game custom hooks and functions
   const { inputState, inputDispatch } = useInput();
   const { idxInfoState, idxInfoDispatch } = useIdxInfo();
   const { typeInfoState, typeInfoDispatch } = useTypeInfo();
-  const WPM = getNetWPM(
-    isClientStarted,
-    isClientEnded,
-    gameTimer,
-    charsTyped,
-    errors
-  );
-  const time = getTime(isClientStarted, isClientEnded, gameTimer);
-  const accuracy = getAccuracy(
-    isClientStarted,
-    isClientEnded,
-    charsTyped,
-    errors
-  );
-
-  const userStats = useMemo(() => {
-    return {
-      WPM,
-      time,
-      accuracy,
-    };
-  }, [WPM, time, accuracy]);
+  const { gameStatus, gameTimer } = gameStatusState;
+  const { charsTyped, errors } = typeInfoState;
+  const WPM = getNetWPM(gameStatus, gameTimer, charsTyped, errors);
+  const time = getTime(gameStatus, gameTimer);
+  const accuracy = getAccuracy(charsTyped);
 
   const updateJoinedUsers = (data) => {
     const userInfo = {};

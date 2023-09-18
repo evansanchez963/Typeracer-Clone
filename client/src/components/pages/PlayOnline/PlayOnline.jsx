@@ -1,5 +1,5 @@
 import { useState } from "react";
-import GameRoom from "./GameRoom/GameRoom";
+//import GameRoom from "./GameRoom/GameRoom";
 import "./PlayOnline.css";
 
 const PlayOnline = () => {
@@ -15,9 +15,11 @@ const PlayOnline = () => {
     }
   };
 
+  /*
   if (isInRoom) {
     return <GameRoom roomCode={roomCode} />;
   }
+  */
   return (
     <section id="play-online">
       <div className="online-options">

@@ -27,7 +27,7 @@ const App = () => {
               path="/practice-yourself"
               element={<PracticeYourself />}
             ></Route>
-            {/* <Route exact path="/play-online" element={<PlayOnline />}></Route> */}
+            <Route exact path="/play-online" element={<PlayOnline />}></Route>
             <Route
               exact
               path="/create-account"

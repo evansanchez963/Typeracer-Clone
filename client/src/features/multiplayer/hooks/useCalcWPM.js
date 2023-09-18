@@ -1,3 +1,4 @@
+/*
 import { useState, useEffect } from "react";
 
 const calcWPM = (gameTimer, charsTyped, errors) => {
@@ -28,3 +29,4 @@ const useCalcWPM = (
 };
 
 export default useCalcWPM;
+*/

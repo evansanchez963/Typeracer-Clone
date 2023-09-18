@@ -1,3 +1,4 @@
+/*
 import { useState, useEffect } from "react";
 import { formatTime } from "../../coreGameLogic/utils/index";
 
@@ -14,3 +15,4 @@ const useTime = (isClientStarted, isClientEnded, gameTimer) => {
 };
 
 export default useTime;
+*/
