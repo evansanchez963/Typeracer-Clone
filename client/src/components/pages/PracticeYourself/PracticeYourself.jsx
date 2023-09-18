@@ -6,14 +6,17 @@ import {
   ButtonRow,
 } from "../../../features/singleplayer/components/index";
 import useGameStatus from "../../../features/singleplayer/hooks/useGameStatus";
-import { getNetWPM, getTime } from "../../../features/singleplayer/utils/index";
 import Statistics from "../../../features/coreGameLogic/components/Statistics/Statistics";
 import {
   useInput,
   useIdxInfo,
   useTypeInfo,
 } from "../../../features/coreGameLogic/hooks/index";
-import { getAccuracy } from "../../../features/coreGameLogic/utils/index";
+import {
+  getNetWPM,
+  getTime,
+  getAccuracy,
+} from "../../../features/coreGameLogic/utils/index";
 import "./PracticeYourself.css";
 
 const PracticeYourself = () => {
@@ -21,20 +24,18 @@ const PracticeYourself = () => {
   const { inputState, inputDispatch } = useInput();
   const { idxInfoState, idxInfoDispatch } = useIdxInfo();
   const { typeInfoState, typeInfoDispatch } = useTypeInfo();
-  const WPM = getNetWPM(
-    gameStatusState.gameStatus,
-    gameStatusState.gameTimer,
-    typeInfoState.charsTyped,
-    typeInfoState.errors
-  );
-  const time = getTime(gameStatusState.gameStatus, gameStatusState.gameTimer);
-  const accuracy = getAccuracy(typeInfoState.charsTyped, typeInfoState.errors);
+  const { gameStatus, countdown, gameTimer } = gameStatusState;
+  const { charsTyped, errors } = typeInfoState;
+  const WPM = getNetWPM(gameStatus, gameTimer, charsTyped, errors);
+  const time = getTime(gameStatus, gameTimer);
+  const accuracy = getAccuracy(charsTyped, errors);
 
+  const { chars, words } = gameStatusState;
+  const { currInput, inputValid } = inputState;
+  const { currCharIdx, currWordIdx } = idxInfoState;
   const handleSpace = () => {
     // Word in input matches the word at current word index
-    if (
-      inputState.currInput === gameStatusState.words[idxInfoState.currWordIdx]
-    ) {
+    if (currInput === words[currWordIdx]) {
       inputDispatch({ type: "reset_input" });
       idxInfoDispatch({ type: "reset_character_index" });
       idxInfoDispatch({ type: "increment_word_index" });
@@ -42,7 +43,7 @@ const PracticeYourself = () => {
     }
     // Word in input does not match the word at current word index
     else {
-      if (inputState.inputValid) {
+      if (inputValid) {
         inputDispatch({ type: "add_character", payload: " " });
         idxInfoDispatch({ type: "increment_character_index" });
       }
@@ -52,35 +53,31 @@ const PracticeYourself = () => {
   };
 
   const handleBackspace = () => {
-    if (!inputState.inputValid)
-      inputDispatch({ type: "set_valid", payload: true });
-    if (inputState.currInput !== "")
+    if (!inputValid) inputDispatch({ type: "set_valid", payload: true });
+    if (currInput !== "")
       idxInfoDispatch({ type: "decrement_character_index" });
   };
 
   const handleChar = (typedChar) => {
-    const lastWord = gameStatusState.words.slice(-1)[0];
+    const lastWord = words.slice(-1)[0];
     const lastChar = lastWord.slice(-1);
+    const isOnLastChar =
+      words.length - 1 === currWordIdx &&
+      lastWord.length - 1 === currCharIdx + 1 &&
+      lastChar === typedChar;
 
     // If user is on the very last character and it's correct, end the game
-    if (
-      gameStatusState.words.length - 1 === idxInfoState.currWordIdx &&
-      lastWord.length - 1 === idxInfoState.currCharIdx + 1 &&
-      lastChar === typedChar
-    ) {
+    if (isOnLastChar) {
       idxInfoDispatch({ type: "decrement_character_index" });
       idxInfoDispatch({ type: "increment_word_index" });
       gameStatusDispatch({ type: "end_game" });
     }
     // Evaluate the input character
     else {
-      const charToCheck =
-        gameStatusState.words[idxInfoState.currWordIdx][
-          idxInfoState.currCharIdx + 1
-        ];
+      const charToCheck = words[idxInfoState.currWordIdx][currCharIdx + 1];
 
       if (typedChar !== charToCheck) {
-        if (inputState.inputValid) {
+        if (inputValid) {
           inputDispatch({ type: "add_character", payload: " " });
           idxInfoDispatch({ type: "increment_character_index" });
         }
@@ -98,7 +95,7 @@ const PracticeYourself = () => {
       handleSpace();
     } else if (e.key === "Backspace") {
       handleBackspace();
-    } else if (e.key !== "Shift" && inputState.inputValid) {
+    } else if (e.key !== "Shift" && inputValid) {
       handleChar(e.key);
     }
   };
@@ -117,13 +114,10 @@ const PracticeYourself = () => {
     typeInfoDispatch({ type: "reset_type_info" });
   };
 
-  if (gameStatusState.loadError) {
-    return (
-      <div id="singleplayer-error-screen">
-        Error: {gameStatusState.loadError.message}
-      </div>
-    );
-  } else if (gameStatusState.isLoading) {
+  const { loadError, isLoading } = gameStatusState;
+  if (loadError) {
+    return <div id="singleplayer-error-screen">Error: {loadError.message}</div>;
+  } else if (isLoading) {
     return <div id="singleplayer-loading-screen">Loading...</div>;
   } else {
     return (
@@ -133,36 +127,32 @@ const PracticeYourself = () => {
 
           <div className="singleplayer-typing-section">
             <GameStatusInfo
-              gameStatus={gameStatusState.gameStatus}
-              countdown={gameStatusState.countdown}
-              gameTimer={gameStatusState.gameTimer}
+              gameStatus={gameStatus}
+              countdown={countdown}
+              gameTimer={gameTimer}
             />
-            <ProgressBar
-              chars={gameStatusState.chars}
-              charsTyped={typeInfoState.charsTyped}
-              WPM={WPM}
-            />
+            <ProgressBar chars={chars} charsTyped={charsTyped} WPM={WPM} />
 
-            {gameStatusState.gameStatus !== "ended" && (
+            {gameStatus !== "ended" && (
               <div className="singleplayer-typing-box">
                 <Paragraph
-                  gameStatus={gameStatusState.gameStatus}
-                  words={gameStatusState.words}
-                  currInput={inputState.currInput}
+                  gameStatus={gameStatus}
+                  words={words}
+                  currInput={currInput}
                   idxInfoState={idxInfoState}
                 />
                 <Input
-                  gameStatus={gameStatusState.gameStatus}
+                  gameStatus={gameStatus}
                   onKeyDown={onKeyDown}
                   onChange={onInputChange}
-                  currInput={inputState.currInput}
-                  inputValid={inputState.inputValid}
+                  currInput={currInput}
+                  inputValid={inputValid}
                 />
               </div>
             )}
           </div>
 
-          {gameStatusState.gameStatus === "ended" && (
+          {gameStatus === "ended" && (
             <>
               <ButtonRow restart={restart} />
               <Statistics WPM={WPM} time={time} accuracy={accuracy} />

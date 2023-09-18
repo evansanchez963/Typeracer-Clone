@@ -20,7 +20,11 @@ import {
 } from "../../../../features/coreGameLogic/hooks/index";
 import { useAuth } from "../../../../context/AuthContext";
 import { saveUserStats } from "../../../../services/userServices";
-import { getAccuracy } from "../../../features/coreGameLogic/utils/index";
+import {
+  getNetWPM,
+  getTime,
+  getAccuracy,
+} from "../../../features/coreGameLogic/utils/index";
 import "./GameRoom.css";
 
 const GameRoom = ({ roomCode }) => {
